@@ -1,0 +1,45 @@
+[
+  {
+    "id": "web-is-home",
+    "title": "Because for Some of Us, the Web Is Home",
+    "url": "/posts/web-is-home.html",
+    "date": "2025-10-22",
+    "author": "Heather Cooper",
+    "cats": ["opinion", "web-design"],
+    "tags": ["Opinion", "Web Design"],
+    "image": "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Abstract cables and circuits"
+  },
+  {
+    "id": "case-booking-flow",
+    "title": "Case Study: Booking Flow Drop-Off −35%",
+    "url": "/posts/case-booking-flow.html",
+    "date": "2025-10-25",
+    "author": "Heather Cooper",
+    "cats": ["case-studies", "performance", "front-end"],
+    "tags": ["Case Studies", "Performance"],
+    "image": "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Dashboard charts on screen"
+  },
+  {
+    "id": "glassmorphism-lab",
+    "title": "Glassmorphism Lab: Real Panes, Real Blur",
+    "url": "/posts/glassmorphism-lab.html",
+    "date": "2025-10-24",
+    "author": "Heather Cooper",
+    "cats": ["front-end", "css", "tech"],
+    "tags": ["Front-End", "Tech"],
+    "image": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+    "alt": "Circuit board close-up"
+  },
+
+  { "id":"case-restaurant","title":"Case Study: Restaurant Rebrand & Digital Refresh","url":"/posts/case-restaurant.html","date":"2025-10-21","author":"Heather Cooper","cats":["case-studies","web-design"],"tags":["Case Studies","Web Design"],"image":"https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop","alt":"Restaurant website design" },
+  { "id":"future-of-ai-ui","title":"Opinion: Why AI Needs Better UI Ethics","url":"/posts/future-of-ai-ui.html","date":"2025-10-19","author":"Heather Cooper","cats":["tech","opinion"],"tags":["Tech","Opinion"],"image":"https://images.unsplash.com/photo-1526378722370-7a3bdc64656b?q=80&w=1200&auto=format&fit=crop","alt":"AI abstract art" },
+  { "id":"css-view-transitions","title":"View Transitions API: Polish Without Plugins","url":"/posts/css-view-transitions.html","date":"2025-10-17","author":"Heather Cooper","cats":["front-end","css"],"tags":["Front-End","CSS"],"image":"https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop","alt":"Laptop coding session" },
+  { "id":"a11y-focus-rings","title":"Accessible Focus Rings That Actually Look Good","url":"/posts/a11y-focus-rings.html","date":"2025-10-14","author":"Heather Cooper","cats":["accessibility","front-end"],"tags":["Accessibility","Front-End"],"image":"https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop","alt":"Keyboard and monitor" },
+  { "id":"case-performance","title":"Case Study: Cutting Load Times in Half with CSS Optimizations","url":"/posts/case-performance.html","date":"2025-10-10","author":"Heather Cooper","cats":["case-studies","performance"],"tags":["Case Studies","Performance"],"image":"https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop","alt":"Performance dashboard" },
+  { "id":"opinion-dark-mode","title":"Dark Mode Is Not a Design Trend — It’s a UX Decision","url":"/posts/opinion-dark-mode.html","date":"2025-10-08","author":"Heather Cooper","cats":["web-design","opinion"],"tags":["Opinion","Web Design"],"image":"https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop","alt":"Dark mode UI mockup" },
+  { "id":"case-accessibility-overhaul","title":"Case Study: Accessibility Overhaul for Local Non-Profit","url":"/posts/case-accessibility-overhaul.html","date":"2025-10-06","author":"Heather Cooper","cats":["accessibility","case-studies"],"tags":["Accessibility","Case Studies"],"image":"https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1200&auto=format&fit=crop","alt":"Screen reader and laptop" },
+  { "id":"js-modules-2025","title":"Modern JS Modules in 2025: Import Smarter, Ship Faster","url":"/posts/js-modules-2025.html","date":"2025-10-03","author":"Heather Cooper","cats":["tech","front-end"],"tags":["Tech","Front-End"],"image":"https://images.unsplash.com/photo-1523475496153-3d6cc450b71b?q=80&w=1200&auto=format&fit=crop","alt":"JavaScript code editor" },
+  { "id":"css-grid-level3","title":"CSS Grid Level 3 Has Landed: Masonry for Everyone","url":"/posts/css-grid-level3.html","date":"2025-10-01","author":"Heather Cooper","cats":["web-design","front-end"],"tags":["Web Design","Front-End"],"image":"https://images.unsplash.com/photo-1547658718-d6f9d7d7e2d5?q=80&w=1200&auto=format&fit=crop","alt":"Grid layout sketch" }
+]
