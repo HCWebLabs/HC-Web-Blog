@@ -16,16 +16,37 @@
   <style>
     /* Backdrop + tokens */
     html, body { height:100%; margin:0; background:transparent; isolation:isolate }
-    body>*{ position:relative; z-index:0 } header, .site-header, [data-sticky]{ position:relative; z-index:3 }
+    body > * { position:relative; z-index:0 } header, .site-header, [data-sticky]{ position:relative; z-index:3 }
+
     :root{
       --ink-0:#f6f7fb; --ink-1:#c6ccda; --muted:#9aa3b8; --line:#ffffff1a;
       --aqua:#00e7ff; --vio:#a86cff; --pink:#ff7ad9;
+
       --stroke:#ffffff26; --blur:20px; --tint-a:.22; --tint-b:.18; --base-a:.40; --base-b:.30;
-      --pad:clamp(18px,2.6vw,32px); --maxw:780px; --radius:20px; --shadow:0 14px 48px rgba(0,0,0,.50);
+
+      --pad:clamp(18px,2.6vw,32px);                /* internal pane padding */
+      --edge-pad: clamp(28px, 6vh, 96px);          /* page breathing room */
+
+      --maxw:780px; --radius:20px; --shadow:0 14px 48px rgba(0,0,0,.50);
+
       --bg-ink-start:#161821; --bg-ink-mid:#12141b; --bg-ink-end:#0e1015;
       --halo-c1: rgba(57,255,248,.28); --halo-c2: rgba(165,108,255,.24);
       --grid-size:60px; --grid-alpha:.25;
     }
+
+    /* Fluid breathing room; safe-area aware */
+    body{
+      padding-top: max(env(safe-area-inset-top), var(--edge-pad));
+      padding-bottom: max(env(safe-area-inset-bottom), var(--edge-pad));
+    }
+    /* Short viewports still get some space */
+    @media (max-height: 640px){
+      body{
+        padding-top: clamp(16px, 4vh, 32px);
+        padding-bottom: clamp(16px, 4vh, 32px);
+      }
+    }
+
     html::before, html::after{ content:""; position:fixed; inset:0; pointer-events:none }
     html::before{
       z-index:-2;
@@ -46,11 +67,17 @@
     @media (prefers-contrast:more){ :root{ --grid-alpha:.30 } }
     @media (prefers-contrast:less){ :root{ --grid-alpha:.18 } }
     @media (forced-colors:active){ html::before{ background:Canvas !important } html::after{ display:none !important } }
-    @media print{ html::before, html::after{ display:none !important } }
+    @media (print){ html::before, html::after{ display:none !important } body{ padding:0 } }
 
     /* Scoped post */
     #hc-post[data-scope="blog"], #hc-post *{ box-sizing:border-box }
-    #hc-post{ color:var(--ink-0); font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif }
+    #hc-post{ color:var(--ink-0); font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; position:relative }
+
+    /* EXTRA-ROBUST spacer: ensures bottom breath even if body padding is ignored in some contexts */
+    #hc-post::after{
+      content:""; display:block;
+      block-size: var(--edge-pad);
+    }
 
     /* TRUE glass pane */
     #hc-post .wrap{
