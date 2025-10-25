@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://<your-domain-or-gh-pages-url>/sitemap.xml
