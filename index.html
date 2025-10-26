@@ -149,6 +149,7 @@
       -webkit-backdrop-filter: blur(10px) saturate(120%); backdrop-filter: blur(10px) saturate(120%);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.42);
       display:grid; grid-template-rows:auto 1fr auto;
+      color: var(--ink);
     }
     .card:hover{ border-color: rgba(255,255,255,.24) }
     .card::after{
@@ -162,14 +163,14 @@
 
     .body{ padding:14px 14px 10px; }
     .card h3{
-      font-family: Saira, system-ui, sans-serif;  /* Saira titles */
+      font-family: Saira, system-ui, sans-serif;
       font-weight: 500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2;
-      text-wrap:balance;
+      text-wrap:balance; color: var(--ink);
     }
     .meta{ color: var(--muted); font-size:.92rem; display:flex; gap:.8rem; align-items:center; }
     .meta .dot{ inline-size:4px; block-size:4px; border-radius:50%; background: var(--line); display:inline-block; }
     .tags{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 14px 14px; }
-    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: color-mix(in oklch, var(--bg) 6%, transparent) }
+    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: color-mix(in oklch, var(--bg) 6%, transparent); color: var(--ink); }
 
     .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
 
@@ -212,7 +213,7 @@
     .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); }
     .reader-title{
       font-family: Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem;
-      margin:0; text-wrap:balance;
+      margin:0; text-wrap:balance; color: var(--ink);
     }
     .reader-close{
       border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink); cursor:pointer;
@@ -569,4 +570,3 @@
   </script>
 </body>
 </html>
-
