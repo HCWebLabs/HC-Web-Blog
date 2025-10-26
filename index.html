@@ -5,8 +5,7 @@
   <title>HC Web Labs — Universal Blog / Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Glassmorphic blog dashboard for HC Web Labs: case studies, opinions, tech + web design. Single-select chips, smooth pagination, and modal preview." />
-  <meta name="color-scheme" content="dark light" />
-  <!-- Use relative URLs for GitHub Pages project sites -->
+  <meta name="color-scheme" content="dark" />
   <base href="./">
 
   <!-- Fonts & Icons -->
@@ -21,17 +20,16 @@
        BULLET-PROOF HALO BACKDROP
        ========================= */
     html, body { height:100%; margin:0; background:transparent; isolation:isolate; }
+    body { color: var(--ink); } /* enforce bright text globally */
     body > * { position:relative; z-index:0; }
     header, .site-header, [data-sticky] { position:relative; z-index:3; }
 
     :root{
-      --bg: oklch(15% 0.02 260);
-      --ink: oklch(96% 0.02 260);
-      --muted: oklch(72% 0.03 260);
-      --line: oklch(35% 0.01 260);
-      --brand-1: oklch(75% 0.15 230);
-      --brand-2: oklch(70% 0.22 340);
-      --brand-3: oklch(70% 0.15 300);
+      /* Bright, always-on-glass text */
+      --ink: #f6f7fb;
+      --muted: #c6ccda;
+      --line: rgba(255,255,255,.16);
+
       --radius: 16px;
       --gap: .75rem;
       --shadow: 0 14px 48px rgba(0,0,0,.50);
@@ -42,20 +40,16 @@
       --halo-c2: color(display-p3 0.74 0.42 1 / .24);
       --grid-size: 60px; --grid-alpha: .25;
 
-      /* Glass */
+      /* Glass tokens */
       --stroke: #ffffff26;
       --glass-a: .22;  /* aqua tint */
       --glass-b: .18;  /* vio tint */
-      --glass-top: .40;--glass-bot: .30;
       --blur: 20px;
 
       /* Layout */
       --pad: clamp(18px, 2.6vw, 32px);
       --maxw: 1100px;
       --chip: 999px;
-    }
-    @media (prefers-color-scheme: light){
-      :root{ --bg: oklch(98% 0.02 260); --ink: oklch(20% 0.02 260); --line: oklch(85% 0.01 260); }
     }
 
     html::before, html::after { content:""; position:fixed; inset:0; pointer-events:none; }
@@ -85,11 +79,10 @@
        ========================= */
     #hc-blog[data-scope="dashboard"], #hc-blog * { box-sizing: border-box; }
     #hc-blog{
-      color: var(--ink);
+      color: var(--ink); /* enforce */
       background: transparent;
       font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-      container-type: inline-size; /* enable container queries */
-      /* breathing room so content isn't stuck to viewport edges */
+      container-type: inline-size;
       padding-block: clamp(24px, 5vw, 60px);
     }
 
@@ -97,10 +90,10 @@
     #hc-blog .wrap{
       margin-inline: auto; padding: var(--pad); max-width: var(--maxw);
       border:1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--shadow);
-      position:relative; isolation:isolate; overflow:hidden;
+      position:relative; isolation:isolate; overflow:hidden; color: var(--ink);
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / var(--glass-a)), color(display-p3 0.66 0.43 1 / var(--glass-b))),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 40%, black 0%), color-mix(in oklch, var(--bg) 30%, black 0%));
+        linear-gradient(180deg, rgba(12,14,22,.40), rgba(12,14,22,.30));
       -webkit-backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
               backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
     }
@@ -108,13 +101,13 @@
 
     .eyebrow{
       display:inline-flex; align-items:center; gap:.5em; font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
-      background:linear-gradient(90deg, oklch(80% .18 230), oklch(78% .20 310), oklch(78% .20 350));
+      background:linear-gradient(90deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1), color(display-p3 .9 .5 .95));
       -webkit-background-clip:text; background-clip:text; color:transparent;
     }
     #hc-blog-title{
       font-family:Sarpanch, Mulish, system-ui, sans-serif; font-weight:800; line-height:1.06; letter-spacing:.3px;
       font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-block: .25em .5em;
-      background:linear-gradient(90deg, oklch(80% .18 230), oklch(75% .20 310));
+      background:linear-gradient(90deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1));
       -webkit-background-clip:text; background-clip:text; color:transparent;
       filter: drop-shadow(0 2px 10px rgba(168,108,255,.18));
     }
@@ -124,14 +117,15 @@
     .chip{
       display:inline-flex; align-items:center; gap:.45rem; font-size:.95rem; font-weight:700; line-height:1;
       padding:.56rem .78rem; border:1px solid var(--stroke); border-radius: var(--chip);
-      color: var(--ink); background:
+      color: var(--ink); text-decoration:none;
+      background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
       cursor:pointer; user-select:none; min-height:44px;
     }
-    .chip[data-active="true"]{ outline:2px solid color-mix(in oklch, var(--brand-2) 55%, white 0%); outline-offset:2px; }
-    .chip:focus-visible{ outline:3px solid color-mix(in oklch, var(--brand-2) 65%, white 0%); outline-offset:2px; }
+    .chip[data-active="true"]{ outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px; }
+    .chip:focus-visible{ outline:3px solid color(display-p3 .75 .45 1 / .7); outline-offset:2px; }
 
     /* Grid + Cards */
     .grid{
@@ -140,21 +134,23 @@
       margin: clamp(16px, 2.6vw, 24px) auto 0;
       max-width: var(--maxw); padding-inline: var(--pad);
       content-visibility:auto; contain-intrinsic-size: 800px 1200px;
+      color: var(--ink);
     }
     .card{
       position:relative; isolation:isolate; border-radius: 16px; overflow:hidden; border:1px solid var(--line);
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .12), color(display-p3 0.66 0.43 1 / .10)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       -webkit-backdrop-filter: blur(10px) saturate(120%); backdrop-filter: blur(10px) saturate(120%);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.42);
       display:grid; grid-template-rows:auto 1fr auto;
       color: var(--ink);
     }
+    .card * { color: inherit; } /* force inheritance inside cards */
     .card:hover{ border-color: rgba(255,255,255,.24) }
     .card::after{
       content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; opacity:0;
-      background:linear-gradient(135deg, oklch(80% .18 230), oklch(75% .20 310)); mix-blend-mode:screen; transition:opacity .18s ease;
+      background:linear-gradient(135deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1)); mix-blend-mode:screen; transition:opacity .18s ease;
     }
     .card:hover::after{ opacity:.18; }
 
@@ -165,12 +161,12 @@
     .card h3{
       font-family: Saira, system-ui, sans-serif;
       font-weight: 500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2;
-      text-wrap:balance; color: var(--ink);
+      text-wrap:balance;
     }
     .meta{ color: var(--muted); font-size:.92rem; display:flex; gap:.8rem; align-items:center; }
     .meta .dot{ inline-size:4px; block-size:4px; border-radius:50%; background: var(--line); display:inline-block; }
     .tags{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 14px 14px; }
-    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: color-mix(in oklch, var(--bg) 6%, transparent); color: var(--ink); }
+    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: rgba(255,255,255,.06); color: var(--ink); }
 
     .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
 
@@ -183,16 +179,17 @@
     .pager{ display:flex; justify-content:center; gap:.6rem; margin: clamp(18px, 3vw, 28px) 0; padding-inline: var(--pad); }
     .pager button{
       min-inline-size: 44px; min-block-size: 44px; text-align:center; border:1px solid var(--stroke); border-radius:12px; padding:.5rem .8rem;
-      color: var(--ink); background:
+      color: var(--ink);
+      background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
       cursor:pointer;
     }
     .pager button[disabled]{ opacity:.45; cursor:not-allowed; }
-    .pager .num[aria-current="true"]{ outline:2px solid color-mix(in oklch, var(--brand-2) 55%, white 0%); outline-offset:2px; }
+    .pager .num[aria-current="true"]{ outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px; }
 
-    /* Page turn animation (fallback when ViewTransitions absent) */
+    /* Page turn animation */
     @media (prefers-reduced-motion: no-preference){
       .grid.turning-out .card{ animation: turnOut .22s ease forwards; }
       .grid.turning-in  .card{ animation: turnIn  .22s ease forwards; }
@@ -205,31 +202,28 @@
       inline-size:min(920px, 92vw); max-block-size:88vh; border:none; padding:0; border-radius:20px; overflow:hidden; color:var(--ink);
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .20), color(display-p3 0.66 0.43 1 / .18)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 66%, transparent), color-mix(in oklch, var(--bg) 52%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
       -webkit-backdrop-filter: blur(18px) saturate(120%); backdrop-filter: blur(18px) saturate(120%);
       box-shadow: 0 18px 64px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
     }
-    dialog#hc-reader::backdrop{ background: color-mix(in oklch, var(--bg) 60%, black 40% / 55%); }
-    .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); }
-    .reader-title{
-      font-family: Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem;
-      margin:0; text-wrap:balance; color: var(--ink);
-    }
+    dialog#hc-reader::backdrop{ background: rgba(0,0,0,.55); }
+    .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); color: var(--ink); }
+    .reader-title{ font-family: Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0; text-wrap:balance; color: var(--ink); }
     .reader-close{
       border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink); cursor:pointer;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       min-block-size:44px;
     }
-    .reader-body{ padding:0; background:transparent; }
+    .reader-body{ padding:0; background:transparent; color: var(--ink); }
     .reader-body iframe{ inline-size:100%; block-size:70vh; border:none; display:block; background:transparent; }
-    .reader-foot{ display:flex; justify-content:flex-end; gap:.6rem; padding:10px 14px; border-block-start:1px dashed var(--line); }
+    .reader-foot{ display:flex; justify-content:flex-end; gap:.6rem; padding:10px 14px; border-block-start:1px dashed var(--line); color: var(--ink); }
     .open-native{
       text-decoration:none; color:var(--ink); border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; display:inline-flex; align-items:center; gap:.5rem;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       min-block-size:44px;
     }
 
@@ -243,7 +237,7 @@
     @media (min-width:1440px){ .grid{ max-width: calc(var(--maxw) + 120px) } }
 
     /* Focus & forced-colors */
-    :focus-visible{ outline: 3px solid color-mix(in oklch, var(--brand-2) 65%, white 0%); outline-offset: 2px; }
+    :focus-visible{ outline: 3px solid color(display-p3 .75 .45 1 / .7); outline-offset: 2px; }
     @media (forced-colors: active){
       .chip, .pager button, .reader-close, .open-native { forced-color-adjust: auto; border-color: CanvasText; }
       .card, .wrap, dialog#hc-reader{ background: Canvas; }
@@ -259,17 +253,11 @@
 </head>
 
 <body>
-  <!-- ======================================================================
-       HC Web Labs — UNIVERSAL BLOG / DASHBOARD
-       ====================================================================== -->
   <section id="hc-blog" data-scope="dashboard" aria-labelledby="hc-blog-title">
-
-    <!-- Header -->
     <header class="wrap">
       <div class="eyebrow" aria-label="Dashboard"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>HC WEB LABS • BLOG</span></div>
       <h1 id="hc-blog-title">Studio Updates, Case Studies & Opinions</h1>
 
-      <!-- Single-select chips -->
       <nav class="filters" aria-label="Content filters">
         <button class="chip" type="button" data-filter="all" data-active="true" aria-pressed="true">All</button>
         <button class="chip" type="button" data-filter="case-studies" aria-pressed="false">Case Studies</button>
@@ -281,13 +269,9 @@
       </nav>
     </header>
 
-    <!-- Grid populated by JS from data/posts.json -->
     <main class="grid" id="hc-grid" aria-live="polite" aria-busy="true"></main>
-
-    <!-- Pager -->
     <nav class="pager" id="hc-pager" aria-label="Pagination"></nav>
 
-    <!-- Modal reader -->
     <dialog id="hc-reader" aria-label="Post preview">
       <div class="reader-head">
         <h3 class="reader-title" id="hc-reader-title">Loading…</h3>
@@ -313,14 +297,7 @@
   </section>
 
   <script type="module">
-    /**
-     * HC Web Labs — Universal Blog/Dashboard
-     * Data-driven (data/posts.json). Single-select chips. Pagination (6/page).
-     * Modal reader via <dialog>. ViewTransitions used when available.
-     * All paths are **relative** so GitHub Pages project sites work.
-     */
-
-    // ---------- Utilities ----------
+    // Utilities
     const $ = (sel, ctx=document) => ctx.querySelector(sel);
     const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
     const supportsVT = 'startViewTransition' in document;
@@ -330,23 +307,15 @@
     const pager = $('#hc-pager');
     const chipsBar = $('#hc-blog .filters');
 
-    // Resolve URL to be project-friendly (strip leading slash -> relative)
     const withBase = (u) => typeof u === 'string' ? u.replace(/^\/+/, '') : u;
+    const fmtDate = (iso) => { try{ return new Date(iso).toLocaleDateString(undefined, { month:'short', day:'2-digit', year:'numeric' }); }catch{ return iso; } };
 
-    // Date formatter
-    const fmtDate = (iso) => {
-      try{
-        return new Date(iso).toLocaleDateString(undefined, { month:'short', day:'2-digit', year:'numeric' });
-      }catch{ return iso; }
-    };
-
-    // ---------- Build Card ----------
+    // Build card
     function makeCard(p){
       const art = document.createElement('article');
       art.className = 'card';
       art.setAttribute('data-cats', (p.cats||[]).join(','));
       art.setAttribute('data-date', p.date);
-
       art.innerHTML = `
         <a class="stretch" href="${withBase(p.url)}" data-url="${withBase(p.url)}" data-modal></a>
         <div class="thumb">
@@ -361,7 +330,7 @@
       return art;
     }
 
-    // ---------- Skeletons while loading ----------
+    // Skeletons
     function showSkeleton(count=6){
       grid.innerHTML = '';
       const frag = document.createDocumentFragment();
@@ -386,7 +355,7 @@
       grid.appendChild(frag);
     }
 
-    // ---------- Load posts.json ----------
+    // Load posts.json
     let cards = [];
     async function loadPosts(){
       showSkeleton(6);
@@ -394,15 +363,12 @@
         const res = await fetch('data/posts.json', {cache:'no-store'});
         if(!res.ok) throw new Error('Failed to fetch posts.json');
         const data = await res.json();
-
-        // Validate & map
         cards = data.map(p => ({
           meta: p,
           el: makeCard(p),
           date: new Date(p.date),
           cats: (p.cats||[])
         })).sort((a,b)=> b.date - a.date);
-
       }catch(err){
         console.error('[HC BLOG] ', err);
         grid.innerHTML = `<div class="nojs-note" role="status" style="margin-top:1rem">
@@ -412,15 +378,15 @@
       }
     }
 
-    // ---------- State (URL-synced) ----------
+    // State
     const qs = new URLSearchParams(location.search);
     const state = {
-      pageSize: 6,                          // <-- SHOW 6 PER PAGE
+      pageSize: 6,
       page: Math.max(1, parseInt(qs.get('page') || '1', 10)),
-      filter: (qs.get('cat') || 'all')     // single select
+      filter: (qs.get('cat') || 'all')
     };
 
-    // ---------- Chips ----------
+    // Chips
     function syncChips(){
       $$('.chip', chipsBar).forEach(chip=>{
         const on = chip.dataset.filter === state.filter;
@@ -439,7 +405,7 @@
       }
     });
 
-    // ---------- Filter + Pagination ----------
+    // Filter + Pagination
     function getFiltered(){
       if(state.filter === 'all') return cards;
       return cards.filter(p => p.cats.includes(state.filter));
@@ -487,7 +453,7 @@
       const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
       state.page = Math.min(Math.max(1, state.page), totalPages);
 
-      // URL sync (?cat=&page=)
+      // URL sync
       const params = new URLSearchParams(location.search);
       state.filter === 'all' ? params.delete('cat') : params.set('cat', state.filter);
       state.page > 1 ? params.set('page', state.page) : params.delete('page');
@@ -517,7 +483,7 @@
       }
     }
 
-    // ---------- Modal Reader ----------
+    // Modal Reader
     const dlg = $('#hc-reader');
     const iframe = $('#hc-reader-frame');
     const titleEl = $('#hc-reader-title');
@@ -528,28 +494,19 @@
     grid.addEventListener('click', (e)=>{
       const a = e.target.closest('a.stretch'); if(!a) return;
       const url = a.getAttribute('data-url') || a.getAttribute('href');
-      if(!a.hasAttribute('data-modal') || !dialogSupported) return; // let it navigate
+      if(!a.hasAttribute('data-modal') || !dialogSupported) return;
       e.preventDefault();
 
       const t = a.parentElement?.querySelector('h3')?.textContent?.trim() || 'Post';
       titleEl.textContent = t;
       openBtn.href = url;
       iframe.setAttribute('title', t);
-      iframe.src = url; // sandboxed preview
+      iframe.src = url;
       if(!dlg.open) dlg.showModal();
     });
 
     closeBtn?.addEventListener('click', ()=> dlg.close());
-    dlg?.addEventListener('cancel', (ev)=>{ ev.preventDefault(); dlg.close(); }); // Esc close
-
-    // Keyboard helpers on pager
-    pager.addEventListener('keydown', (e)=>{
-      if(e.key === 'ArrowLeft'){ e.preventDefault(); $('.prev', pager)?.click(); }
-      if(e.key === 'ArrowRight'){ e.preventDefault(); $('.next', pager)?.click(); }
-      if(e.key === 'Home'){ e.preventDefault(); $('[data-goto="1"]', pager)?.click(); }
-      const lastNum = pager.querySelector('.num:last-of-type')?.textContent;
-      if(e.key === 'End' && lastNum){ e.preventDefault(); $(`[data-goto="${lastNum}"]`, pager)?.click(); }
-    });
+    dlg?.addEventListener('cancel', (ev)=>{ ev.preventDefault(); dlg.close(); });
 
     // Optional scroll-driven micro-reveal
     if (CSS.supports('animation-timeline: scroll()')) {
@@ -563,10 +520,10 @@
       document.head.appendChild(style);
     }
 
-    // ---------- Boot ----------
+    // Boot
     await loadPosts();
     syncChips();
-    render(); // initial paint
+    render();
   </script>
 </body>
 </html>
