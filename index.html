@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <title>HC Web Labs — Universal Blog / Dashboard</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HC Web Labs • Blog Dashboard</title>
-  <meta name="description" content="Studio updates, case studies, and opinions from HC Web Labs." />
+  <meta name="description" content="Glassmorphic blog dashboard for HC Web Labs: case studies, opinions, tech + web design. Single-select chips, smooth pagination, and modal preview." />
+  <meta name="color-scheme" content="dark light" />
+  <!-- Use relative URLs for GitHub Pages project sites -->
+  <base href="./">
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
@@ -15,33 +18,46 @@
 
   <style>
     /* =========================
-       BULLET-PROOF BACKDROP (Index only)
+       BULLET-PROOF HALO BACKDROP
        ========================= */
     html, body { height:100%; margin:0; background:transparent; isolation:isolate; }
     body > * { position:relative; z-index:0; }
     header, .site-header, [data-sticky] { position:relative; z-index:3; }
 
     :root{
-      /* Design tokens */
-      --bg: oklch(15% 0.02 260); --ink: oklch(96% 0.02 260); --muted: oklch(72% 0.03 260); --line: oklch(35% 0.01 260);
-      --brand-1: oklch(75% 0.15 230); --brand-2: oklch(70% 0.22 340); --brand-3: oklch(70% 0.15 300);
-      --radius: 16px; --gap: .75rem; --shadow: 0 14px 48px rgba(0,0,0,.50);
-      --stroke: #ffffff26; --blur: 20px; --glass-a: .22; --glass-b: .18; --base-a:.40; --base-b:.30;
+      --bg: oklch(15% 0.02 260);
+      --ink: oklch(96% 0.02 260);
+      --muted: oklch(72% 0.03 260);
+      --line: oklch(35% 0.01 260);
+      --brand-1: oklch(75% 0.15 230);
+      --brand-2: oklch(70% 0.22 340);
+      --brand-3: oklch(70% 0.15 300);
+      --radius: 16px;
+      --gap: .75rem;
+      --shadow: 0 14px 48px rgba(0,0,0,.50);
 
-      /* Layout */
-      --pad: clamp(18px, 2.6vw, 32px);
-      --gridw: 1100px; /* single source of truth so header width == grid width */
-      --chip: 999px;
-
-      /* Halo backdrop (index) */
+      /* Halo grid backdrop */
       --bg-ink-start:#161821; --bg-ink-mid:#12141b; --bg-ink-end:#0e1015;
       --halo-c1: color(display-p3 0.30 0.98 0.97 / .28);
       --halo-c2: color(display-p3 0.74 0.42 1 / .24);
       --grid-size: 60px; --grid-alpha: .25;
+
+      /* Glass */
+      --stroke: #ffffff26;
+      --glass-a: .22;  /* aqua tint */
+      --glass-b: .18;  /* vio tint */
+      --glass-top: .40;--glass-bot: .30;
+      --blur: 20px;
+
+      /* Layout */
+      --pad: clamp(18px, 2.6vw, 32px);
+      --maxw: 1100px;
+      --chip: 999px;
     }
     @media (prefers-color-scheme: light){
       :root{ --bg: oklch(98% 0.02 260); --ink: oklch(20% 0.02 260); --line: oklch(85% 0.01 260); }
     }
+
     html::before, html::after { content:""; position:fixed; inset:0; pointer-events:none; }
     html::before{
       z-index:-2;
@@ -75,9 +91,9 @@
       container-type: inline-size; /* enable container queries */
     }
 
-    /* True glass header — width == grid */
+    /* True glass pane header */
     #hc-blog .wrap{
-      margin-inline: auto; padding: var(--pad); max-width: var(--gridw);
+      margin-inline: auto; padding: var(--pad); max-width: var(--maxw);
       border:1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--shadow);
       position:relative; isolation:isolate; overflow:hidden;
       background:
@@ -101,7 +117,7 @@
       filter: drop-shadow(0 2px 10px rgba(168,108,255,.18));
     }
 
-    /* Single-select chips */
+    /* Filters — SINGLE SELECT */
     .filters{ display:flex; flex-wrap:wrap; gap:.5rem; margin-block: .2rem 0; }
     .chip{
       display:inline-flex; align-items:center; gap:.45rem; font-size:.95rem; font-weight:700; line-height:1;
@@ -120,7 +136,7 @@
       display:grid; gap: clamp(14px, 2.2vw, 22px);
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       margin: clamp(16px, 2.6vw, 24px) auto 0;
-      max-width: var(--gridw); padding-inline: var(--pad);
+      max-width: var(--maxw); padding-inline: var(--pad);
       content-visibility:auto; contain-intrinsic-size: 800px 1200px;
     }
     .card{
@@ -144,7 +160,7 @@
 
     .body{ padding:14px 14px 10px; }
     .card h3{
-      font-family: Saira, system-ui, sans-serif; /* Saira for titles */
+      font-family: Saira, system-ui, sans-serif;  /* Saira titles */
       font-weight: 500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2;
       text-wrap:balance;
     }
@@ -154,6 +170,11 @@
     .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: color-mix(in oklch, var(--bg) 6%, transparent) }
 
     .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
+
+    /* Skeletons */
+    .skeleton .thumb{ background:linear-gradient(90deg, #ffffff08, #ffffff15 40%, #ffffff08 80%); background-size:200% 100%; animation:shimmer 1.2s linear infinite; }
+    .skeleton .body, .skeleton .tags{ opacity:.55 }
+    @keyframes shimmer{ to{ background-position:-200% 0; } }
 
     /* Pager */
     .pager{ display:flex; justify-content:center; gap:.6rem; margin: clamp(18px, 3vw, 28px) 0; padding-inline: var(--pad); }
@@ -168,7 +189,7 @@
     .pager button[disabled]{ opacity:.45; cursor:not-allowed; }
     .pager .num[aria-current="true"]{ outline:2px solid color-mix(in oklch, var(--brand-2) 55%, white 0%); outline-offset:2px; }
 
-    /* Page turn fallback (when ViewTransitions absent) */
+    /* Page turn animation (fallback when ViewTransitions absent) */
     @media (prefers-reduced-motion: no-preference){
       .grid.turning-out .card{ animation: turnOut .22s ease forwards; }
       .grid.turning-in  .card{ animation: turnIn  .22s ease forwards; }
@@ -187,7 +208,10 @@
     }
     dialog#hc-reader::backdrop{ background: color-mix(in oklch, var(--bg) 60%, black 40% / 55%); }
     .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); }
-    .reader-title{ font-family:Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0; text-wrap:balance; }
+    .reader-title{
+      font-family: Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem;
+      margin:0; text-wrap:balance;
+    }
     .reader-close{
       border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink); cursor:pointer;
       background:
@@ -212,18 +236,31 @@
     @media (min-width:500px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); } }
     @media (min-width:768px){ .grid{ gap: clamp(18px, 2.4vw, 26px); } }
     @media (min-width:1024px){ .card h3{ font-size:1.18rem } }
-    @media (min-width:1440px){ .grid{ max-width: calc(var(--gridw) + 120px) } }
+    @media (min-width:1280px){ #hc-blog .wrap{ max-width: var(--maxw); } }
+    @media (min-width:1440px){ .grid{ max-width: calc(var(--maxw) + 120px) } }
 
+    /* Focus & forced-colors */
     :focus-visible{ outline: 3px solid color-mix(in oklch, var(--brand-2) 65%, white 0%); outline-offset: 2px; }
     @media (forced-colors: active){
       .chip, .pager button, .reader-close, .open-native { forced-color-adjust: auto; border-color: CanvasText; }
       .card, .wrap, dialog#hc-reader{ background: Canvas; }
     }
+
+    /* JS-off note */
+    noscript .nojs-note{
+      margin: 1rem auto 0; max-width: var(--maxw); padding: 1rem var(--pad);
+      color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
   </style>
 </head>
 
 <body>
+  <!-- ======================================================================
+       HC Web Labs — UNIVERSAL BLOG / DASHBOARD
+       ====================================================================== -->
   <section id="hc-blog" data-scope="dashboard" aria-labelledby="hc-blog-title">
+
     <!-- Header -->
     <header class="wrap">
       <div class="eyebrow" aria-label="Dashboard"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>HC WEB LABS • BLOG</span></div>
@@ -241,136 +278,8 @@
       </nav>
     </header>
 
-    <!-- Grid (18 posts → 2 pages with pageSize=9) -->
-    <main class="grid" id="hc-grid" aria-live="polite">
-      <!-- 1 -->
-      <article class="card" data-cats="opinion,web-design" data-date="2025-10-22">
-        <a class="stretch" href="/posts/web-is-home.html" data-url="/posts/web-is-home.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1200&auto=format&fit=crop" alt="Abstract cables and circuits" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Because for Some of Us, the Web Is Home</h3><div class="meta"><span>Oct 22, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Opinion</span><span class="tag">Web Design</span></div>
-      </article>
-      <!-- 2 -->
-      <article class="card" data-cats="case-studies,performance,front-end" data-date="2025-10-25">
-        <a class="stretch" href="/posts/case-booking-flow.html" data-url="/posts/case-booking-flow.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop" alt="Dashboard charts on screen" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Booking Flow Drop-Off −35%</h3><div class="meta"><span>Oct 25, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Performance</span></div>
-      </article>
-      <!-- 3 -->
-      <article class="card" data-cats="front-end,css,tech" data-date="2025-10-24">
-        <a class="stretch" href="/posts/glassmorphism-lab.html" data-url="/posts/glassmorphism-lab.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Circuit board close-up" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Glassmorphism Lab: Real Panes, Real Blur</h3><div class="meta"><span>Oct 24, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Front-End</span><span class="tag">Tech</span></div>
-      </article>
-      <!-- 4 -->
-      <article class="card" data-cats="case-studies,web-design" data-date="2025-10-21">
-        <a class="stretch" href="/posts/case-restaurant.html" data-url="/posts/case-restaurant.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Restaurant website design" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Restaurant Rebrand & Digital Refresh</h3><div class="meta"><span>Oct 21, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Web Design</span></div>
-      </article>
-      <!-- 5 -->
-      <article class="card" data-cats="tech,opinion" data-date="2025-10-19">
-        <a class="stretch" href="/posts/future-of-ai-ui.html" data-url="/posts/future-of-ai-ui.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1526378722370-7a3bdc64656b?q=80&w=1200&auto=format&fit=crop" alt="AI abstract art" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Opinion: Why AI Needs Better UI Ethics</h3><div class="meta"><span>Oct 19, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Tech</span><span class="tag">Opinion</span></div>
-      </article>
-      <!-- 6 -->
-      <article class="card" data-cats="front-end,css" data-date="2025-10-17">
-        <a class="stretch" href="/posts/css-view-transitions.html" data-url="/posts/css-view-transitions.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop" alt="Laptop coding session" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>View Transitions API: Polish Without Plugins</h3><div class="meta"><span>Oct 17, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Front-End</span><span class="tag">CSS</span></div>
-      </article>
-      <!-- 7 -->
-      <article class="card" data-cats="accessibility,front-end" data-date="2025-10-14">
-        <a class="stretch" href="/posts/a11y-focus-rings.html" data-url="/posts/a11y-focus-rings.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop" alt="Keyboard and monitor" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Accessible Focus Rings That Actually Look Good</h3><div class="meta"><span>Oct 14, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Front-End</span></div>
-      </article>
-      <!-- 8 -->
-      <article class="card" data-cats="case-studies,performance" data-date="2025-10-10">
-        <a class="stretch" href="/posts/case-performance.html" data-url="/posts/case-performance.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Performance dashboard" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Cutting Load Times in Half with CSS Optimizations</h3><div class="meta"><span>Oct 10, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Performance</span></div>
-      </article>
-      <!-- 9 -->
-      <article class="card" data-cats="web-design,opinion" data-date="2025-10-08">
-        <a class="stretch" href="/posts/opinion-dark-mode.html" data-url="/posts/opinion-dark-mode.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Dark mode UI mockup" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Dark Mode Is Not a Design Trend — It’s a UX Decision</h3><div class="meta"><span>Oct 08, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Opinion</span><span class="tag">Web Design</span></div>
-      </article>
-
-      <!-- 10 -->
-      <article class="card" data-cats="accessibility,case-studies" data-date="2025-10-06">
-        <a class="stretch" href="/posts/case-accessibility.html" data-url="/posts/case-accessibility.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1200&auto=format&fit=crop" alt="Screen reader and laptop" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Accessibility Overhaul for Local Non-Profit</h3><div class="meta"><span>Oct 06, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Case Studies</span></div>
-      </article>
-      <!-- 11 -->
-      <article class="card" data-cats="tech,front-end" data-date="2025-10-03">
-        <a class="stretch" href="/posts/js-modules-2025.html" data-url="/posts/js-modules-2025.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1523475496153-3d6cc450b71b?q=80&w=1200&auto=format&fit=crop" alt="JavaScript code editor" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Modern JS Modules in 2025: Import Smarter, Ship Faster</h3><div class="meta"><span>Oct 03, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Tech</span><span class="tag">Front-End</span></div>
-      </article>
-      <!-- 12 -->
-      <article class="card" data-cats="web-design,front-end" data-date="2025-10-01">
-        <a class="stretch" href="/posts/css-grid-level3.html" data-url="/posts/css-grid-level3.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1547658718-d6f9d7d7e2d5?q=80&w=1200&auto=format&fit=crop" alt="Grid layout sketch" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>CSS Grid Level 3 Has Landed: Masonry for Everyone</h3><div class="meta"><span>Oct 01, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Web Design</span><span class="tag">Front-End</span></div>
-      </article>
-      <!-- 13 -->
-      <article class="card" data-cats="case-studies,seo" data-date="2025-09-28">
-        <a class="stretch" href="/posts/case-seo-lift.html" data-url="/posts/case-seo-lift.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop" alt="Search analytics graphs" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: +120% Organic Traffic in 90 Days</h3><div class="meta"><span>Sep 28, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Case Studies</span><span class="tag">SEO</span></div>
-      </article>
-      <!-- 14 -->
-      <article class="card" data-cats="opinion,tech" data-date="2025-09-25">
-        <a class="stretch" href="/posts/opinion-own-your-stack.html" data-url="/posts/opinion-own-your-stack.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Glowing server stack" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Own Your Stack: Renting Less of the Web</h3><div class="meta"><span>Sep 25, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Opinion</span><span class="tag">Tech</span></div>
-      </article>
-      <!-- 15 -->
-      <article class="card" data-cats="front-end,performance" data-date="2025-09-22">
-        <a class="stretch" href="/posts/instant-nav.html" data-url="/posts/instant-nav.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Speed gauge UI" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Instant-feel Navigation with Prefetch & View Transitions</h3><div class="meta"><span>Sep 22, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Front-End</span><span class="tag">Performance</span></div>
-      </article>
-      <!-- 16 -->
-      <article class="card" data-cats="accessibility,opinion" data-date="2025-09-18">
-        <a class="stretch" href="/posts/opinion-a11y-inclusive.html" data-url="/posts/opinion-a11y-inclusive.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop" alt="Inclusive team collaborating" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Accessibility Is a Product Strategy, Not a Checklist</h3><div class="meta"><span>Sep 18, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Opinion</span></div>
-      </article>
-      <!-- 17 -->
-      <article class="card" data-cats="web-design,brand" data-date="2025-09-14">
-        <a class="stretch" href="/posts/brand-systems.html" data-url="/posts/brand-systems.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1529336953121-a0f66f7c0f5e?q=80&w=1200&auto=format&fit=crop" alt="Brand color swatches" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>From Moodboards to Tokens: Bridging Brand & UI</h3><div class="meta"><span>Sep 14, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Web Design</span><span class="tag">Brand</span></div>
-      </article>
-      <!-- 18 -->
-      <article class="card" data-cats="tech,case-studies" data-date="2025-09-10">
-        <a class="stretch" href="/posts/case-microservices.html" data-url="/posts/case-microservices.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?q=80&w=1200&auto=format&fit=crop" alt="Microservices diagram on screen" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Taming a Tangled Microservices Front-End</h3><div class="meta"><span>Sep 10, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Tech</span><span class="tag">Case Studies</span></div>
-      </article>
-    </main>
+    <!-- Grid populated by JS from data/posts.json -->
+    <main class="grid" id="hc-grid" aria-live="polite" aria-busy="true"></main>
 
     <!-- Pager -->
     <nav class="pager" id="hc-pager" aria-label="Pagination"></nav>
@@ -379,7 +288,9 @@
     <dialog id="hc-reader" aria-label="Post preview">
       <div class="reader-head">
         <h3 class="reader-title" id="hc-reader-title">Loading…</h3>
-        <button class="reader-close" type="button" aria-label="Close reader"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        <button class="reader-close" type="button" aria-label="Close reader">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
       </div>
       <div class="reader-body">
         <iframe id="hc-reader-frame" referrerpolicy="no-referrer" title="Post preview"></iframe>
@@ -390,27 +301,115 @@
         </a>
       </div>
     </dialog>
+
+    <noscript>
+      <div class="nojs-note">
+        <p><strong>JavaScript is off.</strong> Turn it on to see the live dashboard. You can still open posts directly under the <code>/posts/</code> folder if you know the URL.</p>
+      </div>
+    </noscript>
   </section>
 
   <script type="module">
-    // ===== Utilities =====
-    const $ = (sel, ctx = document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
+    /**
+     * HC Web Labs — Universal Blog/Dashboard
+     * Data-driven (data/posts.json). Single-select chips. Pagination.
+     * Modal reader via <dialog>. ViewTransitions used when available.
+     * All paths are **relative** so GitHub Pages project sites work.
+     */
+
+    // ---------- Utilities ----------
+    const $ = (sel, ctx=document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
     const supportsVT = 'startViewTransition' in document;
     const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ===== Elements & Data =====
     const grid  = $('#hc-grid');
     const pager = $('#hc-pager');
     const chipsBar = $('#hc-blog .filters');
 
-    const cards = $$('.card', grid).map(el => ({
-      el,
-      date: new Date(el.getAttribute('data-date') || '1970-01-01'),
-      cats: (el.getAttribute('data-cats') || '').split(',').map(s=>s.trim()).filter(Boolean)
-    })).sort((a,b)=> b.date - a.date);
+    // Resolve URL to be project-friendly (strip leading slash -> relative)
+    const withBase = (u) => typeof u === 'string' ? u.replace(/^\/+/, '') : u;
 
-    // ===== State (URL-synced) =====
+    // Date formatter
+    const fmtDate = (iso) => {
+      try{
+        return new Date(iso).toLocaleDateString(undefined, { month:'short', day:'2-digit', year:'numeric' });
+      }catch{ return iso; }
+    };
+
+    // ---------- Build Card ----------
+    function makeCard(p){
+      const art = document.createElement('article');
+      art.className = 'card';
+      art.setAttribute('data-cats', (p.cats||[]).join(','));
+      art.setAttribute('data-date', p.date);
+
+      art.innerHTML = `
+        <a class="stretch" href="${withBase(p.url)}" data-url="${withBase(p.url)}" data-modal></a>
+        <div class="thumb">
+          <img src="${p.image}" alt="${p.alt||''}" loading="lazy" decoding="async" width="1200" height="675">
+        </div>
+        <div class="body">
+          <h3>${p.title}</h3>
+          <div class="meta"><span>${fmtDate(p.date)}</span><span class="dot" aria-hidden="true"></span><span>${p.author||'HC Web Labs'}</span></div>
+        </div>
+        <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      `;
+      return art;
+    }
+
+    // ---------- Skeletons while loading ----------
+    function showSkeleton(count=6){
+      grid.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<count;i++){
+        const sk = document.createElement('article');
+        sk.className = 'card skeleton';
+        sk.innerHTML = `
+          <div class="thumb"></div>
+          <div class="body">
+            <h3 style="height:1.2rem;background:#ffffff10;border-radius:6px;width:70%"></h3>
+            <div class="meta">
+              <span style="height:.9rem;background:#ffffff10;border-radius:4px;display:inline-block;width:90px"></span>
+              <span class="dot"></span>
+              <span style="height:.9rem;background:#ffffff10;border-radius:4px;display:inline-block;width:120px"></span>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag" style="opacity:.4">Loading</span>
+          </div>`;
+        frag.appendChild(sk);
+      }
+      grid.appendChild(frag);
+    }
+
+    // ---------- Load posts.json ----------
+    let cards = [];
+    async function loadPosts(){
+      showSkeleton(9);
+      try{
+        const res = await fetch('data/posts.json', {cache:'no-store'});
+        if(!res.ok) throw new Error('Failed to fetch posts.json');
+        const data = await res.json();
+
+        // Validate & map
+        cards = data.map(p => ({
+          meta: p,
+          el: makeCard(p),
+          date: new Date(p.date),
+          cats: (p.cats||[])
+        })).sort((a,b)=> b.date - a.date);
+
+      }catch(err){
+        console.error('[HC BLOG] ', err);
+        grid.innerHTML = `<div class="nojs-note" role="status" style="margin-top:1rem">
+          <p>Couldn’t load posts. Check <code>data/posts.json</code> path on GitHub Pages.</p>
+        </div>`;
+        pager.innerHTML = '';
+      }
+    }
+
+    // ---------- State (URL-synced) ----------
     const qs = new URLSearchParams(location.search);
     const state = {
       pageSize: 9,
@@ -418,7 +417,7 @@
       filter: (qs.get('cat') || 'all') // single select
     };
 
-    // ===== Chip UI (single select) =====
+    // ---------- Chips ----------
     function syncChips(){
       $$('.chip', chipsBar).forEach(chip=>{
         const on = chip.dataset.filter === state.filter;
@@ -426,8 +425,6 @@
         chip.setAttribute('aria-pressed', String(on));
       });
     }
-    syncChips();
-
     chipsBar.addEventListener('click', (e)=>{
       const chip = e.target.closest('.chip'); if(!chip) return;
       const key = chip.dataset.filter;
@@ -439,7 +436,7 @@
       }
     });
 
-    // ===== Filtering & Pagination =====
+    // ---------- Filter + Pagination ----------
     function getFiltered(){
       if(state.filter === 'all') return cards;
       return cards.filter(p => p.cats.includes(state.filter));
@@ -502,9 +499,8 @@
       if(announce){ grid.setAttribute('aria-busy','true'); }
 
       if(animate && !prefersReduced){
-        if(supportsVT){
-          document.startViewTransition(doSwap);
-        }else{
+        if(supportsVT){ document.startViewTransition(doSwap); }
+        else{
           grid.classList.add('turning-out');
           setTimeout(()=>{
             doSwap();
@@ -518,10 +514,7 @@
       }
     }
 
-    // Initial paint
-    render({animate:false});
-
-    // ===== Modal Reader (progressive enhancement) =====
+    // ---------- Modal Reader ----------
     const dlg = $('#hc-reader');
     const iframe = $('#hc-reader-frame');
     const titleEl = $('#hc-reader-title');
@@ -532,8 +525,7 @@
     grid.addEventListener('click', (e)=>{
       const a = e.target.closest('a.stretch'); if(!a) return;
       const url = a.getAttribute('data-url') || a.getAttribute('href');
-      const wantsModal = a.hasAttribute('data-modal');
-      if(!wantsModal || !dialogSupported){ return; } // navigate normally
+      if(!a.hasAttribute('data-modal') || !dialogSupported) return; // let it navigate
       e.preventDefault();
 
       const t = a.parentElement?.querySelector('h3')?.textContent?.trim() || 'Post';
@@ -547,7 +539,7 @@
     closeBtn?.addEventListener('click', ()=> dlg.close());
     dlg?.addEventListener('cancel', (ev)=>{ ev.preventDefault(); dlg.close(); }); // Esc close
 
-    // Keyboard pager helpers
+    // Keyboard helpers on pager
     pager.addEventListener('keydown', (e)=>{
       if(e.key === 'ArrowLeft'){ e.preventDefault(); $('.prev', pager)?.click(); }
       if(e.key === 'ArrowRight'){ e.preventDefault(); $('.next', pager)?.click(); }
@@ -556,7 +548,7 @@
       if(e.key === 'End' && lastNum){ e.preventDefault(); $(`[data-goto="${lastNum}"]`, pager)?.click(); }
     });
 
-    // Optional: Scroll-driven micro-reveals (progressive)
+    // Optional scroll-driven micro-reveal
     if (CSS.supports('animation-timeline: scroll()')) {
       const style = document.createElement('style');
       style.textContent = `
@@ -567,6 +559,11 @@
       `;
       document.head.appendChild(style);
     }
+
+    // ---------- Boot ----------
+    await loadPosts();
+    syncChips();
+    render(); // initial paint
   </script>
 </body>
 </html>
