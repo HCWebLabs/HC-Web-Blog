@@ -89,6 +89,8 @@
       background: transparent;
       font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
       container-type: inline-size; /* enable container queries */
+      /* breathing room so content isn't stuck to viewport edges */
+      padding-block: clamp(24px, 5vw, 60px);
     }
 
     /* True glass pane header */
@@ -312,7 +314,7 @@
   <script type="module">
     /**
      * HC Web Labs — Universal Blog/Dashboard
-     * Data-driven (data/posts.json). Single-select chips. Pagination.
+     * Data-driven (data/posts.json). Single-select chips. Pagination (6/page).
      * Modal reader via <dialog>. ViewTransitions used when available.
      * All paths are **relative** so GitHub Pages project sites work.
      */
@@ -386,7 +388,7 @@
     // ---------- Load posts.json ----------
     let cards = [];
     async function loadPosts(){
-      showSkeleton(9);
+      showSkeleton(6);
       try{
         const res = await fetch('data/posts.json', {cache:'no-store'});
         if(!res.ok) throw new Error('Failed to fetch posts.json');
@@ -412,9 +414,9 @@
     // ---------- State (URL-synced) ----------
     const qs = new URLSearchParams(location.search);
     const state = {
-      pageSize: 9,
+      pageSize: 6,                          // <-- SHOW 6 PER PAGE
       page: Math.max(1, parseInt(qs.get('page') || '1', 10)),
-      filter: (qs.get('cat') || 'all') // single select
+      filter: (qs.get('cat') || 'all')     // single select
     };
 
     // ---------- Chips ----------
@@ -567,3 +569,4 @@
   </script>
 </body>
 </html>
+
