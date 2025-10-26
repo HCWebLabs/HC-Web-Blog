@@ -3,37 +3,46 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>HC Web Labs • Studio Updates, Case Studies & Opinions</title>
-  <meta name="description" content="Universal blog dashboard for HC Web Labs — case studies, opinions, and front-end notes." />
+  <title>HC Web Labs • Blog Dashboard</title>
+  <meta name="description" content="Studio updates, case studies, and opinions from HC Web Labs." />
 
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- H1/H2: Sarpanch | Body: Mulish | Card titles: Saira -->
   <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500&family=Sarpanch:wght@700;800&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===========================================================
-       Dashboard styles (component-specific)
-       =========================================================== */
-    :root{
-      --ink-0:#f6f7fb; --ink-1:#c6ccda; --muted:#9aa3b8; --line:#ffffff1a;
-      --aqua:#00e7ff; --vio:#a86cff; --pink:#ff7ad9;
-      --stroke:#ffffff26; --blur:20px; --tint-a:.22; --tint-b:.18; --base-a:.40; --base-b:.30;
-      --radius:20px; --shadow:0 14px 48px rgba(0,0,0,.50);
-      --pad:clamp(18px,2.6vw,32px); --maxw:1100px; --chip:999px;
-      --grid-size:60px; --grid-alpha:.25;
-      --bg-ink-start:#161821; --bg-ink-mid:#12141b; --bg-ink-end:#0e1015;
-      --halo-c1: rgba(57,255,248,.28); --halo-c2: rgba(165,108,255,.24);
-    }
-    html, body { height:100%; margin:0; background:transparent; isolation:isolate }
-    body > * { position:relative; z-index:0 }
-    header, .site-header, [data-sticky] { position:relative; z-index:3 }
+    /* =========================
+       BULLET-PROOF BACKDROP (Index only)
+       ========================= */
+    html, body { height:100%; margin:0; background:transparent; isolation:isolate; }
+    body > * { position:relative; z-index:0; }
+    header, .site-header, [data-sticky] { position:relative; z-index:3; }
 
-    /* Halo backdrop */
-    html::before, html::after{ content:""; position:fixed; inset:0; pointer-events:none }
+    :root{
+      /* Design tokens */
+      --bg: oklch(15% 0.02 260); --ink: oklch(96% 0.02 260); --muted: oklch(72% 0.03 260); --line: oklch(35% 0.01 260);
+      --brand-1: oklch(75% 0.15 230); --brand-2: oklch(70% 0.22 340); --brand-3: oklch(70% 0.15 300);
+      --radius: 16px; --gap: .75rem; --shadow: 0 14px 48px rgba(0,0,0,.50);
+      --stroke: #ffffff26; --blur: 20px; --glass-a: .22; --glass-b: .18; --base-a:.40; --base-b:.30;
+
+      /* Layout */
+      --pad: clamp(18px, 2.6vw, 32px);
+      --gridw: 1100px; /* single source of truth so header width == grid width */
+      --chip: 999px;
+
+      /* Halo backdrop (index) */
+      --bg-ink-start:#161821; --bg-ink-mid:#12141b; --bg-ink-end:#0e1015;
+      --halo-c1: color(display-p3 0.30 0.98 0.97 / .28);
+      --halo-c2: color(display-p3 0.74 0.42 1 / .24);
+      --grid-size: 60px; --grid-alpha: .25;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg: oklch(98% 0.02 260); --ink: oklch(20% 0.02 260); --line: oklch(85% 0.01 260); }
+    }
+    html::before, html::after { content:""; position:fixed; inset:0; pointer-events:none; }
     html::before{
       z-index:-2;
       background:
@@ -47,166 +56,175 @@
         repeating-linear-gradient(to bottom, rgba(255,255,255,var(--a)) 0 1px, transparent 1px var(--sz));
     }
     @supports (mask: radial-gradient(#000,transparent)) or (-webkit-mask: radial-gradient(#000,transparent)){
-      html::after{ -webkit-mask:radial-gradient(60% 60% at 50% 20%, #000 0%, transparent 80%); mask:radial-gradient(60% 60% at 50% 20%, #000 0%, transparent 80%) }
+      html::after{ -webkit-mask: radial-gradient(60% 60% at 50% 20%, #000 0%, transparent 80%); mask: radial-gradient(60% 60% at 50% 20%, #000 0%, transparent 80%); }
     }
-    @media (max-width:768px){ :root{ --grid-size: clamp(44px,8vw,56px); --grid-alpha:.16 } }
-    @media (prefers-contrast:more){ :root{ --grid-alpha:.30 } }
-    @media (prefers-contrast:less){ :root{ --grid-alpha:.18 } }
-    @media (forced-colors:active){ html::before{ background:Canvas !important } html::after{ display:none !important } }
+    @media (max-width:768px){ :root{ --grid-size: clamp(44px, 8vw, 56px); --grid-alpha:.16; } }
+    @media (prefers-contrast: more){ :root{ --grid-alpha: .30; } }
+    @media (prefers-contrast: less){ :root{ --grid-alpha: .18; } }
+    @media (forced-colors: active){ html::before{ background:Canvas !important } html::after{ display:none !important } }
     @media print{ html::before, html::after{ display:none !important } }
 
-    /* Component scope */
-    #hc-blog[data-scope="dashboard"], #hc-blog * { box-sizing:border-box }
+    /* =========================
+       COMPONENT SCOPE
+       ========================= */
+    #hc-blog[data-scope="dashboard"], #hc-blog * { box-sizing: border-box; }
     #hc-blog{
-      color:var(--ink-0);
+      color: var(--ink);
+      background: transparent;
       font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-      background:transparent; container-type:inline-size;
+      container-type: inline-size; /* enable container queries */
     }
 
-    /* TRUE glass header */
+    /* True glass header — width == grid */
     #hc-blog .wrap{
-      margin-inline:auto; padding:var(--pad); max-width:var(--maxw);
-      border:1px solid var(--stroke); border-radius:var(--radius); box-shadow:var(--shadow);
+      margin-inline: auto; padding: var(--pad); max-width: var(--gridw);
+      border:1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--shadow);
       position:relative; isolation:isolate; overflow:hidden;
       background:
-        linear-gradient(135deg, rgba(0,231,255,var(--tint-a)), rgba(168,108,255,var(--tint-b))),
-        linear-gradient(180deg, rgba(12,14,22,var(--base-a)), rgba(12,14,22,var(--base-b)));
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / var(--glass-a)), color(display-p3 0.66 0.43 1 / var(--glass-b))),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 40%, black 0%), color-mix(in oklch, var(--bg) 30%, black 0%));
       -webkit-backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
               backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
     }
-    #hc-blog .wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; box-shadow:inset 0 1px 0 rgba(255,255,255,.14) }
+    #hc-blog .wrap::before{ content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; box-shadow: inset 0 1px 0 rgba(255,255,255,.14); }
 
     .eyebrow{
       display:inline-flex; align-items:center; gap:.5em; font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
-      background:linear-gradient(90deg, var(--aqua), var(--vio), var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent;
+      background:linear-gradient(90deg, oklch(80% .18 230), oklch(78% .20 310), oklch(78% .20 350));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
     }
     #hc-blog-title{
       font-family:Sarpanch, Mulish, system-ui, sans-serif; font-weight:800; line-height:1.06; letter-spacing:.3px;
-      font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-block:.25em .5em;
-      background:linear-gradient(90deg, var(--aqua), var(--vio));
+      font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-block: .25em .5em;
+      background:linear-gradient(90deg, oklch(80% .18 230), oklch(75% .20 310));
       -webkit-background-clip:text; background-clip:text; color:transparent;
       filter: drop-shadow(0 2px 10px rgba(168,108,255,.18));
     }
 
     /* Single-select chips */
-    .filters{ display:flex; flex-wrap:wrap; gap:.5rem; margin-block:.2rem 0 }
+    .filters{ display:flex; flex-wrap:wrap; gap:.5rem; margin-block: .2rem 0; }
     .chip{
       display:inline-flex; align-items:center; gap:.45rem; font-size:.95rem; font-weight:700; line-height:1;
-      padding:.56rem .78rem; border:1px solid var(--stroke); border-radius:var(--chip); color:var(--ink-0);
-      background:
-        linear-gradient(135deg, rgba(0,231,255,.14), rgba(168,108,255,.12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      padding:.56rem .78rem; border:1px solid var(--stroke); border-radius: var(--chip);
+      color: var(--ink); background:
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
       cursor:pointer; user-select:none; min-height:44px;
     }
-    .chip[data-active="true"]{ outline:2px solid rgba(168,108,255,.35); outline-offset:2px }
-    .chip:focus-visible{ outline:3px solid rgba(168,108,255,.65); outline-offset:2px }
+    .chip[data-active="true"]{ outline:2px solid color-mix(in oklch, var(--brand-2) 55%, white 0%); outline-offset:2px; }
+    .chip:focus-visible{ outline:3px solid color-mix(in oklch, var(--brand-2) 65%, white 0%); outline-offset:2px; }
 
-    /* Grid + cards */
+    /* Grid + Cards */
     .grid{
-      display:grid; gap:clamp(14px,2.2vw,22px);
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      margin: clamp(16px,2.6vw,24px) auto 0; max-width:var(--maxw); padding-inline:var(--pad);
+      display:grid; gap: clamp(14px, 2.2vw, 22px);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      margin: clamp(16px, 2.6vw, 24px) auto 0;
+      max-width: var(--gridw); padding-inline: var(--pad);
       content-visibility:auto; contain-intrinsic-size: 800px 1200px;
     }
     .card{
-      position:relative; isolation:isolate; border-radius:16px; overflow:hidden; border:1px solid var(--line);
+      position:relative; isolation:isolate; border-radius: 16px; overflow:hidden; border:1px solid var(--line);
       background:
-        linear-gradient(135deg, rgba(0,231,255,.12), rgba(168,108,255,.10)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .12), color(display-p3 0.66 0.43 1 / .10)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       -webkit-backdrop-filter: blur(10px) saturate(120%); backdrop-filter: blur(10px) saturate(120%);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.42);
       display:grid; grid-template-rows:auto 1fr auto;
     }
     .card:hover{ border-color: rgba(255,255,255,.24) }
-    .card::after{ content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; opacity:0;
-      background:linear-gradient(135deg, var(--aqua), var(--vio)); mix-blend-mode:screen; transition:opacity .18s ease }
-    .card:hover::after{ opacity:.18 }
+    .card::after{
+      content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; opacity:0;
+      background:linear-gradient(135deg, oklch(80% .18 230), oklch(75% .20 310)); mix-blend-mode:screen; transition:opacity .18s ease;
+    }
+    .card:hover::after{ opacity:.18; }
 
-    .thumb{ aspect-ratio:16/9; overflow:hidden }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(112%) }
+    .thumb{ aspect-ratio:16/9; overflow:hidden; }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(112%); }
 
-    .body{ padding:14px 14px 10px }
-    .card h3{ font-family:Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2; text-wrap:balance }
-    .meta{ color:var(--ink-1); font-size:.92rem; display:flex; gap:.8rem; align-items:center }
-    .meta .dot{ inline-size:4px; block-size:4px; border-radius:50%; background:var(--line); display:inline-block }
-    .tags{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 14px 14px }
-    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: rgba(255,255,255,.03) }
+    .body{ padding:14px 14px 10px; }
+    .card h3{
+      font-family: Saira, system-ui, sans-serif; /* Saira for titles */
+      font-weight: 500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2;
+      text-wrap:balance;
+    }
+    .meta{ color: var(--muted); font-size:.92rem; display:flex; gap:.8rem; align-items:center; }
+    .meta .dot{ inline-size:4px; block-size:4px; border-radius:50%; background: var(--line); display:inline-block; }
+    .tags{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 14px 14px; }
+    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: color-mix(in oklch, var(--bg) 6%, transparent) }
 
-    .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit }
+    .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
 
     /* Pager */
-    .pager{ display:flex; justify-content:center; gap:.6rem; margin: clamp(18px,3vw,28px) 0; padding-inline:var(--pad) }
+    .pager{ display:flex; justify-content:center; gap:.6rem; margin: clamp(18px, 3vw, 28px) 0; padding-inline: var(--pad); }
     .pager button{
-      min-inline-size:44px; min-block-size:44px; text-align:center; border:1px solid var(--stroke); border-radius:12px; padding:.5rem .8rem;
-      color:var(--ink-0);
-      background:
-        linear-gradient(135deg, rgba(0,231,255,.14), rgba(168,108,255,.12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      min-inline-size: 44px; min-block-size: 44px; text-align:center; border:1px solid var(--stroke); border-radius:12px; padding:.5rem .8rem;
+      color: var(--ink); background:
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
       cursor:pointer;
     }
-    .pager button[disabled]{ opacity:.45; cursor:not-allowed }
-    .pager .num[aria-current="true"]{ outline:2px solid rgba(168,108,255,.35); outline-offset:2px }
+    .pager button[disabled]{ opacity:.45; cursor:not-allowed; }
+    .pager .num[aria-current="true"]{ outline:2px solid color-mix(in oklch, var(--brand-2) 55%, white 0%); outline-offset:2px; }
 
-    /* Page-turn fallback (ViewTransitions preferred) */
+    /* Page turn fallback (when ViewTransitions absent) */
     @media (prefers-reduced-motion: no-preference){
-      .grid.turning-out .card{ animation: turnOut .22s ease forwards }
-      .grid.turning-in  .card{ animation: turnIn  .22s ease forwards }
+      .grid.turning-out .card{ animation: turnOut .22s ease forwards; }
+      .grid.turning-in  .card{ animation: turnIn  .22s ease forwards; }
       @keyframes turnOut{ from{opacity:1; transform:translateY(0)} to{opacity:0; transform:translateY(6px)} }
       @keyframes turnIn { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
     }
 
-    /* Modal */
+    /* Modal reader */
     dialog#hc-reader{
-      inline-size:min(920px,92vw); max-block-size:88vh; border:none; padding:0; border-radius:20px; overflow:hidden; color:var(--ink-0);
+      inline-size:min(920px, 92vw); max-block-size:88vh; border:none; padding:0; border-radius:20px; overflow:hidden; color:var(--ink);
       background:
-        linear-gradient(135deg, rgba(0,231,255,.20), rgba(168,108,255,.18)),
-        linear-gradient(180deg, rgba(12,14,22,.66), rgba(12,14,22,.52));
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .20), color(display-p3 0.66 0.43 1 / .18)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 66%, transparent), color-mix(in oklch, var(--bg) 52%, transparent));
       -webkit-backdrop-filter: blur(18px) saturate(120%); backdrop-filter: blur(18px) saturate(120%);
       box-shadow: 0 18px 64px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
     }
-    dialog#hc-reader::backdrop{ background: color-mix(in oklch, oklch(15% 0.02 260) 60%, black 40% /.55) }
-    .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line) }
-    .reader-title{ font-family:Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0; text-wrap:balance }
+    dialog#hc-reader::backdrop{ background: color-mix(in oklch, var(--bg) 60%, black 40% / 55%); }
+    .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); }
+    .reader-title{ font-family:Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0; text-wrap:balance; }
     .reader-close{
-      border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink-0); cursor:pointer;
+      border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink); cursor:pointer;
       background:
-        linear-gradient(135deg, rgba(0,231,255,.14), rgba(168,108,255,.12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       min-block-size:44px;
     }
-    .reader-body iframe{ inline-size:100%; block-size:70vh; border:none; display:block; background:transparent }
-    .reader-foot{ display:flex; justify-content:flex-end; gap:.6rem; padding:10px 14px; border-block-start:1px dashed var(--line) }
+    .reader-body{ padding:0; background:transparent; }
+    .reader-body iframe{ inline-size:100%; block-size:70vh; border:none; display:block; background:transparent; }
+    .reader-foot{ display:flex; justify-content:flex-end; gap:.6rem; padding:10px 14px; border-block-start:1px dashed var(--line); }
     .open-native{
-      text-decoration:none; color:var(--ink-0); border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; display:inline-flex; align-items:center; gap:.5rem;
+      text-decoration:none; color:var(--ink); border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; display:inline-flex; align-items:center; gap:.5rem;
       background:
-        linear-gradient(135deg, rgba(0,231,255,.14), rgba(168,108,255,.12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       min-block-size:44px;
     }
 
-    /* Responsive tweaks */
-    @container (max-width:600px){ .card h3{ font-size:1.05rem } }
-    @media (min-width:390px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(280px,1fr)) } }
-    @media (min-width:500px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(300px,1fr)) } }
-    @media (min-width:768px){ .grid{ gap: clamp(18px, 2.4vw, 26px) } }
+    /* Container queries & breakpoints */
+    @container (max-width: 600px){ .card h3{ font-size: 1.05rem; } }
+    @media (min-width:390px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); } }
+    @media (min-width:500px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); } }
+    @media (min-width:768px){ .grid{ gap: clamp(18px, 2.4vw, 26px); } }
     @media (min-width:1024px){ .card h3{ font-size:1.18rem } }
-    @media (min-width:1440px){ .grid{ max-width: calc(var(--maxw) + 120px) } }
+    @media (min-width:1440px){ .grid{ max-width: calc(var(--gridw) + 120px) } }
 
-    :focus-visible{ outline:3px solid rgba(168,108,255,.65); outline-offset:2px }
-    @media (forced-colors:active){
-      .chip, .pager button, .reader-close, .open-native { forced-color-adjust:auto; border-color:CanvasText }
-      .card, .wrap, dialog#hc-reader{ background:Canvas }
+    :focus-visible{ outline: 3px solid color-mix(in oklch, var(--brand-2) 65%, white 0%); outline-offset: 2px; }
+    @media (forced-colors: active){
+      .chip, .pager button, .reader-close, .open-native { forced-color-adjust: auto; border-color: CanvasText; }
+      .card, .wrap, dialog#hc-reader{ background: Canvas; }
     }
   </style>
 </head>
 
 <body>
-  <!-- =========================================================
-       DASHBOARD
-       ========================================================= -->
   <section id="hc-blog" data-scope="dashboard" aria-labelledby="hc-blog-title">
+    <!-- Header -->
     <header class="wrap">
       <div class="eyebrow" aria-label="Dashboard"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>HC WEB LABS • BLOG</span></div>
       <h1 id="hc-blog-title">Studio Updates, Case Studies & Opinions</h1>
@@ -223,42 +241,149 @@
       </nav>
     </header>
 
-    <!-- Grid: 12 mock posts (JS paginates to show Page 2) -->
+    <!-- Grid (18 posts → 2 pages with pageSize=9) -->
     <main class="grid" id="hc-grid" aria-live="polite">
-      <!-- (Same 12 cards we already had; shortened here for space—keep your full set) -->
+      <!-- 1 -->
       <article class="card" data-cats="opinion,web-design" data-date="2025-10-22">
-        <a class="stretch" href="posts/web-is-home.html" data-url="posts/web-is-home.html" data-modal></a>
+        <a class="stretch" href="/posts/web-is-home.html" data-url="/posts/web-is-home.html" data-modal></a>
         <div class="thumb"><img src="https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=1200&auto=format&fit=crop" alt="Abstract cables and circuits" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Because for Some of Us, the Web Is Home</h3><div class="meta"><span>Oct 22, 2025</span><span class="dot"></span><span>Heather Cooper</span></div></div>
+        <div class="body"><h3>Because for Some of Us, the Web Is Home</h3><div class="meta"><span>Oct 22, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Opinion</span><span class="tag">Web Design</span></div>
+      </article>
+      <!-- 2 -->
+      <article class="card" data-cats="case-studies,performance,front-end" data-date="2025-10-25">
+        <a class="stretch" href="/posts/case-booking-flow.html" data-url="/posts/case-booking-flow.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop" alt="Dashboard charts on screen" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: Booking Flow Drop-Off −35%</h3><div class="meta"><span>Oct 25, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Performance</span></div>
+      </article>
+      <!-- 3 -->
+      <article class="card" data-cats="front-end,css,tech" data-date="2025-10-24">
+        <a class="stretch" href="/posts/glassmorphism-lab.html" data-url="/posts/glassmorphism-lab.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Circuit board close-up" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Glassmorphism Lab: Real Panes, Real Blur</h3><div class="meta"><span>Oct 24, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Front-End</span><span class="tag">Tech</span></div>
+      </article>
+      <!-- 4 -->
+      <article class="card" data-cats="case-studies,web-design" data-date="2025-10-21">
+        <a class="stretch" href="/posts/case-restaurant.html" data-url="/posts/case-restaurant.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Restaurant website design" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: Restaurant Rebrand & Digital Refresh</h3><div class="meta"><span>Oct 21, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Web Design</span></div>
+      </article>
+      <!-- 5 -->
+      <article class="card" data-cats="tech,opinion" data-date="2025-10-19">
+        <a class="stretch" href="/posts/future-of-ai-ui.html" data-url="/posts/future-of-ai-ui.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1526378722370-7a3bdc64656b?q=80&w=1200&auto=format&fit=crop" alt="AI abstract art" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Opinion: Why AI Needs Better UI Ethics</h3><div class="meta"><span>Oct 19, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Tech</span><span class="tag">Opinion</span></div>
+      </article>
+      <!-- 6 -->
+      <article class="card" data-cats="front-end,css" data-date="2025-10-17">
+        <a class="stretch" href="/posts/css-view-transitions.html" data-url="/posts/css-view-transitions.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop" alt="Laptop coding session" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>View Transitions API: Polish Without Plugins</h3><div class="meta"><span>Oct 17, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Front-End</span><span class="tag">CSS</span></div>
+      </article>
+      <!-- 7 -->
+      <article class="card" data-cats="accessibility,front-end" data-date="2025-10-14">
+        <a class="stretch" href="/posts/a11y-focus-rings.html" data-url="/posts/a11y-focus-rings.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1200&auto=format&fit=crop" alt="Keyboard and monitor" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Accessible Focus Rings That Actually Look Good</h3><div class="meta"><span>Oct 14, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Front-End</span></div>
+      </article>
+      <!-- 8 -->
+      <article class="card" data-cats="case-studies,performance" data-date="2025-10-10">
+        <a class="stretch" href="/posts/case-performance.html" data-url="/posts/case-performance.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Performance dashboard" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: Cutting Load Times in Half with CSS Optimizations</h3><div class="meta"><span>Oct 10, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Performance</span></div>
+      </article>
+      <!-- 9 -->
+      <article class="card" data-cats="web-design,opinion" data-date="2025-10-08">
+        <a class="stretch" href="/posts/opinion-dark-mode.html" data-url="/posts/opinion-dark-mode.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Dark mode UI mockup" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Dark Mode Is Not a Design Trend — It’s a UX Decision</h3><div class="meta"><span>Oct 08, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
         <div class="tags"><span class="tag">Opinion</span><span class="tag">Web Design</span></div>
       </article>
 
-      <article class="card" data-cats="case-studies,performance,front-end" data-date="2025-10-25">
-        <a class="stretch" href="posts/case-booking-flow.html" data-url="posts/case-booking-flow.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop" alt="Dashboard charts on screen" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Case Study: Booking Flow Drop-Off −35%</h3><div class="meta"><span>Oct 25, 2025</span><span class="dot"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Case Studies</span><span class="tag">Performance</span></div>
+      <!-- 10 -->
+      <article class="card" data-cats="accessibility,case-studies" data-date="2025-10-06">
+        <a class="stretch" href="/posts/case-accessibility.html" data-url="/posts/case-accessibility.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1200&auto=format&fit=crop" alt="Screen reader and laptop" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: Accessibility Overhaul for Local Non-Profit</h3><div class="meta"><span>Oct 06, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Case Studies</span></div>
       </article>
-
-      <article class="card" data-cats="front-end,css,tech" data-date="2025-10-24">
-        <a class="stretch" href="posts/glassmorphism-lab.html" data-url="posts/glassmorphism-lab.html" data-modal></a>
-        <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Circuit board close-up" loading="lazy" decoding="async" width="1200" height="675"></div>
-        <div class="body"><h3>Glassmorphism Lab: Real Panes, Real Blur</h3><div class="meta"><span>Oct 24, 2025</span><span class="dot"></span><span>Heather Cooper</span></div></div>
-        <div class="tags"><span class="tag">Front-End</span><span class="tag">Tech</span></div>
+      <!-- 11 -->
+      <article class="card" data-cats="tech,front-end" data-date="2025-10-03">
+        <a class="stretch" href="/posts/js-modules-2025.html" data-url="/posts/js-modules-2025.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1523475496153-3d6cc450b71b?q=80&w=1200&auto=format&fit=crop" alt="JavaScript code editor" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Modern JS Modules in 2025: Import Smarter, Ship Faster</h3><div class="meta"><span>Oct 03, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Tech</span><span class="tag">Front-End</span></div>
       </article>
-
-      <!-- ... keep the remaining 9 cards from our previous version ... -->
+      <!-- 12 -->
+      <article class="card" data-cats="web-design,front-end" data-date="2025-10-01">
+        <a class="stretch" href="/posts/css-grid-level3.html" data-url="/posts/css-grid-level3.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1547658718-d6f9d7d7e2d5?q=80&w=1200&auto=format&fit=crop" alt="Grid layout sketch" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>CSS Grid Level 3 Has Landed: Masonry for Everyone</h3><div class="meta"><span>Oct 01, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Web Design</span><span class="tag">Front-End</span></div>
+      </article>
+      <!-- 13 -->
+      <article class="card" data-cats="case-studies,seo" data-date="2025-09-28">
+        <a class="stretch" href="/posts/case-seo-lift.html" data-url="/posts/case-seo-lift.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop" alt="Search analytics graphs" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: +120% Organic Traffic in 90 Days</h3><div class="meta"><span>Sep 28, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Case Studies</span><span class="tag">SEO</span></div>
+      </article>
+      <!-- 14 -->
+      <article class="card" data-cats="opinion,tech" data-date="2025-09-25">
+        <a class="stretch" href="/posts/opinion-own-your-stack.html" data-url="/posts/opinion-own-your-stack.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop" alt="Glowing server stack" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Own Your Stack: Renting Less of the Web</h3><div class="meta"><span>Sep 25, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Opinion</span><span class="tag">Tech</span></div>
+      </article>
+      <!-- 15 -->
+      <article class="card" data-cats="front-end,performance" data-date="2025-09-22">
+        <a class="stretch" href="/posts/instant-nav.html" data-url="/posts/instant-nav.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="Speed gauge UI" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Instant-feel Navigation with Prefetch & View Transitions</h3><div class="meta"><span>Sep 22, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Front-End</span><span class="tag">Performance</span></div>
+      </article>
+      <!-- 16 -->
+      <article class="card" data-cats="accessibility,opinion" data-date="2025-09-18">
+        <a class="stretch" href="/posts/opinion-a11y-inclusive.html" data-url="/posts/opinion-a11y-inclusive.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=1200&auto=format&fit=crop" alt="Inclusive team collaborating" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Accessibility Is a Product Strategy, Not a Checklist</h3><div class="meta"><span>Sep 18, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Accessibility</span><span class="tag">Opinion</span></div>
+      </article>
+      <!-- 17 -->
+      <article class="card" data-cats="web-design,brand" data-date="2025-09-14">
+        <a class="stretch" href="/posts/brand-systems.html" data-url="/posts/brand-systems.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1529336953121-a0f66f7c0f5e?q=80&w=1200&auto=format&fit=crop" alt="Brand color swatches" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>From Moodboards to Tokens: Bridging Brand & UI</h3><div class="meta"><span>Sep 14, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Web Design</span><span class="tag">Brand</span></div>
+      </article>
+      <!-- 18 -->
+      <article class="card" data-cats="tech,case-studies" data-date="2025-09-10">
+        <a class="stretch" href="/posts/case-microservices.html" data-url="/posts/case-microservices.html" data-modal></a>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?q=80&w=1200&auto=format&fit=crop" alt="Microservices diagram on screen" loading="lazy" decoding="async" width="1200" height="675"></div>
+        <div class="body"><h3>Case Study: Taming a Tangled Microservices Front-End</h3><div class="meta"><span>Sep 10, 2025</span><span class="dot" aria-hidden="true"></span><span>Heather Cooper</span></div></div>
+        <div class="tags"><span class="tag">Tech</span><span class="tag">Case Studies</span></div>
+      </article>
     </main>
 
+    <!-- Pager -->
     <nav class="pager" id="hc-pager" aria-label="Pagination"></nav>
 
-    <!-- Modal -->
+    <!-- Modal reader -->
     <dialog id="hc-reader" aria-label="Post preview">
       <div class="reader-head">
         <h3 class="reader-title" id="hc-reader-title">Loading…</h3>
         <button class="reader-close" type="button" aria-label="Close reader"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
       </div>
-      <div class="reader-body"><iframe id="hc-reader-frame" referrerpolicy="no-referrer" title="Post preview"></iframe></div>
+      <div class="reader-body">
+        <iframe id="hc-reader-frame" referrerpolicy="no-referrer" title="Post preview"></iframe>
+      </div>
       <div class="reader-foot">
         <a class="open-native" id="hc-reader-open" href="#" target="_blank" rel="noopener">
           <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open full page
@@ -268,11 +393,13 @@
   </section>
 
   <script type="module">
-    const $ = (s,c=document)=>c.querySelector(s);
-    const $$=(s,c=document)=>Array.from(c.querySelectorAll(s));
+    // ===== Utilities =====
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
     const supportsVT = 'startViewTransition' in document;
     const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // ===== Elements & Data =====
     const grid  = $('#hc-grid');
     const pager = $('#hc-pager');
     const chipsBar = $('#hc-blog .filters');
@@ -283,13 +410,19 @@
       cats: (el.getAttribute('data-cats') || '').split(',').map(s=>s.trim()).filter(Boolean)
     })).sort((a,b)=> b.date - a.date);
 
+    // ===== State (URL-synced) =====
     const qs = new URLSearchParams(location.search);
-    const state = { pageSize: 9, page: Math.max(1, parseInt(qs.get('page')||'1',10)), filter: (qs.get('cat')||'all') };
+    const state = {
+      pageSize: 9,
+      page: Math.max(1, parseInt(qs.get('page') || '1', 10)),
+      filter: (qs.get('cat') || 'all') // single select
+    };
 
+    // ===== Chip UI (single select) =====
     function syncChips(){
       $$('.chip', chipsBar).forEach(chip=>{
         const on = chip.dataset.filter === state.filter;
-        chip.dataset.active = on ? 'true':'false';
+        chip.dataset.active = on ? 'true' : 'false';
         chip.setAttribute('aria-pressed', String(on));
       });
     }
@@ -299,11 +432,14 @@
       const chip = e.target.closest('.chip'); if(!chip) return;
       const key = chip.dataset.filter;
       if(key && key !== state.filter){
-        state.filter = key; state.page = 1; syncChips();
+        state.filter = key;
+        state.page = 1;
+        syncChips();
         render({animate:true, announce:true});
       }
     });
 
+    // ===== Filtering & Pagination =====
     function getFiltered(){
       if(state.filter === 'all') return cards;
       return cards.filter(p => p.cats.includes(state.filter));
@@ -311,62 +447,81 @@
 
     function buildPager(totalPages){
       const p = state.page;
-      const mkNum=(n,cur=false)=>`<button class="num" data-goto="${n}" ${cur?'aria-current="true"':''}>${n}</button>`;
-      const ell=()=>`<button class="ellipsis" disabled aria-hidden="true">…</button>`;
-      let nums='';
-      if(totalPages<=7){ for(let i=1;i<=totalPages;i++) nums+=mkNum(i,i===p); }
-      else if(p<=4){ for(let i=1;i<=5;i++) nums+=mkNum(i,i===p); nums+=ell()+mkNum(totalPages); }
-      else if(p>=totalPages-3){ nums+=mkNum(1)+ell(); for(let i=totalPages-4;i<=totalPages;i++) nums+=mkNum(i,i===p); }
-      else { nums+=mkNum(1)+ell()+mkNum(p-1)+mkNum(p,true)+mkNum(p+1)+ell()+mkNum(totalPages); }
+      const mkNum = (n, cur=false) => `<button class="num" data-goto="${n}" ${cur?'aria-current="true"':''}>${n}</button>`;
+      const ell = () => `<button class="ellipsis" disabled aria-hidden="true">…</button>`;
+      let nums = '';
+      if(totalPages <= 7){ for(let i=1;i<=totalPages;i++) nums += mkNum(i, i===p); }
+      else if(p <= 4){ for(let i=1;i<=5;i++) nums += mkNum(i, i===p); nums += ell() + mkNum(totalPages); }
+      else if(p >= totalPages - 3){ nums += mkNum(1) + ell(); for(let i=totalPages-4;i<=totalPages;i++) nums += mkNum(i, i===p); }
+      else { nums += mkNum(1) + ell() + mkNum(p-1) + mkNum(p,true) + mkNum(p+1) + ell() + mkNum(totalPages); }
 
       pager.innerHTML =
-        `<button class="prev" data-goto="${p-1}" ${p===1?'disabled':''} aria-label="Previous page"><i class="fa-solid fa-angle-left"></i></button>`+
-        nums+
-        `<button class="next" data-goto="${p+1}" ${p===totalPages?'disabled':''} aria-label="Next page"><i class="fa-solid fa-angle-right"></i></button>`;
+        `<button class="prev" data-goto="${p-1}" ${p===1?'disabled':''} aria-label="Previous page"><i class="fa-solid fa-angle-left" aria-hidden="true"></i></button>` +
+        nums +
+        `<button class="next" data-goto="${p+1}" ${p===totalPages?'disabled':''} aria-label="Next page"><i class="fa-solid fa-angle-right" aria-hidden="true"></i></button>`;
 
       $$('.pager [data-goto]').forEach(btn=>{
         btn.addEventListener('click', ()=>{
-          const next = parseInt(btn.getAttribute('data-goto'),10);
-          if(Number.isFinite(next)){ state.page = Math.max(1, Math.min(totalPages,next)); render({animate:true, announce:true}); $('#hc-blog .wrap')?.scrollIntoView({behavior:'smooth'}) }
+          const next = parseInt(btn.getAttribute('data-goto'), 10);
+          if(Number.isFinite(next)){
+            state.page = Math.max(1, Math.min(totalPages, next));
+            render({animate:true, announce:true});
+            $('#hc-blog .wrap')?.scrollIntoView({ behavior:'smooth', block:'start' });
+          }
         });
       });
     }
 
     function swapGridContent(nodes, totalPages, announce){
       while(grid.firstChild) grid.removeChild(grid.firstChild);
-      nodes.forEach(n=>grid.appendChild(n));
+      nodes.forEach(n => grid.appendChild(n));
       buildPager(totalPages);
-      if(announce){ grid.setAttribute('aria-live','polite'); grid.setAttribute('aria-busy','false') }
+      if(announce){
+        grid.setAttribute('aria-live','polite');
+        grid.setAttribute('aria-busy','false');
+      }
     }
 
-    function render({animate=false, announce=false}={}){
+    function render({animate=false, announce=false} = {}){
       const filtered = getFiltered();
       const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
       state.page = Math.min(Math.max(1, state.page), totalPages);
 
+      // URL sync (?cat=&page=)
       const params = new URLSearchParams(location.search);
-      state.filter==='all'?params.delete('cat'):params.set('cat', state.filter);
-      state.page>1?params.set('page', state.page):params.delete('page');
+      state.filter === 'all' ? params.delete('cat') : params.set('cat', state.filter);
+      state.page > 1 ? params.set('page', state.page) : params.delete('page');
       history.replaceState({}, '', location.pathname + (params.toString()?('?'+params.toString()):''));
 
-      const start = (state.page-1)*state.pageSize;
-      const end   = Math.min(start+state.pageSize, filtered.length);
-      const nodes = filtered.slice(start,end).map(p=>p.el);
+      const start = (state.page - 1) * state.pageSize;
+      const end   = Math.min(start + state.pageSize, filtered.length);
+      const nodes = filtered.slice(start, end).map(p => p.el);
 
-      const doSwap = ()=>swapGridContent(nodes,totalPages,announce);
-      if(announce){ grid.setAttribute('aria-busy','true') }
+      const doSwap = () => swapGridContent(nodes, totalPages, announce);
+
+      if(announce){ grid.setAttribute('aria-busy','true'); }
 
       if(animate && !prefersReduced){
-        if(supportsVT){ document.startViewTransition(doSwap); }
-        else{
+        if(supportsVT){
+          document.startViewTransition(doSwap);
+        }else{
           grid.classList.add('turning-out');
-          setTimeout(()=>{ doSwap(); grid.classList.remove('turning-out'); grid.classList.add('turning-in'); setTimeout(()=>grid.classList.remove('turning-in'),260); },180);
+          setTimeout(()=>{
+            doSwap();
+            grid.classList.remove('turning-out');
+            grid.classList.add('turning-in');
+            setTimeout(()=>grid.classList.remove('turning-in'), 260);
+          }, 180);
         }
-      } else { doSwap(); }
+      }else{
+        doSwap();
+      }
     }
+
+    // Initial paint
     render({animate:false});
 
-    /* Modal reader */
+    // ===== Modal Reader (progressive enhancement) =====
     const dlg = $('#hc-reader');
     const iframe = $('#hc-reader-frame');
     const titleEl = $('#hc-reader-title');
@@ -377,32 +532,37 @@
     grid.addEventListener('click', (e)=>{
       const a = e.target.closest('a.stretch'); if(!a) return;
       const url = a.getAttribute('data-url') || a.getAttribute('href');
-      if(!a.hasAttribute('data-modal') || !dialogSupported) return; // navigate normally
+      const wantsModal = a.hasAttribute('data-modal');
+      if(!wantsModal || !dialogSupported){ return; } // navigate normally
       e.preventDefault();
+
       const t = a.parentElement?.querySelector('h3')?.textContent?.trim() || 'Post';
-      titleEl.textContent = t; openBtn.href = url; iframe.setAttribute('title', t); iframe.src = url;
+      titleEl.textContent = t;
+      openBtn.href = url;
+      iframe.setAttribute('title', t);
+      iframe.src = url; // sandboxed preview
       if(!dlg.open) dlg.showModal();
     });
 
     closeBtn?.addEventListener('click', ()=> dlg.close());
-    dlg?.addEventListener('cancel', e=>{ e.preventDefault(); dlg.close() });
+    dlg?.addEventListener('cancel', (ev)=>{ ev.preventDefault(); dlg.close(); }); // Esc close
 
-    /* Keyboard pager helpers */
+    // Keyboard pager helpers
     pager.addEventListener('keydown', (e)=>{
-      if(e.key==='ArrowLeft'){ e.preventDefault(); $('.prev', pager)?.click() }
-      if(e.key==='ArrowRight'){ e.preventDefault(); $('.next', pager)?.click() }
-      if(e.key==='Home'){ e.preventDefault(); $('[data-goto="1"]', pager)?.click() }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); $('.prev', pager)?.click(); }
+      if(e.key === 'ArrowRight'){ e.preventDefault(); $('.next', pager)?.click(); }
+      if(e.key === 'Home'){ e.preventDefault(); $('[data-goto="1"]', pager)?.click(); }
       const lastNum = pager.querySelector('.num:last-of-type')?.textContent;
-      if(e.key==='End' && lastNum){ e.preventDefault(); $(`[data-goto="${lastNum}"]`, pager)?.click() }
+      if(e.key === 'End' && lastNum){ e.preventDefault(); $(`[data-goto="${lastNum}"]`, pager)?.click(); }
     });
 
-    /* Scroll micro-reveal (progressive) */
+    // Optional: Scroll-driven micro-reveals (progressive)
     if (CSS.supports('animation-timeline: scroll()')) {
       const style = document.createElement('style');
       style.textContent = `
         @scroll-timeline reveal-timeline { source: auto; orientation: block; }
-        .card{ animation: reveal 1s both; animation-timeline: reveal-timeline; animation-range: entry 0% cover 30% }
-        @keyframes reveal{ from{ opacity:0; transform: translateY(12px) } to{ opacity:1; transform:none } }
+        .card{ animation: reveal 1s both; animation-timeline: reveal-timeline; animation-range: entry 0% cover 30%; }
+        @keyframes reveal{ from{ opacity:0; transform: translateY(12px); } to{ opacity:1; transform:none; } }
         @media (prefers-reduced-motion: reduce){ .card{ animation:none !important } }
       `;
       document.head.appendChild(style);
