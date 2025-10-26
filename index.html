@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>HC Web Labs — Universal Blog / Dashboard</title>
+  <title>HC Web Labs — Blog & Journal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Glassmorphic blog dashboard for HC Web Labs: case studies, opinions, tech + web design. Single-select chips, smooth pagination, and modal preview." />
   <meta name="color-scheme" content="dark" />
@@ -13,25 +13,21 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500&family=Sarpanch:wght@700;800&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sarpanch:wght@700;800&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================
-       BULLET-PROOF HALO BACKDROP
-       ========================= */
+    /* ========================= BULLET-PROOF HALO BACKDROP ========================= */
     html, body { height:100%; margin:0; background:transparent; isolation:isolate; }
-    body { color: var(--ink); } /* enforce bright text globally */
     body > * { position:relative; z-index:0; }
     header, .site-header, [data-sticky] { position:relative; z-index:3; }
 
     :root{
-      /* Bright, always-on-glass text */
+      /* Bright, always-on text */
       --ink: #f6f7fb;
       --muted: #c6ccda;
       --line: rgba(255,255,255,.16);
 
       --radius: 16px;
-      --gap: .75rem;
       --shadow: 0 14px 48px rgba(0,0,0,.50);
 
       /* Halo grid backdrop */
@@ -51,6 +47,13 @@
       --maxw: 1100px;
       --chip: 999px;
     }
+
+    /* Enforce bright text everywhere */
+    body { color: var(--ink); }
+    #hc-blog, #hc-blog .wrap, #hc-blog .card, #hc-blog .filters, 
+    #hc-blog .pager, #hc-blog dialog#hc-reader { color: var(--ink); }
+    #hc-blog .card * { color: inherit; }
+    #hc-blog .meta { color: var(--muted); }
 
     html::before, html::after { content:""; position:fixed; inset:0; pointer-events:none; }
     html::before{
@@ -74,26 +77,22 @@
     @media (forced-colors: active){ html::before{ background:Canvas !important } html::after{ display:none !important } }
     @media print{ html::before, html::after{ display:none !important } }
 
-    /* =========================
-       COMPONENT SCOPE
-       ========================= */
+    /* ========================= COMPONENT SCOPE ========================= */
     #hc-blog[data-scope="dashboard"], #hc-blog * { box-sizing: border-box; }
     #hc-blog{
-      color: var(--ink); /* enforce */
       background: transparent;
       font-family: Mulish, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
       container-type: inline-size;
       padding-block: clamp(24px, 5vw, 60px);
     }
 
-    /* True glass pane header */
     #hc-blog .wrap{
       margin-inline: auto; padding: var(--pad); max-width: var(--maxw);
       border:1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--shadow);
-      position:relative; isolation:isolate; overflow:hidden; color: var(--ink);
+      position:relative; isolation:isolate; overflow:hidden;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / var(--glass-a)), color(display-p3 0.66 0.43 1 / var(--glass-b))),
-        linear-gradient(180deg, rgba(12,14,22,.40), rgba(12,14,22,.30));
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 40%, black 0%), color-mix(in oklch, var(--bg) 30%, black 0%));
       -webkit-backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
               backdrop-filter: blur(var(--blur)) saturate(118%) contrast(1.03);
     }
@@ -102,30 +101,46 @@
     .eyebrow{
       display:inline-flex; align-items:center; gap:.5em; font-weight:800; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
       background:linear-gradient(90deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1), color(display-p3 .9 .5 .95));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-background-clip:text; background-clip:text; color:transparent !important;
     }
     #hc-blog-title{
       font-family:Sarpanch, Mulish, system-ui, sans-serif; font-weight:800; line-height:1.06; letter-spacing:.3px;
-      font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-block: .25em .5em;
+      font-size: clamp(1.9rem, 3.6vw, 2.7rem); margin-block: .25em .35em;
       background:linear-gradient(90deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1));
-      -webkit-background-clip:text; background-clip:text; color:transparent;
+      -webkit-background-clip:text; background-clip:text; color:transparent !important;
       filter: drop-shadow(0 2px 10px rgba(168,108,255,.18));
     }
 
-    /* Filters — SINGLE SELECT */
+    .tagline{
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: var(--muted);
+      margin-block: 0 1.2rem;
+      max-width: 42em;
+    }
+
+    /* Filter Chips */
     .filters{ display:flex; flex-wrap:wrap; gap:.5rem; margin-block: .2rem 0; }
     .chip{
       display:inline-flex; align-items:center; gap:.45rem; font-size:.95rem; font-weight:700; line-height:1;
       padding:.56rem .78rem; border:1px solid var(--stroke); border-radius: var(--chip);
-      color: var(--ink); text-decoration:none;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
-      cursor:pointer; user-select:none; min-height:44px;
+      cursor:pointer; user-select:none; min-height:44px; transition: all 0.2s ease;
     }
-    .chip[data-active="true"]{ outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px; }
+    .chip:hover{ transform: translateY(-1px); box-shadow: 0 4px 12px rgba(168,108,255,.2); }
+    .chip[data-active="true"]{ 
+      outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px;
+      background:
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .24), color(display-p3 0.66 0.43 1 / .20)),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+    }
     .chip:focus-visible{ outline:3px solid color(display-p3 .75 .45 1 / .7); outline-offset:2px; }
+
+    /* Results info */
+    .results-info{ margin-block: 1rem 0; font-size: 0.9rem; opacity: 0.8; font-weight: 600; }
 
     /* Grid + Cards */
     .grid{
@@ -134,7 +149,6 @@
       margin: clamp(16px, 2.6vw, 24px) auto 0;
       max-width: var(--maxw); padding-inline: var(--pad);
       content-visibility:auto; contain-intrinsic-size: 800px 1200px;
-      color: var(--ink);
     }
     .card{
       position:relative; isolation:isolate; border-radius: 16px; overflow:hidden; border:1px solid var(--line);
@@ -143,242 +157,253 @@
         linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       -webkit-backdrop-filter: blur(10px) saturate(120%); backdrop-filter: blur(10px) saturate(120%);
       box-shadow: inset 0 1px 0 rgba(255,255,255,.10), 0 10px 28px rgba(0,0,0,.42);
-      display:grid; grid-template-rows:auto 1fr auto;
+      display:flex; flex-direction:column; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform;
       color: var(--ink);
     }
-    .card * { color: inherit; } /* force inheritance inside cards */
-    .card:hover{ border-color: rgba(255,255,255,.24) }
+    .card * { color: inherit; }
+    .card::before{ content:""; position:absolute; inset:0; pointer-events:none; border-radius:inherit; }
+    .card:hover{ 
+      transform: translateY(-4px) scale(1.02); 
+      border-color: rgba(255,255,255,.24);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 20px 40px rgba(0,0,0,.3);
+    }
     .card::after{
       content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none; opacity:0;
-      background:linear-gradient(135deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1)); mix-blend-mode:screen; transition:opacity .18s ease;
+      background:linear-gradient(135deg, color(display-p3 0 1 .75), color(display-p3 .75 .45 1)); 
+      mix-blend-mode:screen; transition:opacity .18s ease;
     }
     .card:hover::after{ opacity:.18; }
+    .card:focus-within{ outline: 2px solid color(display-p3 .75 .45 1 / .6); outline-offset: 3px; }
 
-    .thumb{ aspect-ratio:16/9; overflow:hidden; }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; filter:saturate(112%); }
-
-    .body{ padding:14px 14px 10px; }
-    .card h3{
-      font-family: Saira, system-ui, sans-serif;
-      font-weight: 500; font-size:1.12rem; margin:0 0 .35rem; line-height:1.2;
-      text-wrap:balance;
-    }
-    .meta{ color: var(--muted); font-size:.92rem; display:flex; gap:.8rem; align-items:center; }
-    .meta .dot{ inline-size:4px; block-size:4px; border-radius:50%; background: var(--line); display:inline-block; }
-    .tags{ display:flex; flex-wrap:wrap; gap:.4rem; padding:0 14px 14px; }
-    .tag{ font-size:.8rem; padding:.28rem .5rem; border:1px solid var(--line); border-radius:999px; background: rgba(255,255,255,.06); color: var(--ink); }
-
-    .card a.stretch{ position:absolute; inset:0; z-index:1; border-radius:inherit; }
-
-    /* Skeletons */
-    .skeleton .thumb{ background:linear-gradient(90deg, #ffffff08, #ffffff15 40%, #ffffff08 80%); background-size:200% 100%; animation:shimmer 1.2s linear infinite; }
-    .skeleton .body, .skeleton .tags{ opacity:.55 }
-    @keyframes shimmer{ to{ background-position:-200% 0; } }
-
-    /* Pager */
-    .pager{ display:flex; justify-content:center; gap:.6rem; margin: clamp(18px, 3vw, 28px) 0; padding-inline: var(--pad); }
-    .pager button{
-      min-inline-size: 44px; min-block-size: 44px; text-align:center; border:1px solid var(--stroke); border-radius:12px; padding:.5rem .8rem;
+    .card .body{ padding:1.25rem; flex:1; }
+    .card h3{ font-size:1.3rem; font-weight:700; line-height:1.3; margin:0 0 .5rem; }
+    .card .meta{ font-size:.88rem; margin-block: .4rem .75rem; display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; }
+    .card .meta .dot::before{ content:"•"; margin-inline:.2em; }
+    .card .excerpt{ margin-block:.75rem 0; line-height:1.56; }
+    .card .tags{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1rem; }
+    .card .tag{
+      font-size:.77rem; font-weight:600; text-transform:uppercase; letter-spacing:.06em;
+      padding:.28rem .56rem; border-radius:6px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
       color: var(--ink);
+    }
+
+    a.stretch{ position:absolute; inset:0; z-index:1; text-decoration:none; }
+    a.stretch:focus{ outline:none; }
+
+    /* Empty State */
+    .empty-state{ grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; opacity: 0.7; }
+    .empty-state i{ font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+
+    /* Pagination */
+    .pager{
+      margin: clamp(18px, 3vw, 32px) auto 0; max-width: var(--maxw);
+      padding-inline: var(--pad); display:flex; align-items:center; justify-content:center; gap:.5rem; flex-wrap:wrap;
+    }
+    .pager button{
+      min-width:44px; min-height:44px; padding:.5rem .85rem; border:1px solid var(--stroke);
+      border-radius:8px; font-family:inherit; font-size:.95rem; font-weight:700; cursor:pointer;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
       -webkit-backdrop-filter: blur(8px) saturate(110%); backdrop-filter: blur(8px) saturate(110%);
-      cursor:pointer;
+      transition: all 0.2s ease;
     }
-    .pager button[disabled]{ opacity:.45; cursor:not-allowed; }
-    .pager .num[aria-current="true"]{ outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px; }
-
-    /* Page turn animation */
-    @media (prefers-reduced-motion: no-preference){
-      .grid.turning-out .card{ animation: turnOut .22s ease forwards; }
-      .grid.turning-in  .card{ animation: turnIn  .22s ease forwards; }
-      @keyframes turnOut{ from{opacity:1; transform:translateY(0)} to{opacity:0; transform:translateY(6px)} }
-      @keyframes turnIn { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)} }
+    .pager button:hover:not(:disabled){ transform: translateY(-2px); box-shadow: 0 4px 12px rgba(168,108,255,.2); }
+    .pager button[aria-current="true"]{ 
+      background:
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .24), color(display-p3 0.66 0.43 1 / .20)),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      outline:2px solid color(display-p3 .75 .45 1 / .6); outline-offset:2px; 
     }
+    .pager button:focus-visible{ outline:2px solid color(display-p3 .75 .45 1 / .7); outline-offset:2px; }
+    .pager button:disabled{ opacity:.4; cursor:not-allowed; }
+    .pager .ellipsis{ border:none; background:transparent; cursor:default; }
 
-    /* Modal reader */
+    /* Modal Reader */
     dialog#hc-reader{
-      inline-size:min(920px, 92vw); max-block-size:88vh; border:none; padding:0; border-radius:20px; overflow:hidden; color:var(--ink);
+      max-width: min(90vw, 1000px); max-height:85vh; border-radius: var(--radius);
+      border:1px solid var(--stroke); padding:0; margin:auto;
       background:
-        linear-gradient(135deg, color(display-p3 0 0.91 1 / .20), color(display-p3 0.66 0.43 1 / .18)),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
-      -webkit-backdrop-filter: blur(18px) saturate(120%); backdrop-filter: blur(18px) saturate(120%);
-      box-shadow: 0 18px 64px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.14);
+        linear-gradient(135deg, color(display-p3 0 0.91 1 / .22), color(display-p3 0.66 0.43 1 / .18)),
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 40%, black 0%), color-mix(in oklch, var(--bg) 30%, black 0%));
+      -webkit-backdrop-filter: blur(var(--blur)) saturate(118%); backdrop-filter: blur(var(--blur)) saturate(118%);
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
     }
-    dialog#hc-reader::backdrop{ background: rgba(0,0,0,.55); }
-    .reader-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:12px 14px; border-block-end:1px dashed var(--line); color: var(--ink); }
-    .reader-title{ font-family: Saira, system-ui, sans-serif; font-weight:500; font-size:1.12rem; margin:0; text-wrap:balance; color: var(--ink); }
-    .reader-close{
-      border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; color:var(--ink); cursor:pointer;
-      background:
-        linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      min-block-size:44px;
+    dialog#hc-reader::backdrop{ background: rgba(0,0,0,.7); backdrop-filter: blur(4px); }
+    .reader-header{
+      display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem;
+      border-bottom:1px solid var(--line);
     }
-    .reader-body{ padding:0; background:transparent; color: var(--ink); }
-    .reader-body iframe{ inline-size:100%; block-size:70vh; border:none; display:block; background:transparent; }
-    .reader-foot{ display:flex; justify-content:flex-end; gap:.6rem; padding:10px 14px; border-block-start:1px dashed var(--line); color: var(--ink); }
-    .open-native{
-      text-decoration:none; color:var(--ink); border:1px solid var(--stroke); border-radius:12px; padding:.55rem .8rem; display:inline-flex; align-items:center; gap:.5rem;
+    .reader-header h2{ flex:1; margin:0; font-size:1.2rem; font-weight:700; }
+    .reader-header button, .reader-header a{
+      min-width:40px; min-height:40px; padding:.5rem;
+      border:1px solid var(--stroke); border-radius:8px; cursor:pointer;
       background:
         linear-gradient(135deg, color(display-p3 0 0.91 1 / .14), color(display-p3 0.66 0.43 1 / .12)),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      min-block-size:44px;
+        linear-gradient(180deg, color-mix(in oklch, var(--bg) 6%, transparent), color-mix(in oklch, var(--bg) 2%, transparent));
+      display:inline-flex; align-items:center; justify-content:center; text-decoration:none;
+      transition: all 0.2s ease;
+    }
+    .reader-header button:hover, .reader-header a:hover{ transform: translateY(-1px); box-shadow: 0 4px 12px rgba(168,108,255,.2); }
+    .reader-body{ height: calc(85vh - 80px); }
+    .reader-body iframe{ width:100%; height:100%; border:0; display:block; background: color-mix(in oklch, var(--bg) 80%, transparent); }
+
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-10px); } }
+    .grid.turning-out .card { animation: fadeOut 0.18s ease-out forwards; }
+    .grid.turning-in .card { animation: fadeIn 0.26s ease-out forwards; }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .card:hover, .chip:hover { transform: none; }
     }
 
-    /* Container queries & breakpoints */
-    @container (max-width: 600px){ .card h3{ font-size: 1.05rem; } }
-    @media (min-width:390px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); } }
-    @media (min-width:500px){ .grid{ grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); } }
-    @media (min-width:768px){ .grid{ gap: clamp(18px, 2.4vw, 26px); } }
-    @media (min-width:1024px){ .card h3{ font-size:1.18rem } }
-    @media (min-width:1280px){ #hc-blog .wrap{ max-width: var(--maxw); } }
-    @media (min-width:1440px){ .grid{ max-width: calc(var(--maxw) + 120px) } }
-
-    /* Focus & forced-colors */
-    :focus-visible{ outline: 3px solid color(display-p3 .75 .45 1 / .7); outline-offset: 2px; }
-    @media (forced-colors: active){
-      .chip, .pager button, .reader-close, .open-native { forced-color-adjust: auto; border-color: CanvasText; }
-      .card, .wrap, dialog#hc-reader{ background: Canvas; }
+    /* Responsive */
+    @media (max-width: 768px){
+      #hc-blog-title{ font-size: clamp(1.6rem, 5vw, 2rem); }
+      .grid{ grid-template-columns: 1fr; }
+      .pager{ gap:.35rem; }
+      .pager button{ min-width:40px; min-height:40px; padding:.4rem .7rem; font-size:.88rem; }
+      dialog#hc-reader{ max-width: 95vw; max-height: 90vh; }
+      .reader-body{ height: calc(90vh - 80px); }
     }
 
-    /* JS-off note */
-    noscript .nojs-note{
-      margin: 1rem auto 0; max-width: var(--maxw); padding: 1rem var(--pad);
-      color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    /* Skip link */
+    .skip-link {
+      position: absolute; top: -40px; left: 0; background: color(display-p3 .75 .45 1); color: white;
+      padding: 8px; text-decoration: none; border-radius: 0 0 4px 0; z-index: 100;
     }
+    .skip-link:focus { top: 0; }
   </style>
 </head>
-
 <body>
-  <section id="hc-blog" data-scope="dashboard" aria-labelledby="hc-blog-title">
-    <header class="wrap">
-      <div class="eyebrow" aria-label="Dashboard"><i class="fa-solid fa-bolt" aria-hidden="true"></i><span>HC WEB LABS • BLOG</span></div>
-      <h1 id="hc-blog-title">Studio Updates, Case Studies & Opinions</h1>
+  <a href="#hc-blog-grid" class="skip-link">Skip to content</a>
 
-      <nav class="filters" aria-label="Content filters">
-        <button class="chip" type="button" data-filter="all" data-active="true" aria-pressed="true">All</button>
-        <button class="chip" type="button" data-filter="case-studies" aria-pressed="false">Case Studies</button>
-        <button class="chip" type="button" data-filter="opinion" aria-pressed="false">Opinion</button>
-        <button class="chip" type="button" data-filter="web-design" aria-pressed="false">Web Design</button>
-        <button class="chip" type="button" data-filter="front-end" aria-pressed="false">Front-End</button>
-        <button class="chip" type="button" data-filter="accessibility" aria-pressed="false">Accessibility</button>
-        <button class="chip" type="button" data-filter="tech" aria-pressed="false">Tech</button>
-      </nav>
-    </header>
+  <main id="hc-blog" data-scope="dashboard">
+    <div class="wrap">
+      <div class="eyebrow"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> HC Web Labs</div>
+      <h1 id="hc-blog-title">Blog & Journal</h1>
+      <p class="tagline">Thoughts on web design, front-end development, and building digital experiences that feel like home.</p>
 
-    <main class="grid" id="hc-grid" aria-live="polite" aria-busy="true"></main>
-    <nav class="pager" id="hc-pager" aria-label="Pagination"></nav>
-
-    <dialog id="hc-reader" aria-label="Post preview">
-      <div class="reader-head">
-        <h3 class="reader-title" id="hc-reader-title">Loading…</h3>
-        <button class="reader-close" type="button" aria-label="Close reader">
-          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      <!-- Filter Chips -->
+      <div class="filters" id="hc-chips" role="group" aria-label="Category filters">
+        <button class="chip" data-filter="all" role="button" aria-pressed="true" tabindex="0">
+          <i class="fa-solid fa-layer-group" aria-hidden="true"></i> All Posts
+        </button>
+        <button class="chip" data-filter="personal" role="button" aria-pressed="false" tabindex="0">
+          <i class="fa-solid fa-heart" aria-hidden="true"></i> Personal
+        </button>
+        <button class="chip" data-filter="case-study" role="button" aria-pressed="false" tabindex="0">
+          <i class="fa-solid fa-briefcase" aria-hidden="true"></i> Case Studies
+        </button>
+        <button class="chip" data-filter="opinion" role="button" aria-pressed="false" tabindex="0">
+          <i class="fa-solid fa-comment-dots" aria-hidden="true"></i> Opinions
+        </button>
+        <button class="chip" data-filter="tech" role="button" aria-pressed="false" tabindex="0">
+          <i class="fa-solid fa-microchip" aria-hidden="true"></i> Tech
+        </button>
+        <button class="chip" data-filter="design" role="button" aria-pressed="false" tabindex="0">
+          <i class="fa-solid fa-palette" aria-hidden="true"></i> Design
         </button>
       </div>
-      <div class="reader-body">
-        <iframe id="hc-reader-frame" referrerpolicy="no-referrer" title="Post preview"></iframe>
-      </div>
-      <div class="reader-foot">
-        <a class="open-native" id="hc-reader-open" href="#" target="_blank" rel="noopener">
-          <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i> Open full page
-        </a>
-      </div>
-    </dialog>
 
-    <noscript>
-      <div class="nojs-note">
-        <p><strong>JavaScript is off.</strong> Turn it on to see the live dashboard. You can still open posts directly under the <code>/posts/</code> folder if you know the URL.</p>
-      </div>
-    </noscript>
-  </section>
+      <!-- Results Info -->
+      <div class="results-info" id="hc-results-info" role="status" aria-live="polite"></div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid" id="hc-blog-grid" role="feed" aria-label="Blog posts" aria-busy="false">
+      <noscript>
+        <div class="empty-state">
+          <p><strong>JavaScript is required</strong> to view posts.</p>
+        </div>
+      </noscript>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="pager" id="hc-pager" role="navigation" aria-label="Pagination"></nav>
+  </main>
+
+  <!-- Modal Reader -->
+  <dialog id="hc-reader" aria-labelledby="hc-reader-title">
+    <div class="reader-header">
+      <h2 id="hc-reader-title">Post Preview</h2>
+      <a id="hc-reader-open" href="#" target="_blank" rel="noopener" aria-label="Open in new tab">
+        <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
+      </a>
+      <button class="reader-close" type="button" aria-label="Close preview">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="reader-body">
+      <iframe id="hc-reader-frame" sandbox="allow-scripts allow-same-origin" loading="lazy"></iframe>
+    </div>
+  </dialog>
 
   <script type="module">
-    // Utilities
-    const $ = (sel, ctx=document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
-    const supportsVT = 'startViewTransition' in document;
-    const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-    const grid  = $('#hc-grid');
+    const grid = $('#hc-blog-grid');
     const pager = $('#hc-pager');
-    const chipsBar = $('#hc-blog .filters');
+    const chipsBar = $('#hc-chips');
+    const resultsInfo = $('#hc-results-info');
 
-    const withBase = (u) => typeof u === 'string' ? u.replace(/^\/+/, '') : u;
-    const fmtDate = (iso) => { try{ return new Date(iso).toLocaleDateString(undefined, { month:'short', day:'2-digit', year:'numeric' }); }catch{ return iso; } };
+    const supportsVT = 'startViewTransition' in document;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Build card
-    function makeCard(p){
-      const art = document.createElement('article');
-      art.className = 'card';
-      art.setAttribute('data-cats', (p.cats||[]).join(','));
-      art.setAttribute('data-date', p.date);
-      art.innerHTML = `
-        <a class="stretch" href="${withBase(p.url)}" data-url="${withBase(p.url)}" data-modal></a>
-        <div class="thumb">
-          <img src="${p.image}" alt="${p.alt||''}" loading="lazy" decoding="async" width="1200" height="675">
-        </div>
-        <div class="body">
-          <h3>${p.title}</h3>
-          <div class="meta"><span>${fmtDate(p.date)}</span><span class="dot" aria-hidden="true"></span><span>${p.author||'HC Web Labs'}</span></div>
-        </div>
-        <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-      `;
-      return art;
-    }
-
-    // Skeletons
-    function showSkeleton(count=6){
-      grid.innerHTML = '';
-      const frag = document.createDocumentFragment();
-      for(let i=0;i<count;i++){
-        const sk = document.createElement('article');
-        sk.className = 'card skeleton';
-        sk.innerHTML = `
-          <div class="thumb"></div>
-          <div class="body">
-            <h3 style="height:1.2rem;background:#ffffff10;border-radius:6px;width:70%"></h3>
-            <div class="meta">
-              <span style="height:.9rem;background:#ffffff10;border-radius:4px;display:inline-block;width:90px"></span>
-              <span class="dot"></span>
-              <span style="height:.9rem;background:#ffffff10;border-radius:4px;display:inline-block;width:120px"></span>
-            </div>
-          </div>
-          <div class="tags">
-            <span class="tag" style="opacity:.4">Loading</span>
-          </div>`;
-        frag.appendChild(sk);
-      }
-      grid.appendChild(frag);
-    }
-
-    // Load posts.json
     let cards = [];
-    async function loadPosts(){
-      showSkeleton(6);
-      try{
-        const res = await fetch('data/posts.json', {cache:'no-store'});
-        if(!res.ok) throw new Error('Failed to fetch posts.json');
+    let allPosts = [];
+
+    async function loadPosts() {
+      try {
+        const res = await fetch('posts.json');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        cards = data.map(p => ({
-          meta: p,
-          el: makeCard(p),
-          date: new Date(p.date),
-          cats: (p.cats||[])
-        })).sort((a,b)=> b.date - a.date);
-      }catch(err){
-        console.error('[HC BLOG] ', err);
-        grid.innerHTML = `<div class="nojs-note" role="status" style="margin-top:1rem">
-          <p>Couldn’t load posts. Check <code>data/posts.json</code> path on GitHub Pages.</p>
+
+        allPosts = (data.posts || []).map(p => {
+          const article = document.createElement('article');
+          article.className = 'card';
+          article.innerHTML = `
+            <div class="body">
+              <h3>${p.title || 'Untitled'}</h3>
+              <div class="meta">
+                <time datetime="${p.date}">${new Date(p.date).toLocaleDateString('en-US', {year:'numeric', month:'short', day:'numeric'})}</time>
+                ${p.readTime ? `<span class="dot"></span><span>${p.readTime}</span>` : ''}
+              </div>
+              ${p.excerpt ? `<p class="excerpt">${p.excerpt}</p>` : ''}
+              ${p.cats?.length ? `<div class="tags">${p.cats.map(c => `<span class="tag">${c}</span>`).join('')}</div>` : ''}
+            </div>
+            <a class="stretch" href="${p.url || '#'}" ${p.url ? 'data-modal data-url="' + p.url + '"' : ''} aria-label="Read ${p.title || 'post'}"></a>
+          `;
+
+          return {
+            el: article,
+            title: (p.title || '').toLowerCase(),
+            excerpt: (p.excerpt || '').toLowerCase(),
+            url: p.url || '',
+            readTime: p.readTime || '',
+            date: new Date(p.date),
+            cats: (p.cats || []).map(c => c.toLowerCase())
+          };
+        }).sort((a, b) => b.date - a.date);
+
+        cards = [...allPosts];
+
+      } catch (err) {
+        console.error('[HC BLOG] Error:', err);
+        grid.innerHTML = `<div class="empty-state" role="status">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <p><strong>Couldn't load posts.</strong></p>
+          <p>Check that <code>posts.json</code> exists.</p>
         </div>`;
         pager.innerHTML = '';
       }
     }
 
-    // State
     const qs = new URLSearchParams(location.search);
     const state = {
       pageSize: 6,
@@ -386,104 +411,146 @@
       filter: (qs.get('cat') || 'all')
     };
 
-    // Chips
-    function syncChips(){
-      $$('.chip', chipsBar).forEach(chip=>{
+    function syncChips() {
+      $$('.chip', chipsBar).forEach(chip => {
         const on = chip.dataset.filter === state.filter;
         chip.dataset.active = on ? 'true' : 'false';
         chip.setAttribute('aria-pressed', String(on));
       });
     }
-    chipsBar.addEventListener('click', (e)=>{
-      const chip = e.target.closest('.chip'); if(!chip) return;
+
+    chipsBar.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
       const key = chip.dataset.filter;
-      if(key && key !== state.filter){
+      if (key && key !== state.filter) {
         state.filter = key;
         state.page = 1;
         syncChips();
-        render({animate:true, announce:true});
+        render({ animate: true, announce: true });
       }
     });
 
-    // Filter + Pagination
-    function getFiltered(){
-      if(state.filter === 'all') return cards;
-      return cards.filter(p => p.cats.includes(state.filter));
+    function getFiltered() {
+      let filtered = cards;
+      if (state.filter !== 'all') filtered = filtered.filter(p => p.cats.includes(state.filter));
+      return filtered;
     }
 
-    function buildPager(totalPages){
+    function updateResultsInfo(filtered, total) {
+      const showing = Math.min(state.pageSize, filtered.length - (state.page - 1) * state.pageSize);
+      const start = (state.page - 1) * state.pageSize + 1;
+      const end = Math.min(start + showing - 1, filtered.length);
+
+      let text = '';
+      if (filtered.length === 0) {
+        text = 'No posts found';
+      } else if (state.filter !== 'all') {
+        text = `Showing ${start}–${end} of ${filtered.length} ${filtered.length === 1 ? 'result' : 'results'}`;
+        if (total !== filtered.length) text += ` (${total} total)`;
+      } else {
+        text = `Showing ${start}–${end} of ${total} ${total === 1 ? 'post' : 'posts'}`;
+      }
+      resultsInfo.textContent = text;
+    }
+
+    function buildPager(totalPages) {
+      if (totalPages <= 1) { pager.innerHTML = ''; return; }
+
       const p = state.page;
-      const mkNum = (n, cur=false) => `<button class="num" data-goto="${n}" ${cur?'aria-current="true"':''}>${n}</button>`;
+      const mkNum = (n, cur = false) => `<button class="num" data-goto="${n}" ${cur ? 'aria-current="true"' : ''}>${n}</button>`;
       const ell = () => `<button class="ellipsis" disabled aria-hidden="true">…</button>`;
+      
       let nums = '';
-      if(totalPages <= 7){ for(let i=1;i<=totalPages;i++) nums += mkNum(i, i===p); }
-      else if(p <= 4){ for(let i=1;i<=5;i++) nums += mkNum(i, i===p); nums += ell() + mkNum(totalPages); }
-      else if(p >= totalPages - 3){ nums += mkNum(1) + ell(); for(let i=totalPages-4;i<=totalPages;i++) nums += mkNum(i, i===p); }
-      else { nums += mkNum(1) + ell() + mkNum(p-1) + mkNum(p,true) + mkNum(p+1) + ell() + mkNum(totalPages); }
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) nums += mkNum(i, i === p);
+      } else if (p <= 4) {
+        for (let i = 1; i <= 5; i++) nums += mkNum(i, i === p);
+        nums += ell() + mkNum(totalPages);
+      } else if (p >= totalPages - 3) {
+        nums += mkNum(1) + ell();
+        for (let i = totalPages - 4; i <= totalPages; i++) nums += mkNum(i, i === p);
+      } else {
+        nums += mkNum(1) + ell() + mkNum(p - 1) + mkNum(p, true) + mkNum(p + 1) + ell() + mkNum(totalPages);
+      }
 
       pager.innerHTML =
-        `<button class="prev" data-goto="${p-1}" ${p===1?'disabled':''} aria-label="Previous page"><i class="fa-solid fa-angle-left" aria-hidden="true"></i></button>` +
+        `<button class="prev" data-goto="${p - 1}" ${p === 1 ? 'disabled' : ''} aria-label="Previous page"><i class="fa-solid fa-angle-left" aria-hidden="true"></i></button>` +
         nums +
-        `<button class="next" data-goto="${p+1}" ${p===totalPages?'disabled':''} aria-label="Next page"><i class="fa-solid fa-angle-right" aria-hidden="true"></i></button>`;
+        `<button class="next" data-goto="${p + 1}" ${p === totalPages ? 'disabled' : ''} aria-label="Next page"><i class="fa-solid fa-angle-right" aria-hidden="true"></i></button>`;
 
-      $$('.pager [data-goto]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
+      $$('.pager [data-goto]').forEach(btn => {
+        btn.addEventListener('click', () => {
           const next = parseInt(btn.getAttribute('data-goto'), 10);
-          if(Number.isFinite(next)){
+          if (Number.isFinite(next)) {
             state.page = Math.max(1, Math.min(totalPages, next));
-            render({animate:true, announce:true});
-            $('#hc-blog .wrap')?.scrollIntoView({ behavior:'smooth', block:'start' });
+            render({ animate: true, announce: true });
+            $('#hc-blog .wrap')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
       });
     }
 
-    function swapGridContent(nodes, totalPages, announce){
-      while(grid.firstChild) grid.removeChild(grid.firstChild);
-      nodes.forEach(n => grid.appendChild(n));
+    function swapGridContent(nodes, totalPages, filtered, announce) {
+      while (grid.firstChild) grid.removeChild(grid.firstChild);
+
+      if (nodes.length === 0) {
+        const emptyState = document.createElement('div');
+        emptyState.className = 'empty-state';
+        emptyState.innerHTML = `
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <p><strong>No posts found</strong></p>
+          <p>Try a different category filter</p>
+        `;
+        grid.appendChild(emptyState);
+      } else {
+        nodes.forEach(n => grid.appendChild(n));
+      }
+
       buildPager(totalPages);
-      if(announce){
-        grid.setAttribute('aria-live','polite');
-        grid.setAttribute('aria-busy','false');
+      updateResultsInfo(filtered, allPosts.length);
+
+      if (announce) {
+        grid.setAttribute('aria-live', 'polite');
+        grid.setAttribute('aria-busy', 'false');
       }
     }
 
-    function render({animate=false, announce=false} = {}){
+    function render({ animate = false, announce = false } = {}) {
       const filtered = getFiltered();
       const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
       state.page = Math.min(Math.max(1, state.page), totalPages);
 
-      // URL sync
       const params = new URLSearchParams(location.search);
       state.filter === 'all' ? params.delete('cat') : params.set('cat', state.filter);
       state.page > 1 ? params.set('page', state.page) : params.delete('page');
-      history.replaceState({}, '', location.pathname + (params.toString()?('?'+params.toString()):''));
+      history.replaceState({}, '', location.pathname + (params.toString() ? ('?' + params.toString()) : ''));
 
       const start = (state.page - 1) * state.pageSize;
-      const end   = Math.min(start + state.pageSize, filtered.length);
+      const end = Math.min(start + state.pageSize, filtered.length);
       const nodes = filtered.slice(start, end).map(p => p.el);
 
-      const doSwap = () => swapGridContent(nodes, totalPages, announce);
+      const doSwap = () => swapGridContent(nodes, totalPages, filtered, announce);
 
-      if(announce){ grid.setAttribute('aria-busy','true'); }
+      if (announce) grid.setAttribute('aria-busy', 'true');
 
-      if(animate && !prefersReduced){
-        if(supportsVT){ document.startViewTransition(doSwap); }
-        else{
+      if (animate && !prefersReduced) {
+        if (supportsVT) {
+          document.startViewTransition(doSwap);
+        } else {
           grid.classList.add('turning-out');
-          setTimeout(()=>{
+          setTimeout(() => {
             doSwap();
             grid.classList.remove('turning-out');
             grid.classList.add('turning-in');
-            setTimeout(()=>grid.classList.remove('turning-in'), 260);
+            setTimeout(() => grid.classList.remove('turning-in'), 260);
           }, 180);
         }
-      }else{
+      } else {
         doSwap();
       }
     }
 
-    // Modal Reader
     const dlg = $('#hc-reader');
     const iframe = $('#hc-reader-frame');
     const titleEl = $('#hc-reader-title');
@@ -491,10 +558,11 @@
     const closeBtn = $('.reader-close', dlg);
     const dialogSupported = 'HTMLDialogElement' in window;
 
-    grid.addEventListener('click', (e)=>{
-      const a = e.target.closest('a.stretch'); if(!a) return;
+    grid.addEventListener('click', (e) => {
+      const a = e.target.closest('a.stretch');
+      if (!a) return;
       const url = a.getAttribute('data-url') || a.getAttribute('href');
-      if(!a.hasAttribute('data-modal') || !dialogSupported) return;
+      if (!a.hasAttribute('data-modal') || !dialogSupported) return;
       e.preventDefault();
 
       const t = a.parentElement?.querySelector('h3')?.textContent?.trim() || 'Post';
@@ -502,25 +570,21 @@
       openBtn.href = url;
       iframe.setAttribute('title', t);
       iframe.src = url;
-      if(!dlg.open) dlg.showModal();
+      if (!dlg.open) dlg.showModal();
     });
 
-    closeBtn?.addEventListener('click', ()=> dlg.close());
-    dlg?.addEventListener('cancel', (ev)=>{ ev.preventDefault(); dlg.close(); });
+    closeBtn?.addEventListener('click', () => dlg.close());
+    dlg?.addEventListener('cancel', (ev) => { ev.preventDefault(); dlg.close(); });
+    dlg?.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
 
-    // Optional scroll-driven micro-reveal
-    if (CSS.supports('animation-timeline: scroll()')) {
-      const style = document.createElement('style');
-      style.textContent = `
-        @scroll-timeline reveal-timeline { source: auto; orientation: block; }
-        .card{ animation: reveal 1s both; animation-timeline: reveal-timeline; animation-range: entry 0% cover 30%; }
-        @keyframes reveal{ from{ opacity:0; transform: translateY(12px); } to{ opacity:1; transform:none; } }
-        @media (prefers-reduced-motion: reduce){ .card{ animation:none !important } }
-      `;
-      document.head.appendChild(style);
-    }
+    pager.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); $('.prev', pager)?.click(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); $('.next', pager)?.click(); }
+      if (e.key === 'Home') { e.preventDefault(); $('[data-goto="1"]', pager)?.click(); }
+      const lastNum = pager.querySelector('.num:last-of-type')?.textContent;
+      if (e.key === 'End' && lastNum) { e.preventDefault(); $(`[data-goto="${lastNum}"]`, pager)?.click(); }
+    });
 
-    // Boot
     await loadPosts();
     syncChips();
     render();
