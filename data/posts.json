@@ -2,7 +2,7 @@
   {
     "id": "web-is-home",
     "title": "Because for Some of Us, the Web Is Home",
-    "url": "/posts/web-is-home.html",
+    "url": "posts/web-is-home.html",
     "date": "2025-10-22",
     "author": "Heather Cooper",
     "cats": ["opinion", "web-design"],
@@ -13,7 +13,7 @@
   {
     "id": "case-booking-flow",
     "title": "Case Study: Booking Flow Drop-Off −35%",
-    "url": "/posts/case-booking-flow.html",
+    "url": "posts/case-booking-flow.html",
     "date": "2025-10-25",
     "author": "Heather Cooper",
     "cats": ["case-studies", "performance"],
@@ -24,7 +24,7 @@
   {
     "id": "glassmorphism-lab",
     "title": "Glassmorphism Lab: Real Panes, Real Blur",
-    "url": "/posts/glassmorphism-lab.html",
+    "url": "posts/glassmorphism-lab.html",
     "date": "2025-10-24",
     "author": "Heather Cooper",
     "cats": ["webucation", "front-end", "css"],
@@ -35,7 +35,7 @@
   {
     "id": "case-restaurant",
     "title": "Case Study: Restaurant Rebrand & Digital Refresh",
-    "url": "/posts/case-restaurant.html",
+    "url": "posts/case-restaurant.html",
     "date": "2025-10-21",
     "author": "Heather Cooper",
     "cats": ["case-studies", "web-design"],
@@ -46,7 +46,7 @@
   {
     "id": "future-of-ai-ui",
     "title": "Opinion: Why AI Needs Better UI Ethics",
-    "url": "/posts/future-of-ai-ui.html",
+    "url": "posts/future-of-ai-ui.html",
     "date": "2025-10-19",
     "author": "Heather Cooper",
     "cats": ["opinion", "tech"],
@@ -57,7 +57,7 @@
   {
     "id": "css-view-transitions",
     "title": "View Transitions API: Polish Without Plugins",
-    "url": "/posts/css-view-transitions.html",
+    "url": "posts/css-view-transitions.html",
     "date": "2025-10-17",
     "author": "Heather Cooper",
     "cats": ["webucation", "front-end", "css"],
@@ -68,7 +68,7 @@
   {
     "id": "a11y-focus-rings",
     "title": "Accessible Focus Rings That Actually Look Good",
-    "url": "/posts/a11y-focus-rings.html",
+    "url": "posts/a11y-focus-rings.html",
     "date": "2025-10-14",
     "author": "Heather Cooper",
     "cats": ["webucation", "accessibility", "front-end"],
@@ -79,7 +79,7 @@
   {
     "id": "case-performance",
     "title": "Case Study: Cutting Load Times in Half with CSS Optimizations",
-    "url": "/posts/case-performance.html",
+    "url": "posts/case-performance.html",
     "date": "2025-10-10",
     "author": "Heather Cooper",
     "cats": ["case-studies", "performance"],
@@ -90,7 +90,7 @@
   {
     "id": "opinion-dark-mode",
     "title": "Dark Mode Is Not a Design Trend — It's a UX Decision",
-    "url": "/posts/opinion-dark-mode.html",
+    "url": "posts/opinion-dark-mode.html",
     "date": "2025-10-08",
     "author": "Heather Cooper",
     "cats": ["opinion", "web-design"],
@@ -101,7 +101,7 @@
   {
     "id": "case-accessibility-overhaul",
     "title": "Case Study: Accessibility Overhaul for Local Non-Profit",
-    "url": "/posts/case-accessibility-overhaul.html",
+    "url": "posts/case-accessibility-overhaul.html",
     "date": "2025-10-06",
     "author": "Heather Cooper",
     "cats": ["case-studies", "accessibility"],
@@ -112,7 +112,7 @@
   {
     "id": "js-modules-2025",
     "title": "Modern JS Modules in 2025: Import Smarter, Ship Faster",
-    "url": "/posts/js-modules-2025.html",
+    "url": "posts/js-modules-2025.html",
     "date": "2025-10-03",
     "author": "Heather Cooper",
     "cats": ["webucation", "tech", "front-end"],
@@ -123,7 +123,7 @@
   {
     "id": "css-grid-level3",
     "title": "CSS Grid Level 3 Has Landed: Masonry for Everyone",
-    "url": "/posts/css-grid-level3.html",
+    "url": "posts/css-grid-level3.html",
     "date": "2025-10-01",
     "author": "Heather Cooper",
     "cats": ["webucation", "front-end", "css"],
