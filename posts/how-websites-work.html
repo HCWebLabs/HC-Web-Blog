@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>"How Do You Do That?!" A Guide to How Websites Work | HC Web Labs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The question I get asked most often isn't about pricing or timelines — it's 'How do you actually make a website?' Here's the answer, websites demystified.">
+  <meta name="color-scheme" content="light">
+  <meta name="author" content="Heather Cooper">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="How Do You Do That?! A Guide to How Websites Work">
+  <meta property="og:description" content="The question I get asked most often isn't about pricing — it's 'How do you actually make a website?' Here's the answer.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hcweblabs.com/blog/posts/how-websites-work.html">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Rajdhani:wght@400;500;600;700&family=Sarpanch:wght@700;800&family=Saira:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* =========================
+       HC WEB LABS BRAND TOKENS
+       ========================= */
+    :root {
+      /* Typography */
+      --font-display: 'Orbitron', system-ui, sans-serif;
+      --font-headline: 'Sarpanch', system-ui, sans-serif;
+      --font-ui: 'Saira', system-ui, sans-serif;
+      --font-body: 'Rajdhani', system-ui, sans-serif;
+
+      /* Font sizes - Fluid */
+      --font-size-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8125rem);
+      --font-size-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --font-size-base: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+      --font-size-md: clamp(0.9375rem, 0.85rem + 0.4375vw, 1.125rem);
+      --font-size-lg: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+      --font-size-xl: clamp(1.125rem, 0.95rem + 0.875vw, 1.5rem);
+      --font-size-2xl: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+
+      /* Spacing - Fluid */
+      --space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem);
+      --space-2: clamp(0.375rem, 0.3rem + 0.375vw, 0.5rem);
+      --space-3: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+      --space-4: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+      --space-5: clamp(1rem, 0.8rem + 1vw, 1.25rem);
+      --space-6: clamp(1.25rem, 1rem + 1.25vw, 1.5rem);
+      --space-8: clamp(1.75rem, 1.4rem + 1.75vw, 2rem);
+      --space-10: clamp(2rem, 1.5rem + 2.5vw, 2.5rem);
+
+      /* Colors - Dark */
+      --color-bg-dark: #050510;
+      --color-bg-mid: #1a0b2e;
+      --color-bg-light: #2d1b4e;
+
+      --color-text: #ffffff;
+      --color-text-light: rgba(255, 255, 255, 0.85);
+      --color-text-muted: rgba(255, 255, 255, 0.65);
+
+      /* Colors - Light Theme */
+      --color-light-bg: #f5f6fa;
+      --color-light-text: #1a1a28;
+      --color-light-text-muted: #4a4a5e;
+      --color-light-border: rgba(0, 0, 0, 0.08);
+
+      --color-cyan: #00ffff;
+      --color-cyan-dark: #00a0a0;
+      --color-purple: #9d4edd;
+      --color-green: #39ff14;
+
+      --color-border: rgba(0, 255, 255, 0.2);
+      --color-border-hover: rgba(0, 255, 255, 0.4);
+
+      /* Effects */
+      --radius: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-full: 9999px;
+
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* =========================
+       RESET & BASE
+       ========================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--color-light-text);
+      background: var(--color-light-bg);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* =========================
+       REDUCED MOTION
+       ========================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* =========================
+       CUSTOM SCROLLBAR
+       ========================= */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(157, 78, 221, 0.5) var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(0, 255, 255, 0.5) 0%, rgba(157, 78, 221, 0.5) 100%);
+      border-radius: 10px;
+      border: 2px solid var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(0, 255, 255, 0.7) 0%, rgba(157, 78, 221, 0.7) 100%);
+    }
+
+    /* =========================
+       POST CONTAINER
+       ========================= */
+    .post {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: var(--space-6);
+    }
+
+    /* =========================
+       BACK LINK
+       ========================= */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-light-text-muted);
+      margin-bottom: var(--space-6);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--color-purple);
+      transform: translateX(-4px);
+    }
+
+    /* Hide back link when in iframe (modal preview) */
+    .in-iframe .back-link {
+      display: none;
+    }
+
+    /* =========================
+       HEADER
+       ========================= */
+    .post-header {
+      margin-bottom: var(--space-8);
+      padding-bottom: var(--space-5);
+      border-bottom: 1px solid var(--color-light-border);
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-display);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-purple);
+      margin-bottom: var(--space-3);
+    }
+
+    .post-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.75rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--color-light-text);
+      margin-bottom: var(--space-4);
+      text-wrap: balance;
+      letter-spacing: 0.5px;
+    }
+
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-4);
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-light-text-muted);
+    }
+
+    .post-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .post-meta i {
+      opacity: 0.7;
+    }
+
+    .meta-dot {
+      color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* =========================
+       ARTICLE CONTENT
+       ========================= */
+    .post-content {
+      font-size: var(--font-size-md);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--color-light-text-muted);
+    }
+
+    .post-content p {
+      margin-block: 1.4em;
+    }
+
+    .post-content p:first-child {
+      margin-top: 0;
+    }
+
+    .post-content em {
+      color: var(--color-light-text);
+      font-style: italic;
+    }
+
+    .post-content strong {
+      color: var(--color-light-text);
+      font-weight: 700;
+    }
+
+    .post-content a {
+      color: var(--color-purple);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: all var(--transition);
+    }
+
+    .post-content a:hover {
+      color: var(--color-cyan-dark);
+    }
+
+    /* Headings in content */
+    .post-content h2 {
+      font-family: var(--font-display);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-light-text);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+      letter-spacing: 0.5px;
+    }
+
+    .post-content h3 {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+      color: var(--color-light-text);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-3);
+    }
+
+    /* Callout / Blockquote */
+    .callout {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      border-left: 3px solid var(--color-purple);
+      background: rgba(157, 78, 221, 0.08);
+      border-radius: var(--radius);
+      font-size: var(--font-size-md);
+      font-style: italic;
+      color: var(--color-light-text);
+    }
+
+    /* Tip box */
+    .tip-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      border-left: 3px solid var(--color-cyan-dark);
+      background: rgba(0, 255, 255, 0.06);
+      border-radius: var(--radius);
+    }
+
+    .tip-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-cyan-dark);
+      margin-bottom: var(--space-2);
+    }
+
+    /* Timeline box */
+    .timeline-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      border-left: 3px solid var(--color-purple);
+      background: rgba(157, 78, 221, 0.06);
+      border-radius: var(--radius);
+    }
+
+    .timeline-box > strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-purple);
+      margin-bottom: var(--space-3);
+    }
+
+    .timeline-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline-box li {
+      margin-bottom: var(--space-2);
+    }
+
+    .timeline-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-box .year {
+      font-weight: 700;
+      color: var(--color-purple);
+    }
+
+    /* Analogy box */
+    .analogy-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      background: rgba(5, 5, 16, 0.92);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: var(--radius);
+      color: var(--color-text);
+    }
+
+    .analogy-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-cyan);
+      margin-bottom: var(--space-3);
+    }
+
+    .analogy-box p {
+      margin: 0;
+      color: var(--color-text-light);
+    }
+
+    .analogy-box ul {
+      list-style: none;
+      padding: 0;
+      margin: var(--space-3) 0 0;
+    }
+
+    .analogy-box li {
+      margin-bottom: var(--space-2);
+      color: var(--color-text-light);
+    }
+
+    .analogy-box li span {
+      color: var(--color-cyan);
+      font-weight: 600;
+    }
+
+    /* Summary box */
+    .summary-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      background: rgba(57, 255, 20, 0.08);
+      border: 1px solid rgba(57, 255, 20, 0.2);
+      border-radius: var(--radius);
+    }
+
+    .summary-box > strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #2dd410;
+      margin-bottom: var(--space-3);
+    }
+
+    .summary-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .summary-box li {
+      margin-bottom: var(--space-2);
+    }
+
+    .summary-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .summary-box li strong {
+      color: #2dd410;
+      font-weight: 700;
+    }
+
+    /* Lists */
+    .post-content ul,
+    .post-content ol {
+      margin: var(--space-4) 0;
+      padding-left: var(--space-6);
+    }
+
+    .post-content li {
+      margin-bottom: var(--space-2);
+    }
+
+    .post-content li::marker {
+      color: var(--color-purple);
+    }
+
+    /* =========================
+       POST FOOTER
+       ========================= */
+    .post-footer {
+      margin-top: var(--space-8);
+      padding-top: var(--space-5);
+      border-top: 1px solid var(--color-light-border);
+      text-align: center;
+    }
+
+    .post-footer-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-2);
+      list-style: none;
+    }
+
+    .tag {
+      font-family: var(--font-display);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25em 0.75em;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: var(--radius-full);
+      color: var(--color-cyan-dark);
+    }
+
+    /* Share Links */
+    .share {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+
+    .share-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-ui);
+      font-size: var(--font-size-xs);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: var(--space-2) var(--space-3);
+      min-height: 36px;
+      color: var(--color-light-text-muted);
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--color-light-border);
+      border-radius: var(--radius-full);
+      transition: all var(--transition);
+    }
+
+    .share-link:hover {
+      color: var(--color-purple);
+      border-color: rgba(157, 78, 221, 0.3);
+      background: rgba(157, 78, 221, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Credits */
+    .credits {
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
+      border-top: 1px dashed var(--color-light-border);
+      font-size: var(--font-size-sm);
+      color: var(--color-light-text-muted);
+      line-height: 1.6;
+    }
+
+    .credits a {
+      color: var(--color-purple);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .credits a:hover {
+      color: var(--color-cyan-dark);
+    }
+
+    /* =========================
+       FOCUS STYLES
+       ========================= */
+    :focus-visible {
+      outline: 2px solid var(--color-purple);
+      outline-offset: 2px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    /* =========================
+       RESPONSIVE
+       ========================= */
+    @media (min-width: 481px) {
+      .post {
+        padding: var(--space-8);
+      }
+    }
+
+    @media (min-width: 769px) {
+      .post {
+        padding: var(--space-10);
+      }
+    }
+
+    /* =========================
+       HIGH CONTRAST / FORCED COLORS
+       ========================= */
+    @media (forced-colors: active) {
+      .callout,
+      .tip-box,
+      .timeline-box,
+      .analogy-box,
+      .summary-box {
+        border: 2px solid CanvasText;
+      }
+      
+      .tag {
+        border: 1px solid CanvasText;
+      }
+    }
+  </style>
+
+  <script>
+    // Hide back link when viewed in iframe (modal preview)
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('in-iframe');
+    }
+  </script>
+</head>
+<body>
+  <article class="post">
+    <a href="../index.html" class="back-link" aria-label="Back to blog">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      Back to Blog
+    </a>
+
+    <header class="post-header">
+      <div class="eyebrow">
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+        HC Web Labs · Blog
+      </div>
+
+      <h1 class="post-title">"How Do You Do That?!" A Guide to How Websites Work</h1>
+
+      <div class="post-meta">
+        <span>
+          <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+          Jan 20, 2026
+        </span>
+        <span class="meta-dot" aria-hidden="true">•</span>
+        <span>
+          <i class="fa-regular fa-user" aria-hidden="true"></i>
+          Heather Cooper
+        </span>
+        <span class="meta-dot" aria-hidden="true">•</span>
+        <span id="read-time">
+          <i class="fa-regular fa-clock" aria-hidden="true"></i>
+          —
+        </span>
+      </div>
+    </header>
+
+    <div class="post-content">
+      <p>When I tell people I build websites by hand, I usually get one of two reactions: a polite nod (followed by a quick subject change), or wide eyes and the question that inspired this post—<strong>"How do you actually DO that?!"</strong></p>
+
+      <p>It's a fair question. Most people use websites every single day without ever thinking about what's happening behind the scenes. And honestly? That's how it should be. A good website just <em>works</em>. You don't need to understand the engine to drive the car.</p>
+
+      <p>But if you've ever been curious—or if you're a small business owner trying to understand what you're paying for when you hire a web developer—this one's for you.</p>
+
+      <h2>The Internet: A Brief History</h2>
+
+      <p>Before we get into the technical stuff, let's appreciate just how <em>new</em> all of this is—and how far we've come in such a short time.</p>
+
+      <p>The internet as we know it started on October 29, 1969—the same year humans first walked on the moon. It was called ARPANET, a U.S. Department of Defense project designed to let computers at different universities share information.</p>
+
+      <p>The very first message ever sent over this network? The word "LOGIN." Except the system crashed after just two letters. So technically, <strong>the first internet message was just "LO"</strong>—as in "Lo and behold." They got the full login working about an hour later.</p>
+
+      <p>For the next two decades, the internet was mostly used by researchers, scientists, and the military. It wasn't until 1989 that a British scientist named <strong>Tim Berners-Lee</strong> proposed what would become the World Wide Web—the system of websites, links, and browsers we use today.</p>
+
+      <p>He published the very first website on August 6, 1991. It's <em>still online</em> at <a href="http://info.cern.ch" target="_blank" rel="noopener">info.cern.ch</a>. And then he did something remarkable: on April 30, 1993, CERN released the web's underlying code to the public domain. No patents. No royalties. Free for everyone.</p>
+
+      <p>As Berners-Lee later said: <em>"Had the technology been proprietary, and in my total control, it would probably not have taken off. You can't propose that something be a universal space and at the same time keep control of it."</em></p>
+
+      <div class="timeline-box">
+        <strong>How Fast Things Changed</strong>
+        <ul>
+          <li><span class="year">1991:</span> The first website goes live. About 4.3 million people are online.</li>
+          <li><span class="year">1995:</span> Around 16 million internet users. About 23,500 websites exist.</li>
+          <li><span class="year">2000:</span> 400 million users. The dot-com bubble bursts.</li>
+          <li><span class="year">2005:</span> 1 billion users. YouTube launches.</li>
+          <li><span class="year">2014:</span> The web hits 1 billion websites for the first time.</li>
+          <li><span class="year">2025:</span> Over 5.5 billion users (68% of humanity). 1.3+ billion websites exist.</li>
+        </ul>
+      </div>
+
+      <p>Let that sink in. The entire World Wide Web is only about 34 years old. In a single generation, we went from "LO" crashing a computer to 5.5 billion people connected across the globe. Your smartphone has more computing power than the machines that sent astronauts to the moon—and you use it to check the weather and watch cat videos.</p>
+
+      <p>The internet isn't ancient infrastructure like roads or phone lines. It's brand new. And it's still being built—by people like me, writing code one line at a time.</p>
+
+      <h2>Some Perspective: The Web Is Massive</h2>
+
+      <p>As of 2025, there are over <strong>1.3 billion websites</strong> on the internet. That's billion with a B. And roughly 250,000 new websites are created every single day.</p>
+
+      <p>But here's the wild part: only about <strong>15-17% of those websites are actually active</strong> and maintained. The rest are parked domains, abandoned projects, or digital ghost towns. So when you're building a website that actually serves real people and gets updated regularly, you're already ahead of the game.</p>
+
+      <p>Every single one of those websites—from Google to your local pizza shop's menu page—is built with the same basic ingredients. Let me introduce you to the three amigos of web development.</p>
+
+      <h2>The Three Languages of Every Website</h2>
+
+      <p>Every website you've ever visited is made up of three core technologies: <strong>HTML</strong>, <strong>CSS</strong>, and <strong>JavaScript</strong>. That's it. Whether it's Facebook, Amazon, or the blog you're reading right now—same three building blocks.</p>
+
+      <p>Let me break them down in a way that actually makes sense.</p>
+
+      <div class="analogy-box">
+        <strong>Think of a Website Like a Human Body</strong>
+        <ul>
+          <li><span>HTML</span> is the skeleton — the bones and structure that hold everything together and give it shape.</li>
+          <li><span>CSS</span> is the skin and appearance — your hair color, eye color, freckles, all the visual features that make you <em>you</em>.</li>
+          <li><span>JavaScript</span> is the muscles and brain — the parts that make the body actually move, react, and do things.</li>
+        </ul>
+      </div>
+
+      <h3>HTML: The Skeleton</h3>
+
+      <p>HTML stands for <strong>HyperText Markup Language</strong>. Just like your skeleton gives your body its shape and holds everything in place, HTML gives a website its structure. It defines what goes where—headings, paragraphs, images, buttons, links.</p>
+
+      <p>When I write HTML, I use "tags" (words wrapped in angle brackets) to tell the browser what each piece of content is. A heading is marked as a heading. A paragraph is marked as a paragraph. Simple as that.</p>
+
+      <h3>CSS: The Skin</h3>
+
+      <p>CSS stands for <strong>Cascading Style Sheets</strong>. If HTML is the skeleton, CSS is everything you actually <em>see</em>—the skin, the hair color, the freckles. It controls colors, fonts, spacing, layout—all the visual stuff.</p>
+
+      <p>With CSS, I can say things like "make this heading teal, this specific size, and centered on the page." CSS is where I spend a <em>lot</em> of my time—getting a website to look right on phones, tablets, AND desktops is all CSS work.</p>
+
+      <h3>JavaScript: The Muscles and Brain</h3>
+
+      <p>JavaScript (often shortened to JS) is where things get interactive. Think of it as the muscles and brain—the parts that let your body move, react, and respond to the world.</p>
+
+      <p>JS handles things like showing a menu when you click a button, validating a form before you submit it, animating elements as you scroll, and loading new content without refreshing the page. Basically, anything that "reacts" to what you do.</p>
+
+      <div class="summary-box">
+        <strong>The Short Version</strong>
+        <ul>
+          <li><strong>HTML</strong> = The skeleton (structure)</li>
+          <li><strong>CSS</strong> = The skin (appearance)</li>
+          <li><strong>JavaScript</strong> = The muscles and brain (movement and behavior)</li>
+        </ul>
+      </div>
+
+      <h2>So What Do I Actually Do All Day?</h2>
+
+      <p>When I build a website, I'm writing these three languages—by hand, in a code editor—to create something custom for each client. I'm not dragging and dropping boxes in a template builder. I'm typing out instructions that tell browsers exactly what to display and how.</p>
+
+      <p>A typical project might involve:</p>
+
+      <ul>
+        <li>Writing semantic HTML that's organized and accessible</li>
+        <li>Creating CSS that looks great on every screen size (mobile-first!)</li>
+        <li>Adding interactive features like menus and forms</li>
+        <li>Optimizing images so pages load fast</li>
+        <li>Testing on different browsers and devices</li>
+        <li>Making sure the site works for people using screen readers</li>
+      </ul>
+
+      <p>It's part puzzle, part art, part obsessive attention to detail. And honestly? I love it.</p>
+
+      <h2>Why Does This Matter for Your Business?</h2>
+
+      <p>You might be thinking: "Cool, but why should I care how the sausage gets made?"</p>
+
+      <p>Fair. But here's why it matters:</p>
+
+      <p><strong>Hand-coded websites are faster.</strong> Template builders and page builders add a ton of extra code you don't need. That slows things down. My sites are lean because I only write what's necessary.</p>
+
+      <p><strong>Hand-coded websites are more accessible.</strong> When I write the HTML myself, I can make sure it's structured properly for screen readers and keyboard navigation. Many template sites fail basic accessibility tests.</p>
+
+      <p><strong>You actually own it.</strong> When your site is custom code, you're not locked into a platform. You can take your files anywhere, host them anywhere, and you're not paying monthly fees to a website builder forever.</p>
+
+      <p><strong>It's built for YOU.</strong> Not squeezed into a template that 10,000 other businesses are also using. Your site reflects your brand, not a theme designer's idea of what looks professional.</p>
+
+      <h2>The Magic Is in the Simplicity</h2>
+
+      <p>The web was designed to be open and accessible. Tim Berners-Lee didn't patent his invention—he gave it away so anyone could participate. And at its core, the technology is still beautifully simple: text files that browsers know how to read.</p>
+
+      <p>When I build your website, I'm not using magic. I'm using the same fundamental tools that power the entire internet—just applied with care, intention, and a lot of practice.</p>
+
+      <div class="callout">
+        So the next time someone asks me "How do you do that?"—I'll probably just send them this post.
+      </div>
+    </div>
+
+    <footer class="post-footer">
+      <div class="post-footer-row">
+        <ul class="tags" aria-label="Tags">
+          <li class="tag">Webucation</li>
+          <li class="tag">HTML</li>
+          <li class="tag">CSS</li>
+          <li class="tag">JavaScript</li>
+          <li class="tag">Web Design</li>
+        </ul>
+
+        <div class="share" aria-label="Share this post">
+          <a href="#" class="share-link" data-network="x" aria-label="Share on X">
+            <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+            Share
+          </a>
+          <a href="#" class="share-link" data-network="facebook" aria-label="Share on Facebook">
+            <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+            Share
+          </a>
+          <a href="mailto:?subject=How%20Websites%20Work&body=https://hcweblabs.com/blog/posts/how-websites-work.html" class="share-link" aria-label="Share via email">
+            <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+            Email
+          </a>
+        </div>
+      </div>
+
+      <div class="credits">
+        <strong>Credits & Notes:</strong> Written by Heather Cooper. Historical data sourced from CERN, UCLA's Internet history archives, HISTORY.com, and Siteefy/Netcraft web statistics. The first website is still live at <a href="http://info.cern.ch" target="_blank" rel="noopener">info.cern.ch</a>. Want to collaborate? <a href="mailto:HCWebLabs@gmail.com">HCWebLabs@gmail.com</a>
+      </div>
+    </footer>
+  </article>
+
+  <script>
+    // Reading time calculation
+    (function() {
+      const content = document.querySelector('.post-content');
+      const output = document.getElementById('read-time');
+      if (!content || !output) return;
+
+      const text = content.textContent || '';
+      const words = text.trim().split(/\s+/).filter(Boolean).length;
+      const mins = Math.max(1, Math.round(words / 200));
+      output.innerHTML = `<i class="fa-regular fa-clock" aria-hidden="true"></i> ${mins} min read`;
+    })();
+
+    // Share link handlers
+    document.querySelectorAll('.share-link[data-network]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.querySelector('.post-title')?.textContent || '');
+        let shareUrl = '';
+
+        switch (link.dataset.network) {
+          case 'x':
+            shareUrl = `https://x.com/intent/tweet?url=${url}&text=${title}`;
+            break;
+          case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+        }
+
+        if (shareUrl) {
+          window.open(shareUrl, '_blank', 'noopener,noreferrer,width=640,height=520');
+        }
+      });
+    });
+  </script>
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://hcweblabs.com/blog/posts/how-websites-work.html"
+    },
+    "headline": "How Do You Do That?! A Guide to How Websites Work",
+    "datePublished": "2026-01-20",
+    "dateModified": "2026-01-20",
+    "author": {
+      "@type": "Person",
+      "name": "Heather Cooper",
+      "url": "https://hcweblabs.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "HC Web Labs",
+      "url": "https://hcweblabs.com"
+    },
+    "description": "The question I get asked most often isn't about pricing or timelines — it's 'How do you actually make a website?' Here's the answer, websites demystified.",
+    "keywords": "web development, HTML, CSS, JavaScript, how websites work, internet history, Tim Berners-Lee",
+    "inLanguage": "en"
+  }
+  </script>
+</body>
+</html>

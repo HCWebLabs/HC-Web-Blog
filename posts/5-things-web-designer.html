@@ -2,11 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Because for Some of Us, the Web Isn't Just Technology — It's Home | HC Web Labs</title>
+  <title>5 Things Your Web Designer Should Be Doing (But Probably Isn't) | HC Web Labs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A personal reflection on how the internet transformed a small, quiet world into a place of connection — and why HC Web Labs builds websites that feel like home.">
-  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Not all web designers are created equal. Here's what separates the pros from the 'good enough' crowd — and what to ask before you hire.">
+  <meta name="color-scheme" content="light">
   <meta name="author" content="Heather Cooper">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="5 Things Your Web Designer Should Be Doing (But Probably Isn't)">
+  <meta property="og:description" content="Not all web designers are created equal. Here's what separates the pros from the 'good enough' crowd.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hcweblabs.com/blog/posts/5-things-web-designer.html">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -284,6 +290,26 @@
       color: var(--color-cyan-dark);
     }
 
+    /* Headings in content */
+    .post-content h2 {
+      font-family: var(--font-display);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-light-text);
+      margin-top: var(--space-8);
+      margin-bottom: var(--space-4);
+      letter-spacing: 0.5px;
+    }
+
+    .post-content h3 {
+      font-family: var(--font-ui);
+      font-size: var(--font-size-md);
+      font-weight: 600;
+      color: var(--color-light-text);
+      margin-top: var(--space-6);
+      margin-bottom: var(--space-3);
+    }
+
     /* Callout / Blockquote */
     .callout {
       margin: var(--space-6) 0;
@@ -291,9 +317,64 @@
       border-left: 3px solid var(--color-purple);
       background: rgba(157, 78, 221, 0.08);
       border-radius: var(--radius);
-      font-size: var(--font-size-lg);
+      font-size: var(--font-size-md);
       font-style: italic;
       color: var(--color-light-text);
+    }
+
+    /* Tip box */
+    .tip-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      border-left: 3px solid var(--color-cyan-dark);
+      background: rgba(0, 255, 255, 0.06);
+      border-radius: var(--radius);
+    }
+
+    .tip-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-cyan-dark);
+      margin-bottom: var(--space-2);
+    }
+
+    /* Warning box */
+    .warning-box {
+      margin: var(--space-6) 0;
+      padding: var(--space-4) var(--space-5);
+      border-left: 3px solid #e74c3c;
+      background: rgba(231, 76, 60, 0.06);
+      border-radius: var(--radius);
+    }
+
+    .warning-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #c0392b;
+      margin-bottom: var(--space-2);
+    }
+
+    /* Lists */
+    .post-content ul,
+    .post-content ol {
+      margin: var(--space-4) 0;
+      padding-left: var(--space-6);
+    }
+
+    .post-content li {
+      margin-bottom: var(--space-2);
+    }
+
+    .post-content li::marker {
+      color: var(--color-purple);
     }
 
     /* =========================
@@ -404,54 +485,60 @@
     /* =========================
        RESPONSIVE
        ========================= */
-    @media (max-width: 520px) {
-      .post-footer-row {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (min-width: 481px) {
+      .post {
+        padding: var(--space-8);
+      }
+    }
+
+    @media (min-width: 769px) {
+      .post {
+        padding: var(--space-10);
       }
     }
 
     /* =========================
-       FORCED COLORS (a11y)
+       HIGH CONTRAST / FORCED COLORS
        ========================= */
     @media (forced-colors: active) {
-      body::before {
-        display: none;
+      .callout,
+      .tip-box,
+      .warning-box {
+        border: 2px solid CanvasText;
       }
-
-      .tag,
-      .share-link {
-        border-color: CanvasText;
+      
+      .tag {
+        border: 1px solid CanvasText;
       }
     }
   </style>
-<script>
+
+  <script>
     // Hide back link when viewed in iframe (modal preview)
     if (window.self !== window.top) {
       document.documentElement.classList.add('in-iframe');
     }
   </script>
 </head>
-
 <body>
   <article class="post">
-    <a href="../index.html" class="back-link">
+    <a href="../index.html" class="back-link" aria-label="Back to blog">
       <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
       Back to Blog
     </a>
 
     <header class="post-header">
-      <p class="eyebrow">
+      <div class="eyebrow">
         <i class="fa-solid fa-bolt" aria-hidden="true"></i>
-        HC Web Labs • Blog
-      </p>
+        HC Web Labs · Blog
+      </div>
 
-      <h1 class="post-title">Because for Some of Us, the Web Isn't Just Technology — It's Home</h1>
+      <h1 class="post-title">5 Things Your Web Designer Should Be Doing (But Probably Isn't)</h1>
 
       <div class="post-meta">
         <span>
           <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-          Oct 22, 2025
+          Jan 15, 2026
         </span>
         <span class="meta-dot" aria-hidden="true">•</span>
         <span>
@@ -467,35 +554,116 @@
     </header>
 
     <div class="post-content">
-      <p>I grew up in a very small town — the kind of place where everyone knew everyone, but no one really <em>knew me.</em> My world felt tiny, quiet, and full of corners I didn't fit into.</p>
+      <p>When you hire a web designer, you expect to get a website. That's the baseline. But there's a huge difference between "technically has a website" and "has a website that actually works for your business."</p>
 
-      <p>Then, one day, the internet arrived.<br>
-      It was like someone opened a window, and the world rushed in.</p>
+      <p>A lot of designers stop at "looks nice." They hand you something pretty, collect their payment, and disappear. Meanwhile, you're left wondering why your site isn't showing up on Google, loads slowly, or falls apart on your phone.</p>
 
-      <p>Suddenly, I could talk to people from places I'd never heard of. I could play games, learn, explore, and see art and creativity that didn't exist where I lived. I remember staying up late, just clicking through worlds — talking to strangers who became friends, discovering websites that felt like secret gardens.</p>
+      <p>Here are five things a good web designer should be doing for you—whether you ask for them or not.</p>
 
-      <div class="callout">For the first time, I didn't feel so alone.</div>
+      <h2>1. Asking About Your Business Goals</h2>
 
-      <p>Technology gave me what real life didn't: <strong>connection.</strong> It showed me that imagination could travel through cables — that people could build entire universes out of pixels and code. That realization stayed with me.</p>
+      <p>The first conversation shouldn't be "what colors do you like?" It should be <strong>"what do you want this website to accomplish?"</strong></p>
 
-      <p>Years later, when I discovered web design and front-end development, it felt like coming home. Building websites wasn't just about layouts or buttons — it was about recreating that same sense of belonging and wonder I felt as a kid staring at a glowing screen.</p>
+      <p>Are you trying to get more phone calls? Sell products? Book appointments? Establish credibility? The answer to that question should drive every design decision that follows.</p>
 
-      <p>Now, when I design for others — especially small businesses and creative people — I think about that feeling: how the internet gave me a voice and a place in the world. I want to give that same sense of belonging to others.</p>
+      <p>A designer who jumps straight to fonts and layouts without understanding your goals is designing blind. They might create something beautiful that completely fails to convert visitors into customers.</p>
 
-      <p>Every gradient, every hover effect, every subtle motion I add isn't just decoration. It's a love letter to the world that once reached out and said, <em>"Hey, you belong here too."</em></p>
+      <h2>2. Building for Mobile First</h2>
 
-      <p><strong>HC Web Labs</strong> isn't just a brand for me — it's the continuation of that story. It's how I turn connection into craft.</p>
+      <p>Over 60% of web traffic comes from mobile devices. For local businesses, that number is even higher—people searching "near me" are almost always on their phones. And here's the kicker: <strong>mobile-optimized sites are 67% more likely to rank on Google's first page</strong>.</p>
 
-      <p>Because for some of us, the web isn't just technology — it's <em>home.</em></p>
+      <p>Google completed their switch to mobile-first indexing in July 2024. That means Google looks at your mobile site <em>first</em> when deciding where to rank you—not your desktop version.</p>
+
+      <p>Yet I still see designers who build for desktop first and then "make it responsive" as an afterthought. The result? Cramped layouts, tiny buttons, and frustrated mobile users who leave before they ever contact you.</p>
+
+      <p>A good designer starts with mobile and scales up. Your phone experience shouldn't be a compromise—it should be the priority.</p>
+
+      <h2>3. Optimizing for Speed</h2>
+
+      <p>Your website should load in under 3 seconds. Every second beyond that, you lose visitors. Google has confirmed that page speed directly affects your search rankings through their Core Web Vitals metrics.</p>
+
+      <p>This means your designer should be compressing images, minimizing code bloat, choosing efficient hosting, and testing load times <em>before</em> launch. Not after you complain about it.</p>
+
+      <div class="tip-box">
+        <strong>Quick Test</strong>
+        Run your current website through Google's PageSpeed Insights at <a href="https://pagespeed.web.dev" target="_blank" rel="noopener">pagespeed.web.dev</a>. If your score is below 50, you've got work to do. A well-built site should score 80+.
+      </div>
+
+      <h2>4. Making It Accessible</h2>
+
+      <p>About 1 in 4 adults has some form of disability. That includes vision impairments, hearing loss, motor difficulties, and cognitive differences. If your website isn't accessible to them, you're excluding a quarter of your potential customers.</p>
+
+      <p>But here's what a lot of business owners don't realize: <strong>over 2,000 ADA website lawsuits were filed in just the first half of 2025</strong>—a 37% increase from the year before. Small businesses aren't exempt. In fact, 77% of these lawsuits target companies with under $25 million in revenue. Settlements typically range from $5,000 to $50,000, plus legal fees.</p>
+
+      <p>Accessibility means things like proper color contrast, keyboard navigation, alt text on images, and semantic HTML structure. It's not complicated—but it requires intentionality from day one.</p>
+
+      <div class="warning-box">
+        <strong>Warning</strong>
+        If a designer tells you to use an "accessibility overlay" or widget as your compliance solution, that's a red flag. The FTC fined one of the biggest overlay companies $1 million in 2025 for misleading businesses. Overlays don't fix the underlying code issues—and sites using them actually get sued more often.
+      </div>
+
+      <h2>5. Setting Up Basic SEO</h2>
+
+      <p>I'm not talking about complex SEO strategy here. I'm talking about the basics that every website needs:</p>
+
+      <ul>
+        <li>Proper title tags and meta descriptions on every page</li>
+        <li>Clean URL structures</li>
+        <li>Heading hierarchy (H1, H2, H3) that makes sense</li>
+        <li>Image optimization and alt text</li>
+        <li>Mobile-friendliness and fast loading times</li>
+        <li>Connecting your site to Google Search Console</li>
+      </ul>
+
+      <p>This isn't extra. This is the minimum. A website that isn't set up for SEO is like opening a store with no sign on the door.</p>
+
+      <h2>Red Flags to Watch For</h2>
+
+      <p>Here are some warning signs that your designer might not be doing their job:</p>
+
+      <ul>
+        <li><strong>They don't ask questions.</strong> If they're ready to start designing after a 10-minute conversation, they're not thinking deeply about your needs.</li>
+        <li><strong>They can't explain their process.</strong> A professional should be able to walk you through how they work—from discovery to launch.</li>
+        <li><strong>They only show you desktop mockups.</strong> If mobile isn't part of the conversation from day one, expect problems later.</li>
+        <li><strong>Speed and SEO aren't mentioned.</strong> If you have to bring these up yourself, they're probably not priorities.</li>
+        <li><strong>They disappear after launch.</strong> A good designer provides documentation and support. They don't just hand you the keys and vanish.</li>
+        <li><strong>You don't own your website.</strong> Make sure you own the domain, have hosting access, and receive all files. If they hold any of that hostage, you're trapped.</li>
+      </ul>
+
+      <h2>What to Ask Before You Hire</h2>
+
+      <p>Here are some questions to help you find a designer who actually does the work:</p>
+
+      <ul>
+        <li>"How do you approach mobile design?"</li>
+        <li>"What do you do to optimize site speed?"</li>
+        <li>"Do you build with accessibility in mind?"</li>
+        <li>"What SEO setup is included in your service?"</li>
+        <li>"What happens after launch? Do you provide training or documentation?"</li>
+        <li>"Can I see examples of sites you've built and their performance scores?"</li>
+        <li>"Who owns the domain, hosting, and files when we're done?"</li>
+      </ul>
+
+      <p>The answers will tell you a lot. A good designer will have clear, confident responses. Someone who's winging it will get vague or defensive.</p>
+
+      <h2>The Bottom Line</h2>
+
+      <p>A pretty website that doesn't load fast, show up on Google, work on phones, or serve all your potential customers isn't a good website. It's a liability.</p>
+
+      <p>Design is important. But it's only one piece of the puzzle. Make sure whoever you hire understands the full picture—and delivers on all of it.</p>
+
+      <div class="callout">
+        Looking for a web designer in East Tennessee who actually checks all these boxes? <a href="https://heather-cooper.com">Let's talk.</a>
+      </div>
     </div>
 
     <footer class="post-footer">
       <div class="post-footer-row">
         <ul class="tags" aria-label="Tags">
-          <li class="tag">Personal</li>
           <li class="tag">Web Design</li>
-          <li class="tag">Front-End</li>
-          <li class="tag">HC Web Labs</li>
+          <li class="tag">Small Business</li>
+          <li class="tag">Hiring Tips</li>
+          <li class="tag">Accessibility</li>
         </ul>
 
         <div class="share" aria-label="Share this post">
@@ -507,7 +675,7 @@
             <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
             Share
           </a>
-          <a href="mailto:?subject=Check%20this%20out&body=https://hcweblabs.com/blog/posts/web-is-home.html" class="share-link" aria-label="Share via email">
+          <a href="mailto:?subject=5%20Things%20Your%20Web%20Designer%20Should%20Be%20Doing&body=https://hcweblabs.com/blog/posts/5-things-web-designer.html" class="share-link" aria-label="Share via email">
             <i class="fa-regular fa-envelope" aria-hidden="true"></i>
             Email
           </a>
@@ -515,7 +683,7 @@
       </div>
 
       <div class="credits">
-        <strong>Credits & Notes:</strong> Written by Heather Cooper. If you quote this, please link back to the original post. Want to collaborate? <a href="mailto:HCWebLabs@gmail.com">HCWebLabs@gmail.com</a>
+        <strong>Credits & Notes:</strong> Written by Heather Cooper. Stats sourced from EcomBack's 2025 Mid-Year ADA Website Lawsuit Report, Google Search Central, and Amra & Elma's Mobile-First Indexing Statistics. Want to collaborate? <a href="mailto:HCWebLabs@gmail.com">HCWebLabs@gmail.com</a>
       </div>
     </footer>
   </article>
@@ -564,11 +732,11 @@
     "@type": "BlogPosting",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://hcweblabs.com/blog/posts/web-is-home.html"
+      "@id": "https://hcweblabs.com/blog/posts/5-things-web-designer.html"
     },
-    "headline": "Because for Some of Us, the Web Isn't Just Technology — It's Home",
-    "datePublished": "2025-10-22",
-    "dateModified": "2025-10-22",
+    "headline": "5 Things Your Web Designer Should Be Doing (But Probably Isn't)",
+    "datePublished": "2026-01-15",
+    "dateModified": "2026-01-15",
     "author": {
       "@type": "Person",
       "name": "Heather Cooper",
@@ -579,8 +747,8 @@
       "name": "HC Web Labs",
       "url": "https://hcweblabs.com"
     },
-    "description": "A personal reflection on how the internet transformed a small, quiet world into a place of connection — and why HC Web Labs builds websites that feel like home.",
-    "keywords": "web design, front-end, personal story, HC Web Labs",
+    "description": "Not all web designers are created equal. Here's what separates the pros from the 'good enough' crowd — and what to ask before you hire.",
+    "keywords": "web design, hiring web designer, small business, accessibility, mobile-first, SEO",
     "inLanguage": "en"
   }
   </script>
