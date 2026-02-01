@@ -1139,16 +1139,9 @@
       }
     });
 
-    // Get filtered - with webucation mapping
+    // Get filtered
     function getFiltered() {
       if (state.filter === 'all') return cards;
-      
-      // "Webucation" maps to educational content categories
-      if (state.filter === 'webucation') {
-        const webucationCats = ['front-end', 'css', 'tech', 'accessibility', 'performance'];
-        return cards.filter(c => c.cats.some(cat => webucationCats.includes(cat)));
-      }
-      
       return cards.filter(c => c.cats.includes(state.filter));
     }
 
