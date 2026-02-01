@@ -1,0 +1,1280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>HC Web Labs Blog — Web Design & Development in East Tennessee</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Web design and development insights from East Tennessee. Case studies, tutorials, and honest opinions on building better websites for small businesses.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="author" content="HC Web Labs">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://hcweblabs.com/blog/">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="HC Web Labs Blog — Web Design & Development in East Tennessee">
+  <meta property="og:description" content="Case studies, webucation, and honest opinions on building better websites for small businesses in East Tennessee.">
+  <meta property="og:url" content="https://hcweblabs.com/blog/">
+  <meta property="og:site_name" content="HC Web Labs">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HC Web Labs Blog — Web Design & Development in East Tennessee">
+  <meta name="twitter:description" content="Case studies, webucation, and honest opinions on building better websites for small businesses.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&family=Sarpanch:wght@700;800&family=Saira:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "HC Web Labs Blog",
+    "description": "Web design and development insights from East Tennessee.",
+    "url": "https://hcweblabs.com/blog/",
+    "author": {
+      "@type": "Organization",
+      "name": "HC Web Labs",
+      "url": "https://hcweblabs.com"
+    }
+  }
+  </script>
+
+  <style>
+    /* =========================
+       HC WEB LABS BRAND TOKENS
+       ========================= */
+    :root {
+      /* Typography Scale */
+      --font-size-xs: clamp(0.7rem, 0.65rem + 0.25vw, 0.8125rem);
+      --font-size-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --font-size-base: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+      --font-size-md: clamp(0.9375rem, 0.85rem + 0.4375vw, 1.125rem);
+      --font-size-lg: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+      --font-size-xl: clamp(1.125rem, 0.95rem + 0.875vw, 1.5rem);
+      --font-size-2xl: clamp(1.5rem, 1.1rem + 2vw, 2.5rem);
+
+      /* Spacing Scale */
+      --space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.375rem);
+      --space-2: clamp(0.375rem, 0.3rem + 0.375vw, 0.5rem);
+      --space-3: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+      --space-4: clamp(0.75rem, 0.6rem + 0.75vw, 1rem);
+      --space-5: clamp(1rem, 0.8rem + 1vw, 1.25rem);
+      --space-6: clamp(1.25rem, 1rem + 1.25vw, 1.5rem);
+      --space-8: clamp(1.75rem, 1.4rem + 1.75vw, 2rem);
+      --space-10: clamp(2rem, 1.5rem + 2.5vw, 2.5rem);
+      --space-12: clamp(2.5rem, 1.75rem + 3.75vw, 3rem);
+      --space-16: clamp(3.5rem, 2.25rem + 6.25vw, 4rem);
+      --space-20: clamp(4rem, 2.5rem + 7.5vw, 5rem);
+
+      /* Dark Theme Colors */
+      --color-bg-dark: #050510;
+      --color-bg-mid: #1a0b2e;
+      --color-bg-light: #2d1b4e;
+
+      --color-text: #ffffff;
+      --color-text-light: rgba(255, 255, 255, 0.85);
+      --color-text-muted: rgba(255, 255, 255, 0.65);
+
+      /* Light Theme Colors */
+      --color-light-bg: #f5f6fa;
+      --color-light-text: #1a1a28;
+      --color-light-text-muted: #4a4a5e;
+      --color-light-border: rgba(0, 0, 0, 0.08);
+
+      /* Accent Colors */
+      --color-cyan: #00ffff;
+      --color-cyan-dark: #00a0a0;
+      --color-purple: #9d4edd;
+      --color-green: #39ff14;
+
+      --color-border: rgba(0, 255, 255, 0.2);
+      --color-border-hover: rgba(0, 255, 255, 0.4);
+
+      /* Typography */
+      --font-display: 'Orbitron', system-ui, sans-serif;
+      --font-headline: 'Sarpanch', system-ui, sans-serif;
+      --font-ui: 'Saira', system-ui, sans-serif;
+      --font-body: 'Rajdhani', system-ui, sans-serif;
+
+      /* Effects */
+      --radius-sm: 0.5rem;
+      --radius: 0.75rem;
+      --radius-lg: 1rem;
+      --radius-full: 9999px;
+
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      /* Layout */
+      --container-padding: clamp(1rem, 0.5rem + 4vw, 2rem);
+      --max-content-width: 1250px;
+      --min-touch-target: 44px;
+    }
+
+    /* =========================
+       RESET & BASE
+       ========================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--font-size-base);
+      font-weight: 500;
+      line-height: 1.4;
+      color: var(--color-light-text);
+      background: var(--color-light-bg);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       REDUCED MOTION
+       ========================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* =========================
+       CUSTOM SCROLLBAR
+       ========================= */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(157, 78, 221, 0.5) var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, rgba(0, 255, 255, 0.5) 0%, rgba(157, 78, 221, 0.5) 100%);
+      border-radius: 10px;
+      border: 2px solid var(--color-light-bg);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(0, 255, 255, 0.7) 0%, rgba(157, 78, 221, 0.7) 100%);
+    }
+
+    /* =========================
+       SKIP LINK
+       ========================= */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-4);
+      padding: var(--space-3) var(--space-5);
+      background: var(--color-cyan);
+      color: var(--color-bg-dark);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: var(--font-size-sm);
+      border-radius: var(--radius);
+      z-index: 9999;
+      transition: top var(--transition);
+    }
+
+    .skip-link:focus {
+      top: var(--space-4);
+    }
+
+    /* =========================
+       FOCUS STYLES
+       ========================= */
+    :focus-visible {
+      outline: 2px solid var(--color-purple);
+      outline-offset: 2px;
+    }
+
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    /* =========================
+       DARK HEADER SECTION
+       ========================= */
+    .blog-header-section {
+      position: relative;
+      background: linear-gradient(135deg,
+        var(--color-bg-dark) 0%,
+        var(--color-bg-mid) 50%,
+        var(--color-bg-dark) 100%);
+      padding: var(--space-16) 0 var(--space-12);
+      overflow: hidden;
+    }
+
+    /* Grid overlay */
+    .blog-header-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blog-header-section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .blog-header {
+      max-width: var(--max-content-width);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+      text-align: center;
+    }
+
+    /* Eyebrow */
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-display);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-cyan);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      margin-bottom: var(--space-4);
+    }
+
+    .eyebrow i {
+      filter: drop-shadow(0 0 6px rgba(0, 255, 255, 0.6));
+    }
+
+    /* Blog title */
+    .blog-title {
+      font-family: var(--font-headline);
+      font-size: clamp(1.8rem, 1.7rem + 0.5vw, 2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: 0.015em;
+      color: var(--color-text);
+      margin-bottom: var(--space-4);
+      text-transform: uppercase;
+      filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+      text-wrap: balance;
+    }
+
+    /* Tagline */
+    .tagline {
+      font-family: var(--font-body);
+      font-size: var(--font-size-lg);
+      font-weight: 500;
+      color: var(--color-text-light);
+      margin-bottom: var(--space-8);
+      max-width: 55ch;
+      margin-inline: auto;
+      line-height: 1.4;
+      text-wrap: balance;
+    }
+
+    /* =========================
+       FILTER CHIPS
+       ========================= */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: var(--space-3) var(--space-4);
+      min-height: var(--min-touch-target);
+      color: var(--color-text-light);
+      background: rgba(0, 255, 255, 0.08);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      border-radius: var(--radius);
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition);
+    }
+
+    .chip::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg,
+        rgba(0, 255, 255, 0.2) 0%,
+        rgba(57, 255, 20, 0.1) 100%);
+      transition: width var(--transition);
+      z-index: -1;
+    }
+
+    .chip:hover::before {
+      width: 100%;
+    }
+
+    .chip:hover {
+      color: var(--color-cyan);
+      border-color: rgba(0, 255, 255, 0.3);
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+    }
+
+    .chip[aria-pressed="true"] {
+      color: var(--color-cyan);
+      background: linear-gradient(135deg,
+        rgba(0, 255, 255, 0.15),
+        rgba(57, 255, 20, 0.1));
+      border-color: rgba(0, 255, 255, 0.4);
+      box-shadow: 0 4px 12px rgba(0, 255, 255, 0.2),
+                  0 0 0 1px rgba(0, 255, 255, 0.4) inset;
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+
+    .chip[aria-pressed="true"]::before {
+      width: 100%;
+    }
+
+    .chip:focus-visible {
+      outline: 2px solid var(--color-cyan);
+      outline-offset: 2px;
+    }
+
+    /* =========================
+       LIGHT CONTENT SECTION
+       ========================= */
+    .blog-content-section {
+      background: var(--color-light-bg);
+      padding: var(--space-12) 0 var(--space-16);
+    }
+
+    /* =========================
+       CARD GRID
+       ========================= */
+    .grid {
+      display: grid;
+      gap: var(--space-5);
+      grid-template-columns: 1fr;
+      padding: 0 var(--container-padding);
+      max-width: var(--max-content-width);
+      margin: 0 auto;
+    }
+
+    /* =========================
+       CARDS (Dark Glassmorphic)
+       ========================= */
+    .card {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: rgba(10, 10, 31, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: transform var(--transition-slow),
+                  border-color var(--transition),
+                  box-shadow var(--transition);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 255, 255, 0.3);
+      box-shadow: 0 12px 40px rgba(0, 255, 255, 0.15),
+                  0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .card:focus-within {
+      outline: 2px solid var(--color-cyan);
+      outline-offset: 2px;
+    }
+
+    .card-link {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      border-radius: inherit;
+    }
+
+    .card-link:focus {
+      outline: none;
+    }
+
+    /* Thumbnail */
+    .card-thumb {
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--color-bg-dark);
+    }
+
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      transition: transform var(--transition-slow);
+    }
+
+    .card:hover .card-thumb img {
+      transform: scale(1.03);
+    }
+
+    /* Card body */
+    .card-body {
+      padding: var(--space-4);
+      background: transparent;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 var(--space-2);
+      line-height: 1.3;
+      letter-spacing: 0.5px;
+      text-wrap: balance;
+    }
+
+    .card-meta {
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .meta-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      flex-shrink: 0;
+    }
+
+    /* Tags */
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      padding: 0 var(--space-4) var(--space-4);
+      list-style: none;
+      background: transparent;
+    }
+
+    .card-tag {
+      font-family: var(--font-display);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25em 0.75em;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: var(--radius-full);
+      color: var(--color-cyan);
+    }
+
+    /* =========================
+       SKELETONS
+       ========================= */
+    .skeleton .card-thumb {
+      background: linear-gradient(90deg,
+        rgba(0, 255, 255, 0.05),
+        rgba(0, 255, 255, 0.1) 40%,
+        rgba(0, 255, 255, 0.05) 80%);
+      background-size: 200% 100%;
+      animation: shimmer 1.2s linear infinite;
+    }
+
+    .skeleton .card-body,
+    .skeleton .card-tags {
+      opacity: 0.5;
+    }
+
+    @keyframes shimmer {
+      to {
+        background-position: -200% 0;
+      }
+    }
+
+    /* =========================
+       PAGINATION (Light BG)
+       ========================= */
+    .pager {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      padding: var(--space-10) var(--container-padding) 0;
+      max-width: var(--max-content-width);
+      margin: 0 auto;
+    }
+
+    .pager-btn {
+      min-width: var(--min-touch-target);
+      min-height: var(--min-touch-target);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: var(--space-3) var(--space-4);
+      color: var(--color-light-text-muted);
+      background: rgba(10, 10, 31, 0.08);
+      border: 1px solid rgba(10, 10, 31, 0.15);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .pager-btn:hover:not([disabled]) {
+      color: var(--color-purple);
+      background: rgba(157, 78, 221, 0.1);
+      border-color: rgba(157, 78, 221, 0.3);
+    }
+
+    .pager-btn[disabled] {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .pager-btn[aria-current="true"] {
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--color-purple) 0%, rgba(157, 78, 221, 0.8) 100%);
+      border-color: var(--color-purple);
+      box-shadow: 0 4px 12px rgba(157, 78, 221, 0.3);
+    }
+
+    .pager-btn:focus-visible {
+      outline: 2px solid var(--color-purple);
+      outline-offset: 2px;
+    }
+
+    /* =========================
+       MODAL READER
+       ========================= */
+    .reader {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
+      border: none;
+      padding: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    .reader::backdrop {
+      background: rgba(5, 5, 16, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    .reader-dialog {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(920px, 94vw);
+      max-height: 90vh;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      color: var(--color-text);
+      background: linear-gradient(135deg,
+        var(--color-bg-dark) 0%,
+        var(--color-bg-mid) 50%,
+        var(--color-bg-dark) 100%);
+      border: 1px solid rgba(0, 255, 255, 0.15);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                  0 0 40px rgba(0, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .reader-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(0, 255, 255, 0.08);
+      border-bottom: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .reader-title {
+      font-family: var(--font-display);
+      font-size: var(--font-size-lg);
+      font-weight: 600;
+      margin: 0;
+      letter-spacing: 0.5px;
+      text-wrap: balance;
+    }
+
+    .reader-close {
+      min-width: var(--min-touch-target);
+      min-height: var(--min-touch-target);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(239, 68, 68, 0.9);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      font-size: 1.25rem;
+      transition: background var(--transition);
+    }
+
+    .reader-close:hover {
+      background: rgba(220, 38, 38, 1);
+    }
+
+    .reader-close:focus-visible {
+      outline: 2px solid var(--color-cyan);
+      outline-offset: 2px;
+    }
+
+    .reader-body {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .reader-body iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 50vh;
+      border: none;
+      display: block;
+      background: var(--color-bg-dark);
+    }
+
+    .reader-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(57, 255, 20, 0.08);
+      border-top: 1px solid var(--color-border);
+      flex-shrink: 0;
+    }
+
+    .reader-open {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-display);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: var(--space-3) var(--space-4);
+      min-height: var(--min-touch-target);
+      color: var(--color-bg-dark);
+      background: linear-gradient(135deg, var(--color-cyan) 0%, #00d4d4 100%);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 16px rgba(0, 255, 255, 0.3);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .reader-open:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 255, 255, 0.4);
+    }
+
+    .reader-open:focus-visible {
+      outline: 2px solid var(--color-cyan);
+      outline-offset: 2px;
+    }
+
+    /* =========================
+       NO-JS FALLBACK
+       ========================= */
+    .nojs-note {
+      max-width: var(--max-content-width);
+      margin: var(--space-6) auto 0;
+      padding: var(--space-5);
+      color: var(--color-light-text);
+      background: #ffffff;
+      border: 1px solid var(--color-light-border);
+      border-radius: var(--radius);
+    }
+
+    .nojs-note code {
+      background: #e5e7eb;
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-sm);
+      font-family: 'Courier New', Consolas, monospace;
+    }
+
+    /* =========================
+       FOOTER (Simple)
+       ========================= */
+    .footer {
+      background: linear-gradient(135deg,
+        var(--color-bg-dark) 0%,
+        var(--color-bg-mid) 50%,
+        var(--color-bg-dark) 100%);
+      padding: var(--space-6) 0;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 255, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 255, 20, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .footer-container {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max-content-width);
+      margin: 0 auto;
+      padding: 0 var(--container-padding);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      text-align: center;
+    }
+
+    .footer-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-ui);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-text-light);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+
+    .footer-home-link:hover {
+      color: var(--color-cyan);
+      transform: translateX(-4px);
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    }
+
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+
+    @media (min-width: 30.0625em) {
+      .footer-container {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+
+    /* =========================
+       FORCED COLORS (a11y)
+       ========================= */
+    @media (forced-colors: active) {
+      .chip,
+      .pager-btn,
+      .reader-close,
+      .reader-open {
+        forced-color-adjust: auto;
+        border-color: CanvasText;
+      }
+
+      .card {
+        border-color: CanvasText;
+      }
+
+      .blog-header-section::before,
+      .pager-section::before {
+        display: none;
+      }
+    }
+
+    @media print {
+      .blog-header-section::before,
+      .pager-section::before {
+        display: none;
+      }
+    }
+
+    /* =========================
+       RESPONSIVE GRID
+       ========================= */
+
+    /* 481px+ : 2 columns */
+    @media (min-width: 30.0625em) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* 769px+ : 3 columns, more breathing room */
+    @media (min-width: 48.0625em) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-6);
+      }
+
+      .filters {
+        gap: var(--space-3);
+      }
+    }
+
+    /* 1025px+ : larger padding */
+    @media (min-width: 64.0625em) {
+      .card-body {
+        padding: var(--space-5);
+      }
+
+      .card-tags {
+        padding: 0 var(--space-5) var(--space-5);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <main id="main-content">
+    <!-- Dark Header Section -->
+    <section class="blog-header-section">
+      <header class="blog-header">
+        <p class="eyebrow">
+          <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+          From the Web Lab
+        </p>
+        <h1 class="blog-title">Web Design & Development in East Tennessee</h1>
+        <p class="tagline">Real talk about web design, accessibility, and helping local businesses thrive online.</p>
+
+        <nav class="filters" role="group" aria-label="Filter posts by category">
+          <button class="chip" type="button" data-filter="all" aria-pressed="true">All Posts</button>
+          <button class="chip" type="button" data-filter="case-studies" aria-pressed="false">Case Studies</button>
+          <button class="chip" type="button" data-filter="webucation" aria-pressed="false">Webucation</button>
+          <button class="chip" type="button" data-filter="opinion" aria-pressed="false">Opinion Pieces</button>
+        </nav>
+      </header>
+    </section>
+
+    <!-- Light Content Section -->
+    <section class="blog-content-section">
+      <div class="grid" id="post-grid" aria-label="Blog posts" aria-live="polite" aria-busy="true">
+        <!-- Cards injected by JS -->
+      </div>
+
+      <nav class="pager" id="pager" aria-label="Pagination">
+        <!-- Pager buttons injected by JS -->
+      </nav>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <a href="https://heather-cooper.com" class="footer-home-link">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          Back to heather-cooper.com
+        </a>
+        <p class="footer-copy">&copy; 2026 HC Web Labs. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Modal Reader -->
+    <dialog class="reader" id="reader" aria-label="Post preview">
+      <div class="reader-dialog">
+        <div class="reader-head">
+          <h2 class="reader-title" id="reader-title">Loading…</h2>
+          <button class="reader-close" type="button" aria-label="Close preview">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="reader-body">
+          <iframe id="reader-frame" title="Post preview"></iframe>
+        </div>
+        <div class="reader-foot">
+          <a class="reader-open" id="reader-open" href="#" target="_blank" rel="noopener">
+            <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
+            Open Full Page
+          </a>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <div class="nojs-note">
+        <p><strong>JavaScript is required</strong> to load blog posts dynamically. You can also browse posts directly in the <code>/posts/</code> directory.</p>
+      </div>
+    </noscript>
+  </main>
+
+  <script type="module">
+    const $ = (sel, ctx = document) => ctx.querySelector(sel);
+    const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+    const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const grid = $('#post-grid');
+    const pager = $('#pager');
+    const filtersNav = $('.filters');
+
+    const fmtDate = (iso) => {
+      try {
+        return new Date(iso).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+      } catch {
+        return iso;
+      }
+    };
+
+    function makeCard(post) {
+      const article = document.createElement('article');
+      article.className = 'card';
+      article.dataset.cats = (post.cats || []).join(',');
+      article.dataset.date = post.date;
+
+      const tagsHTML = (post.tags || []).map(t =>
+        `<li class="card-tag">${t}</li>`
+      ).join('');
+
+      article.innerHTML = `
+        <a class="card-link" href="${post.url}" aria-label="Read: ${post.title}"></a>
+        <figure class="card-thumb">
+          <img
+            src="${post.image}"
+            alt="${post.alt || ''}"
+            loading="lazy"
+            decoding="async"
+            width="1200"
+            height="750"
+          >
+        </figure>
+        <div class="card-body">
+          <h2 class="card-title">${post.title}</h2>
+          <p class="card-meta">
+            <time datetime="${post.date}">${fmtDate(post.date)}</time>
+            <span class="meta-dot" aria-hidden="true"></span>
+            <span>${post.author || 'HC Web Labs'}</span>
+          </p>
+        </div>
+        <ul class="card-tags" aria-label="Tags">${tagsHTML}</ul>
+      `;
+
+      return article;
+    }
+
+    function showSkeleton(count = 6) {
+      grid.innerHTML = '';
+      const frag = document.createDocumentFragment();
+
+      for (let i = 0; i < count; i++) {
+        const sk = document.createElement('article');
+        sk.className = 'card skeleton';
+        sk.setAttribute('aria-hidden', 'true');
+        sk.innerHTML = `
+          <div class="card-thumb"></div>
+          <div class="card-body">
+            <div class="card-title" style="height:1.25rem;background:rgba(0,255,255,0.1);border-radius:6px;width:75%"></div>
+            <div class="card-meta" style="margin-top:0.5rem">
+              <span style="height:1rem;background:rgba(0,255,255,0.1);border-radius:4px;display:inline-block;width:70px"></span>
+              <span class="meta-dot"></span>
+              <span style="height:1rem;background:rgba(0,255,255,0.1);border-radius:4px;display:inline-block;width:90px"></span>
+            </div>
+          </div>
+          <ul class="card-tags">
+            <li class="card-tag" style="opacity:.5">Loading</li>
+          </ul>
+        `;
+        frag.appendChild(sk);
+      }
+
+      grid.appendChild(frag);
+    }
+
+    let cards = [];
+
+    async function loadPosts() {
+      showSkeleton(6);
+
+      try {
+        const res = await fetch('data/posts.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+        cards = data
+          .map(p => ({
+            meta: p,
+            el: makeCard(p),
+            date: new Date(p.date),
+            cats: p.cats || []
+          }))
+          .sort((a, b) => b.date - a.date);
+
+      } catch (err) {
+        console.error('[Blog]', err);
+        grid.innerHTML = `
+          <div class="nojs-note" role="alert">
+            <p><strong>Couldn't load posts.</strong> Check that <code>data/posts.json</code> exists.</p>
+          </div>
+        `;
+        pager.innerHTML = '';
+      }
+    }
+
+    const params = new URLSearchParams(location.search);
+    const state = {
+      pageSize: 6,
+      page: Math.max(1, parseInt(params.get('page') || '1', 10)),
+      filter: params.get('cat') || 'all'
+    };
+
+    function syncFilters() {
+      $$('.chip', filtersNav).forEach(chip => {
+        const isActive = chip.dataset.filter === state.filter;
+        chip.setAttribute('aria-pressed', String(isActive));
+      });
+    }
+
+    filtersNav.addEventListener('click', (e) => {
+      const chip = e.target.closest('.chip');
+      if (!chip) return;
+
+      const filter = chip.dataset.filter;
+      if (filter && filter !== state.filter) {
+        state.filter = filter;
+        state.page = 1;
+        syncFilters();
+        render({ animate: true, announce: true });
+      }
+    });
+
+    function getFiltered() {
+      if (state.filter === 'all') return cards;
+      return cards.filter(c => c.cats.includes(state.filter));
+    }
+
+    function buildPager(totalPages) {
+      const p = state.page;
+
+      const mkBtn = (n, current = false) => `
+        <button
+          class="pager-btn"
+          data-page="${n}"
+          ${current ? 'aria-current="true"' : ''}
+          aria-label="Page ${n}"
+        >${n}</button>
+      `;
+
+      const ellipsis = () => `
+        <button class="pager-btn" disabled aria-hidden="true">…</button>
+      `;
+
+      let nums = '';
+
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) nums += mkBtn(i, i === p);
+      } else if (p <= 4) {
+        for (let i = 1; i <= 5; i++) nums += mkBtn(i, i === p);
+        nums += ellipsis() + mkBtn(totalPages);
+      } else if (p >= totalPages - 3) {
+        nums += mkBtn(1) + ellipsis();
+        for (let i = totalPages - 4; i <= totalPages; i++) nums += mkBtn(i, i === p);
+      } else {
+        nums += mkBtn(1) + ellipsis();
+        nums += mkBtn(p - 1) + mkBtn(p, true) + mkBtn(p + 1);
+        nums += ellipsis() + mkBtn(totalPages);
+      }
+
+      pager.innerHTML = `
+        <button
+          class="pager-btn"
+          data-page="${p - 1}"
+          ${p === 1 ? 'disabled' : ''}
+          aria-label="Previous page"
+        >
+          <i class="fa-solid fa-angle-left" aria-hidden="true"></i>
+        </button>
+        ${nums}
+        <button
+          class="pager-btn"
+          data-page="${p + 1}"
+          ${p === totalPages ? 'disabled' : ''}
+          aria-label="Next page"
+        >
+          <i class="fa-solid fa-angle-right" aria-hidden="true"></i>
+        </button>
+      `;
+
+      $$('[data-page]', pager).forEach(btn => {
+        btn.addEventListener('click', () => {
+          const next = parseInt(btn.dataset.page, 10);
+          if (!Number.isFinite(next)) return;
+
+          state.page = Math.max(1, Math.min(totalPages, next));
+          render({ animate: true, announce: true });
+          $('.blog-header')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+
+    function swapContent(nodes, totalPages, announce) {
+      grid.innerHTML = '';
+      nodes.forEach(n => grid.appendChild(n));
+      buildPager(totalPages);
+
+      if (announce) {
+        grid.setAttribute('aria-busy', 'false');
+      }
+    }
+
+    function render({ animate = false, announce = false } = {}) {
+      const filtered = getFiltered();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / state.pageSize));
+      state.page = Math.min(Math.max(1, state.page), totalPages);
+
+      const url = new URLSearchParams(location.search);
+      state.filter === 'all' ? url.delete('cat') : url.set('cat', state.filter);
+      state.page > 1 ? url.set('page', state.page) : url.delete('page');
+      history.replaceState({}, '', location.pathname + (url.toString() ? '?' + url : ''));
+
+      const start = (state.page - 1) * state.pageSize;
+      const end = Math.min(start + state.pageSize, filtered.length);
+      const nodes = filtered.slice(start, end).map(c => c.el);
+
+      const doSwap = () => swapContent(nodes, totalPages, announce);
+
+      if (announce) {
+        grid.setAttribute('aria-busy', 'true');
+      }
+
+      if (animate && !prefersReduced) {
+        grid.style.opacity = '0';
+        setTimeout(() => {
+          doSwap();
+          grid.style.opacity = '1';
+        }, 150);
+      } else {
+        doSwap();
+      }
+    }
+
+    const reader = $('#reader');
+    const readerFrame = $('#reader-frame');
+    const readerTitle = $('#reader-title');
+    const readerOpen = $('#reader-open');
+    const readerClose = $('.reader-close');
+
+    grid.addEventListener('click', (e) => {
+      const link = e.target.closest('.card-link');
+      if (!link || !('HTMLDialogElement' in window)) return;
+
+      e.preventDefault();
+
+      const card = link.closest('.card');
+      const title = card?.querySelector('.card-title')?.textContent || 'Post';
+      const url = link.href;
+
+      readerTitle.textContent = title;
+      readerOpen.href = url;
+      readerFrame.title = title;
+      readerFrame.src = url;
+
+      reader.showModal();
+    });
+
+    readerClose?.addEventListener('click', () => reader.close());
+
+    reader?.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      reader.close();
+    });
+
+    await loadPosts();
+    syncFilters();
+    render();
+  </script>
+</body>
+</html>
