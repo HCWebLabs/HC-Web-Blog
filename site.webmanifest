@@ -8,9 +8,9 @@
   "theme_color": "#050510",
   "icons": [
     {
-      "src": "https://heather-cooper.com/wp-content/uploads/2026/02/hcwl-favicon-2.webp",
+      "src": "https://heather-cooper.com/wp-content/uploads/2026/02/hcwl-favicon-1.png",
       "sizes": "512x512",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
