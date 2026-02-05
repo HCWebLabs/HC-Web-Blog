@@ -1,0 +1,17 @@
+{
+  "name": "HC Web Labs Blog",
+  "short_name": "HC Blog",
+  "description": "Web design and development insights from East Tennessee",
+  "start_url": "/blog/",
+  "display": "standalone",
+  "background_color": "#050510",
+  "theme_color": "#050510",
+  "icons": [
+    {
+      "src": "https://heather-cooper.com/wp-content/uploads/2026/02/hcwl-favicon-2.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any maskable"
+    }
+  ]
+}
