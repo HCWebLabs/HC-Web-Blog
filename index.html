@@ -6,11 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Web design and development insights from East Tennessee. Case studies, tutorials, and honest opinions on building better websites for small businesses.">
   <meta name="color-scheme" content="light dark">
-  <meta name="author" content="HC Web Labs">
+  <meta name="author" content="Heather Cooper">
   <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#050510">
   
   <!-- Canonical -->
   <link rel="canonical" href="https://hcweblabs.com/blog/">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="https://heather-cooper.com/wp-content/uploads/2026/02/hcwl-favicon-2.webp" type="image/webp">
+  <link rel="apple-touch-icon" href="https://heather-cooper.com/wp-content/uploads/2026/02/hcwl-favicon-2.webp">
+  <link rel="manifest" href="site.webmanifest">
   
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -19,11 +25,17 @@
   <meta property="og:url" content="https://hcweblabs.com/blog/">
   <meta property="og:site_name" content="HC Web Labs">
   <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://heather-cooper.com/wp-content/uploads/2026/01/Brand-Card-HC-Web-Labs-Imgur.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="HC Web Labs - Hand-coded websites for small businesses in East Tennessee">
   
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HC Web Labs Blog — Web Design & Development in East Tennessee">
   <meta name="twitter:description" content="Case studies, webucation, and honest opinions on building better websites for small businesses.">
+  <meta name="twitter:image" content="https://heather-cooper.com/wp-content/uploads/2026/01/Brand-Card-HC-Web-Labs-Imgur.jpg">
+  <meta name="twitter:image:alt" content="HC Web Labs - Hand-coded websites for small businesses in East Tennessee">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,18 +46,75 @@
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-  <!-- Structured Data -->
+  <!-- Structured Data: Blog -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Blog",
+    "@id": "https://hcweblabs.com/blog/#blog",
     "name": "HC Web Labs Blog",
-    "description": "Web design and development insights from East Tennessee.",
+    "description": "Web design and development insights from East Tennessee. Case studies, tutorials, and honest opinions on building better websites for small businesses.",
     "url": "https://hcweblabs.com/blog/",
+    "inLanguage": "en-US",
+    "image": {
+      "@type": "ImageObject",
+      "url": "https://heather-cooper.com/wp-content/uploads/2026/01/Brand-Card-HC-Web-Labs-Imgur.jpg",
+      "width": 1200,
+      "height": 630
+    },
     "author": {
+      "@type": "Person",
+      "@id": "https://hcweblabs.com/#heather",
+      "name": "Heather Cooper",
+      "url": "https://heather-cooper.com",
+      "jobTitle": "Web Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "HC Web Labs"
+      }
+    },
+    "publisher": {
       "@type": "Organization",
+      "@id": "https://hcweblabs.com/#organization",
       "name": "HC Web Labs",
-      "url": "https://hcweblabs.com"
+      "url": "https://hcweblabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://heather-cooper.com/wp-content/uploads/2026/01/Brand-Card-HC-Web-Labs-Imgur.jpg"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Rocky Top",
+        "addressRegion": "TN",
+        "addressCountry": "US"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "East Tennessee"
+      }
+    },
+    "about": [
+      "Web Design",
+      "Web Development", 
+      "Accessibility",
+      "Small Business Websites",
+      "Performance Optimization"
+    ],
+    "keywords": "web design, web development, East Tennessee, small business, accessibility, performance, hand-coded websites"
+  }
+  </script>
+
+  <!-- Structured Data: WebSite (for sitelinks search) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://hcweblabs.com/#website",
+    "name": "HC Web Labs",
+    "url": "https://hcweblabs.com",
+    "description": "Hand-coded websites for small businesses in East Tennessee",
+    "publisher": {
+      "@id": "https://hcweblabs.com/#organization"
     }
   }
   </script>
@@ -187,6 +256,30 @@
     }
 
     /* =========================
+       ACCESSIBILITY UTILITIES
+       ========================= */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* =========================
+       MODERN TEXT ENHANCEMENTS
+       ========================= */
+    @supports (text-wrap: balance) {
+      h1, h2, h3, .blog-title, .card-title {
+        text-wrap: balance;
+      }
+    }
+
+    /* =========================
        CUSTOM SCROLLBAR
        ========================= */
     * {
@@ -218,8 +311,8 @@
        ========================= */
     .skip-link {
       position: absolute;
-      top: -100%;
-      left: var(--space-4);
+      inset-block-start: -100%;
+      inset-inline-start: var(--space-4);
       padding: var(--space-3) var(--space-5);
       background: var(--color-cyan);
       color: var(--color-bg-dark);
@@ -228,23 +321,29 @@
       font-size: var(--font-size-sm);
       border-radius: var(--radius);
       z-index: 9999;
-      transition: top var(--transition);
+      transition: inset-block-start var(--transition);
     }
 
     .skip-link:focus {
-      top: var(--space-4);
+      inset-block-start: var(--space-4);
     }
 
     /* =========================
-       FOCUS STYLES
+       FOCUS STYLES (Enhanced)
        ========================= */
     :focus-visible {
-      outline: 2px solid var(--color-purple);
-      outline-offset: 2px;
+      outline: 3px solid var(--color-purple);
+      outline-offset: 3px;
     }
 
     :focus:not(:focus-visible) {
       outline: none;
+    }
+
+    /* High contrast focus for dark backgrounds */
+    .blog-header-section :focus-visible,
+    .reader :focus-visible {
+      outline-color: var(--color-cyan);
     }
 
     /* =========================
@@ -256,7 +355,7 @@
         var(--color-bg-dark) 0%,
         var(--color-bg-mid) 50%,
         var(--color-bg-dark) 100%);
-      padding: var(--space-16) 0 var(--space-12);
+      padding-block: var(--space-16) var(--space-12);
       overflow: hidden;
     }
 
@@ -279,9 +378,9 @@
     }
 
     .blog-header {
-      max-width: var(--max-content-width);
-      margin: 0 auto;
-      padding: 0 var(--container-padding);
+      max-inline-size: var(--max-content-width);
+      margin-inline: auto;
+      padding-inline: var(--container-padding);
       text-align: center;
     }
 
@@ -298,7 +397,7 @@
       text-transform: uppercase;
       color: var(--color-cyan);
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-      margin-bottom: var(--space-4);
+      margin-block-end: var(--space-4);
     }
 
     .eyebrow i {
@@ -313,10 +412,9 @@
       line-height: 1.2;
       letter-spacing: 0.015em;
       color: var(--color-text);
-      margin-bottom: var(--space-4);
+      margin-block-end: var(--space-4);
       text-transform: uppercase;
       filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
-      text-wrap: balance;
     }
 
     /* Tagline */
@@ -325,11 +423,10 @@
       font-size: var(--font-size-lg);
       font-weight: 500;
       color: var(--color-text-light);
-      margin-bottom: var(--space-8);
-      max-width: 55ch;
+      margin-block-end: var(--space-8);
+      max-inline-size: 55ch;
       margin-inline: auto;
       line-height: 1.4;
-      text-wrap: balance;
     }
 
     /* =========================
@@ -352,8 +449,9 @@
       font-weight: 500;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: var(--space-3) var(--space-4);
-      min-height: var(--min-touch-target);
+      padding-block: var(--space-3);
+      padding-inline: var(--space-4);
+      min-block-size: var(--min-touch-target);
       color: var(--color-text-light);
       background: rgba(0, 255, 255, 0.08);
       backdrop-filter: blur(8px);
@@ -370,19 +468,19 @@
     .chip::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 0;
+      inset-inline-start: 0;
+      inset-block-start: 0;
+      block-size: 100%;
+      inline-size: 0;
       background: linear-gradient(90deg,
         rgba(0, 255, 255, 0.2) 0%,
         rgba(57, 255, 20, 0.1) 100%);
-      transition: width var(--transition);
+      transition: inline-size var(--transition);
       z-index: -1;
     }
 
     .chip:hover::before {
-      width: 100%;
+      inline-size: 100%;
     }
 
     .chip:hover {
@@ -403,7 +501,7 @@
     }
 
     .chip[aria-pressed="true"]::before {
-      width: 100%;
+      inline-size: 100%;
     }
 
     .chip:focus-visible {
@@ -416,7 +514,7 @@
        ========================= */
     .blog-content-section {
       background: var(--color-light-bg);
-      padding: var(--space-12) 0 var(--space-16);
+      padding-block: var(--space-12) var(--space-16);
     }
 
     /* =========================
@@ -426,9 +524,9 @@
       display: grid;
       gap: var(--space-5);
       grid-template-columns: 1fr;
-      padding: 0 var(--container-padding);
-      max-width: var(--max-content-width);
-      margin: 0 auto;
+      padding-inline: var(--container-padding);
+      max-inline-size: var(--max-content-width);
+      margin-inline: auto;
     }
 
     /* =========================
@@ -481,8 +579,8 @@
     }
 
     .card-thumb img {
-      width: 100%;
-      height: 100%;
+      inline-size: 100%;
+      block-size: 100%;
       object-fit: cover;
       object-position: top;
       transition: transform var(--transition-slow);
@@ -504,10 +602,9 @@
       font-size: var(--font-size-base);
       font-weight: 600;
       color: var(--color-text);
-      margin: 0 0 var(--space-2);
+      margin-block: 0 var(--space-2);
       line-height: 1.25;
       letter-spacing: 0.5px;
-      text-wrap: balance;
     }
 
     .card-meta {
@@ -523,8 +620,8 @@
     }
 
     .meta-dot {
-      width: 4px;
-      height: 4px;
+      inline-size: 4px;
+      block-size: 4px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.3);
       flex-shrink: 0;
@@ -535,7 +632,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-1);
-      padding: 0 var(--space-4) var(--space-4);
+      padding-block: 0 var(--space-4);
+      padding-inline: var(--space-4);
       list-style: none;
       background: transparent;
       justify-content: center;
@@ -585,14 +683,15 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: var(--space-2);
-      padding: var(--space-10) var(--container-padding) 0;
-      max-width: var(--max-content-width);
-      margin: 0 auto;
+      padding-block-start: var(--space-10);
+      padding-inline: var(--container-padding);
+      max-inline-size: var(--max-content-width);
+      margin-inline: auto;
     }
 
     .pager-btn {
-      min-width: var(--min-touch-target);
-      min-height: var(--min-touch-target);
+      min-inline-size: var(--min-touch-target);
+      min-block-size: var(--min-touch-target);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -600,7 +699,8 @@
       font-size: var(--font-size-sm);
       font-weight: 600;
       letter-spacing: 1px;
-      padding: var(--space-3) var(--space-4);
+      padding-block: var(--space-3);
+      padding-inline: var(--space-4);
       color: var(--color-light-text-muted);
       background: rgba(10, 10, 31, 0.08);
       border: 1px solid rgba(10, 10, 31, 0.15);
@@ -638,10 +738,10 @@
     .reader {
       position: fixed;
       inset: 0;
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
+      inline-size: 100%;
+      block-size: 100%;
+      max-inline-size: 100%;
+      max-block-size: 100%;
       margin: auto;
       border: none;
       padding: 0;
@@ -662,12 +762,12 @@
     /* Base / Small Mobile (< 375px) */
     .reader-dialog {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset-block-start: 0;
+      inset-inline-start: 0;
       transform: none;
-      width: 100%;
-      height: 100%;
-      max-height: 100%;
+      inline-size: 100%;
+      block-size: 100%;
+      max-block-size: 100%;
       border-radius: 0;
       overflow: hidden;
       color: var(--color-text);
@@ -686,9 +786,10 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-3);
-      padding: var(--space-2) var(--space-3);
+      padding-block: var(--space-2);
+      padding-inline: var(--space-3);
       background: rgba(0, 255, 255, 0.08);
-      border-bottom: 1px solid var(--color-border);
+      border-block-end: 1px solid var(--color-border);
       flex-shrink: 0;
     }
 
@@ -698,13 +799,12 @@
       font-weight: 600;
       margin: 0;
       letter-spacing: 0.5px;
-      text-wrap: balance;
       line-height: 1.3;
     }
 
     .reader-close {
-      min-width: 32px;
-      min-height: 32px;
+      min-inline-size: 32px;
+      min-block-size: 32px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -731,9 +831,9 @@
     }
 
     .reader-body iframe {
-      width: 100%;
-      height: 100%;
-      min-height: 60vh;
+      inline-size: 100%;
+      block-size: 100%;
+      min-block-size: 60vh;
       border: none;
       display: block;
       background: var(--color-light-bg);
@@ -743,9 +843,10 @@
       display: flex;
       justify-content: flex-end;
       gap: var(--space-2);
-      padding: var(--space-2) var(--space-3);
+      padding-block: var(--space-2);
+      padding-inline: var(--space-3);
       background: rgba(57, 255, 20, 0.08);
-      border-top: 1px solid var(--color-border);
+      border-block-start: 1px solid var(--color-border);
       flex-shrink: 0;
     }
 
@@ -780,7 +881,8 @@
     /* Mobile (375px+) */
     @media (min-width: 23.4375em) {
       .reader-head {
-        padding: var(--space-3) var(--space-4);
+        padding-block: var(--space-3);
+        padding-inline: var(--space-4);
       }
 
       .reader-title {
@@ -788,31 +890,32 @@
       }
 
       .reader-close {
-        min-width: 36px;
-        min-height: 36px;
+        min-inline-size: 36px;
+        min-block-size: 36px;
         font-size: 1rem;
       }
 
       .reader-foot {
-        padding: var(--space-3) var(--space-4);
+        padding-block: var(--space-3);
+        padding-inline: var(--space-4);
       }
 
       .reader-open {
         font-size: 0.65rem;
         letter-spacing: 1px;
-        min-height: 36px;
+        min-block-size: 36px;
       }
     }
 
     /* Large Mobile / Small Tablet (480px+) */
     @media (min-width: 30em) {
       .reader-dialog {
-        top: 50%;
-        left: 50%;
+        inset-block-start: 50%;
+        inset-inline-start: 50%;
         transform: translate(-50%, -50%);
-        width: 94vw;
-        height: 90vh;
-        max-height: 90vh;
+        inline-size: 94vw;
+        block-size: 90vh;
+        max-block-size: 90vh;
         border-radius: var(--radius-lg);
         border: 1px solid rgba(0, 255, 255, 0.15);
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
@@ -820,20 +923,21 @@
       }
 
       .reader-body iframe {
-        min-height: 50vh;
+        min-block-size: 50vh;
       }
     }
 
     /* Tablet (768px+) */
     @media (min-width: 48em) {
       .reader-dialog {
-        width: 90vw;
-        max-width: 800px;
-        height: 85vh;
+        inline-size: 90vw;
+        max-inline-size: 800px;
+        block-size: 85vh;
       }
 
       .reader-head {
-        padding: var(--space-4) var(--space-5);
+        padding-block: var(--space-4);
+        padding-inline: var(--space-5);
       }
 
       .reader-title {
@@ -841,28 +945,30 @@
       }
 
       .reader-close {
-        min-width: 40px;
-        min-height: 40px;
+        min-inline-size: 40px;
+        min-block-size: 40px;
         font-size: 1.125rem;
       }
 
       .reader-foot {
-        padding: var(--space-3) var(--space-5);
+        padding-block: var(--space-3);
+        padding-inline: var(--space-5);
       }
 
       .reader-open {
         font-size: 0.7rem;
-        padding: var(--space-2) var(--space-4);
-        min-height: 40px;
+        padding-block: var(--space-2);
+        padding-inline: var(--space-4);
+        min-block-size: 40px;
       }
     }
 
     /* Laptop (1024px+) */
     @media (min-width: 64em) {
       .reader-dialog {
-        width: 85vw;
-        max-width: 1000px;
-        height: 88vh;
+        inline-size: 85vw;
+        max-inline-size: 1000px;
+        block-size: 88vh;
       }
 
       .reader-title {
@@ -873,13 +979,14 @@
     /* Desktop (1280px+) */
     @media (min-width: 80em) {
       .reader-dialog {
-        width: 80vw;
-        max-width: 1200px;
-        height: 90vh;
+        inline-size: 80vw;
+        max-inline-size: 1200px;
+        block-size: 90vh;
       }
 
       .reader-head {
-        padding: var(--space-4) var(--space-6);
+        padding-block: var(--space-4);
+        padding-inline: var(--space-6);
       }
 
       .reader-title {
@@ -887,26 +994,28 @@
       }
 
       .reader-close {
-        min-width: 44px;
-        min-height: 44px;
+        min-inline-size: 44px;
+        min-block-size: 44px;
         font-size: 1.25rem;
       }
 
       .reader-foot {
-        padding: var(--space-4) var(--space-6);
+        padding-block: var(--space-4);
+        padding-inline: var(--space-6);
       }
 
       .reader-open {
         font-size: 0.75rem;
-        padding: var(--space-3) var(--space-5);
-        min-height: 44px;
+        padding-block: var(--space-3);
+        padding-inline: var(--space-5);
+        min-block-size: 44px;
       }
     }
 
     /* Large Desktop (1440px+) */
     @media (min-width: 90em) {
       .reader-dialog {
-        max-width: 1400px;
+        max-inline-size: 1400px;
       }
     }
 
@@ -914,8 +1023,9 @@
        NO-JS FALLBACK
        ========================= */
     .nojs-note {
-      max-width: var(--max-content-width);
-      margin: var(--space-6) auto 0;
+      max-inline-size: var(--max-content-width);
+      margin-block-start: var(--space-6);
+      margin-inline: auto;
       padding: var(--space-5);
       color: var(--color-light-text);
       background: #ffffff;
@@ -925,7 +1035,8 @@
 
     .nojs-note code {
       background: #e5e7eb;
-      padding: var(--space-1) var(--space-2);
+      padding-block: var(--space-1);
+      padding-inline: var(--space-2);
       border-radius: var(--radius-sm);
       font-family: 'Courier New', Consolas, monospace;
     }
@@ -938,7 +1049,7 @@
         var(--color-bg-dark) 0%,
         var(--color-bg-mid) 50%,
         var(--color-bg-dark) 100%);
-      padding: var(--space-6) 0;
+      padding-block: var(--space-6);
       position: relative;
     }
 
@@ -957,9 +1068,9 @@
     .footer-container {
       position: relative;
       z-index: 1;
-      max-width: var(--max-content-width);
-      margin: 0 auto;
-      padding: 0 var(--container-padding);
+      max-inline-size: var(--max-content-width);
+      margin-inline: auto;
+      padding-inline: var(--container-padding);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -975,7 +1086,8 @@
       font-size: var(--font-size-sm);
       font-weight: 500;
       color: var(--color-text-light);
-      padding: var(--space-2) var(--space-4);
+      padding-block: var(--space-2);
+      padding-inline: var(--space-4);
       border-radius: var(--radius);
       transition: all var(--transition);
     }
@@ -998,7 +1110,7 @@
       .footer-container {
         flex-direction: row;
         justify-content: space-between;
-        text-align: left;
+        text-align: start;
       }
     }
 
@@ -1061,7 +1173,8 @@
       }
 
       .card-tags {
-        padding: 0 var(--space-5) var(--space-5);
+        padding-block: 0 var(--space-5);
+        padding-inline: var(--space-5);
       }
     }
   </style>
@@ -1071,30 +1184,31 @@
   <!-- Skip Link -->
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <main id="main-content">
-    <!-- Dark Header Section -->
-    <section class="blog-header-section">
-      <header class="blog-header">
-        <p class="eyebrow">
-          <i class="fa-solid fa-bolt" aria-hidden="true"></i>
-          From the Web Lab
-        </p>
-        <h1 class="blog-title">Web Design & Development in East Tennessee</h1>
-        <p class="tagline">Real talk about web design, accessibility, and helping local businesses thrive online.</p>
+  <!-- Site Header with Banner Landmark -->
+  <header class="blog-header-section" role="banner">
+    <div class="blog-header">
+      <p class="eyebrow">
+        <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+        From the Web Lab
+      </p>
+      <h1 class="blog-title">Web Design & Development in East Tennessee</h1>
+      <p class="tagline">Real talk about web design, accessibility, and helping local businesses thrive online.</p>
 
-        <nav class="filters" role="group" aria-label="Filter posts by category">
-          <button class="chip" type="button" data-filter="all" aria-pressed="true">All Posts</button>
-          <button class="chip" type="button" data-filter="webucation" aria-pressed="false">Webucation</button>
-          <button class="chip" type="button" data-filter="performance" aria-pressed="false">Performance</button>
-          <button class="chip" type="button" data-filter="accessibility" aria-pressed="false">Accessibility</button>
-          <button class="chip" type="button" data-filter="small-business" aria-pressed="false">Small Business</button>
-        </nav>
-      </header>
-    </section>
+      <nav class="filters" aria-label="Filter posts by category">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">All Posts</button>
+        <button class="chip" type="button" data-filter="webucation" aria-pressed="false">Webucation</button>
+        <button class="chip" type="button" data-filter="performance" aria-pressed="false">Performance</button>
+        <button class="chip" type="button" data-filter="accessibility" aria-pressed="false">Accessibility</button>
+        <button class="chip" type="button" data-filter="small-business" aria-pressed="false">Small Business</button>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Light Content Section -->
-    <section class="blog-content-section">
-      <div class="grid" id="post-grid" aria-label="Blog posts" aria-live="polite" aria-busy="true">
+  <!-- Main Content -->
+  <main id="main-content" role="main">
+    <section class="blog-content-section" aria-labelledby="posts-heading">
+      <h2 id="posts-heading" class="visually-hidden">Blog Posts</h2>
+      <div class="grid" id="post-grid" aria-live="polite" aria-busy="true">
         <!-- Cards injected by JS -->
       </div>
 
@@ -1103,44 +1217,44 @@
       </nav>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-container">
-        <a href="https://heather-cooper.com" class="footer-home-link">
-          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-          Back to heather-cooper.com
-        </a>
-        <p class="footer-copy">&copy; 2026 HC Web Labs. All rights reserved.</p>
-      </div>
-    </footer>
-
-    <!-- Modal Reader -->
-    <dialog class="reader" id="reader" aria-label="Post preview">
-      <div class="reader-dialog">
-        <div class="reader-head">
-          <h2 class="reader-title" id="reader-title">Loading…</h2>
-          <button class="reader-close" type="button" aria-label="Close preview">
-            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="reader-body">
-          <iframe id="reader-frame" title="Post preview"></iframe>
-        </div>
-        <div class="reader-foot">
-          <a class="reader-open" id="reader-open" href="#" target="_blank" rel="noopener">
-            <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
-            Open Full Page
-          </a>
-        </div>
-      </div>
-    </dialog>
-
     <noscript>
-      <div class="nojs-note">
+      <div class="nojs-note" role="alert">
         <p><strong>JavaScript is required</strong> to load blog posts dynamically. You can also browse posts directly in the <code>/posts/</code> directory.</p>
       </div>
     </noscript>
   </main>
+
+  <!-- Site Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-container">
+      <a href="https://heather-cooper.com" class="footer-home-link">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        Back to heather-cooper.com
+      </a>
+      <p class="footer-copy">&copy; 2026 HC Web Labs. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Modal Reader (outside main - not page content) -->
+  <dialog class="reader" id="reader" aria-labelledby="reader-title" aria-modal="true">
+    <article class="reader-dialog">
+      <header class="reader-head">
+        <h2 class="reader-title" id="reader-title">Loading…</h2>
+        <button class="reader-close" type="button" aria-label="Close preview">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </header>
+      <div class="reader-body">
+        <iframe id="reader-frame" title="Post preview"></iframe>
+      </div>
+      <footer class="reader-foot">
+        <a class="reader-open" id="reader-open" href="#" target="_blank" rel="noopener">
+          <i class="fa-solid fa-up-right-from-square" aria-hidden="true"></i>
+          Open Full Page
+        </a>
+      </footer>
+    </article>
+  </dialog>
 
   <script type="module">
     const $ = (sel, ctx = document) => ctx.querySelector(sel);
@@ -1234,26 +1348,43 @@
 
       try {
         const res = await fetch('data/posts.json', { cache: 'no-store' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
 
         const data = await res.json();
+        
+        if (!Array.isArray(data)) {
+          throw new TypeError('Expected posts data to be an array');
+        }
+
         cards = data
-          .map(p => ({
-            meta: p,
-            el: makeCard(p),
-            date: new Date(p.date),
-            cats: p.cats || []
+          .map(post => ({
+            meta: post,
+            el: makeCard(post),
+            date: new Date(post.date),
+            cats: post.cats ?? []
           }))
           .sort((a, b) => b.date - a.date);
 
-      } catch (err) {
-        console.error('[Blog]', err);
+      } catch (error) {
+        console.error('[Blog] Failed to load posts:', error);
+        
+        const errorMessage = error instanceof TypeError 
+          ? 'Invalid data format received.'
+          : error.message.includes('HTTP') 
+            ? `Server error: ${error.message}`
+            : 'Network error. Please check your connection.';
+        
         grid.innerHTML = `
           <div class="nojs-note" role="alert">
-            <p><strong>Couldn't load posts.</strong> Check that <code>data/posts.json</code> exists.</p>
+            <p><strong>Couldn't load posts.</strong> ${errorMessage}</p>
+            <p>You can also browse posts directly in the <code>/posts/</code> directory.</p>
           </div>
         `;
         pager.innerHTML = '';
+        return;
       }
     }
 
